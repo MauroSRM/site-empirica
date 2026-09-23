@@ -184,7 +184,8 @@ function buildAccordionItems(cms: CmsData | null, fallback: string[], loading = 
           content: docs.length > 0 ? ('text-with-buttons' as const) : undefined,
           buttons: docs.map((doc) => ({
             label: doc.label,
-            onClick: () => window.open(doc.pdfUrl, '_blank'),
+            // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
+            onClick: () => window.open(`/empirica/documento/${doc.id}`, '_blank'),
           })),
         };
       });

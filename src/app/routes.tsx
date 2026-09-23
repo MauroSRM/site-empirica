@@ -11,6 +11,7 @@ import EmpiricaFIFPage            from "./pages/empirica/EmpiricaFIFPage";
 import EmpiricaFIIPage            from "./pages/empirica/EmpiricaFIIPage";
 import EmpiricaFIPPage            from "./pages/empirica/EmpiricaFIPPage";
 import EmpiricaFundoDetailPage    from "./pages/empirica/EmpiricaFundoDetailPage";
+import EmpiricaPdfViewerPage      from "./pages/empirica/EmpiricaPdfViewerPage";
 import EmpiricaContatoPage        from "./pages/empirica/EmpiricaContatoPage";
 import EmpiricaPrivacidadePage    from "./pages/empirica/EmpiricaPrivacidadePage";
 import EmpiricaTestePage          from "./pages/empirica/EmpiricaTestePage";
@@ -97,6 +98,8 @@ export const router = createBrowserRouter([
       { path: "empirica/nossos-fundos/:category/:slug",Component: EmpiricaFundoDetailPage },
       { path: "empirica/contato",                      Component: EmpiricaContatoPage },
       { path: "empirica/politica-de-privacidade",      Component: EmpiricaPrivacidadePage },
+      { path: "empirica/documento/compliance/:docId", Component: EmpiricaPdfViewerPage },
+      { path: "empirica/documento/:docId",            Component: EmpiricaPdfViewerPage },
       { path: "empirica/teste",                        Component: EmpiricaTestePage },
 
       { path: "srm-ops/emp-gstf",                      Component: EmpiricaCmsPage },

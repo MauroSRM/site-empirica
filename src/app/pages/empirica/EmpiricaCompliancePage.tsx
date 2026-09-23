@@ -38,7 +38,7 @@ const DOCUMENTOS: DocItem[] = [
   { id: "politica-de-investimento-responsavel", nome: "Política de Investimento Responsável",           href: "https://empirica.com.br/wp-content/uploads/2024/01/Politica-de-Investimento-Responsavel.pdf" },
 ];
 
-interface CmsDoc { id: string; atualizado?: string; pdfUrl?: string; }
+interface CmsDoc { id: string; nome?: string; atualizado?: string; pdfUrl?: string; }
 
 // ── DS-standard column widths ──────────────────────────────────────────────────
 const COL_NUM  = 52;    // "#" col
@@ -78,7 +78,7 @@ function DocRow({
 }) {
   const { tokens: t } = useTheme();
   const [hov, setHov] = React.useState(false);
-  const finalHref = doc.pdfUrl ?? doc.href;
+  const finalHref = doc.href;
 
   return (
     <a
@@ -166,12 +166,13 @@ export default function EmpiricaCompliancePage() {
       .then(r => r.json())
       .then((d: { items?: CmsDoc[] }) => {
         if (!d.items?.length) return;
-        const cmsMap: Record<string, CmsDoc> = {};
-        for (const item of d.items) cmsMap[item.id] = item;
-        setDocs(DOCUMENTOS.map(doc => ({
-          ...doc,
-          atualizado: cmsMap[doc.id]?.atualizado,
-          pdfUrl:     cmsMap[doc.id]?.pdfUrl,
+        // O CMS é a fonte: a lista estática só vale como fallback, e seus href
+        // apontam para o site antigo (empirica.com.br), que saiu do ar.
+        setDocs(d.items.map(item => ({
+          id:         item.id,
+          nome:       item.nome ?? "Documento",
+          href:       `/empirica/documento/compliance/${item.id}`,
+          atualizado: item.atualizado,
         })));
       })
       .catch(e => console.error("Erro ao carregar dados de compliance:", e));

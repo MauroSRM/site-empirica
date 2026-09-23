@@ -15,7 +15,9 @@ app.use(
     origin: "*",
     allowHeaders: ["Content-Type", "Authorization"],
     allowMethods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    exposeHeaders: ["Content-Length"],
+    // Content-Disposition precisa ser exposto para o visualizador de PDF
+    // conseguir ler o nome real do arquivo via fetch cross-origin
+    exposeHeaders: ["Content-Length", "Content-Disposition"],
     maxAge: 600,
   }),
 );

@@ -6,6 +6,7 @@
 import { Hono } from "npm:hono";
 import { createClient } from "npm:@supabase/supabase-js";
 import * as kv from "./kv_store.tsx";
+import { parseKv } from "./kv_parse.tsx";
 
 const BUCKET = "srm-pdfs";
 const MASTER_ADMIN_EMAIL = "luiz.oliveira@srmasset.com";
@@ -290,7 +291,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
     try {
       const typeFilter = c.req.query("type");
       const all = await kv.getByPrefix("empirica-fund:");
-      let funds: Fund[] = all.map((v: any) => JSON.parse(v));
+      let funds: Fund[] = all.map((v: any) => parseKv<Fund>(v)).filter(Boolean) as Fund[];
       if (typeFilter) funds = funds.filter(f => f.type === typeFilter);
       funds.sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
       return c.json({ funds });
@@ -304,13 +305,13 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id   = c.req.param("id");
       const raw  = await kv.get(`empirica-fund:${id}`);
       if (!raw) return c.json({ error: "Fundo não encontrado" }, 404);
-      const fund = JSON.parse(raw as string) as Fund;
+      const fund = parseKv<Fund>(raw);
 
       // attach docs with public URLs
       const rawDocs = await kv.getByPrefix(`empirica-doc:${id}:`);
       const sb = sbAdmin();
       const docs = rawDocs.map((d: any) => {
-        const doc = JSON.parse(d as string) as FundDoc;
+        const doc = parseKv<FundDoc>(d);
         const pdfUrl = doc.pdfPath
           ? sb.storage.from(BUCKET).getPublicUrl(doc.pdfPath).data.publicUrl
           : "";
@@ -367,7 +368,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const raw = await kv.get(`empirica-fund:${id}`);
       if (!raw) return c.json({ error: "Fundo não encontrado" }, 404);
 
-      const fund = JSON.parse(raw as string) as Fund;
+      const fund = parseKv<Fund>(raw);
       const body = await c.req.json();
       const updated: Fund = {
         ...fund,
@@ -403,7 +404,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
       // remove all PDFs from storage
       const paths = rawDocs
-        .map((d: any) => (JSON.parse(d as string) as FundDoc).pdfPath)
+        .map((d: any) => parseKv<FundDoc>(d)?.pdfPath)
         .filter(Boolean);
       if (paths.length > 0) {
         await sb.storage.from(BUCKET).remove(paths);
@@ -411,7 +412,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
       // remove all doc KV entries
       const docKeys = rawDocs.map((_: any, i: number) => {
-        const doc = JSON.parse(rawDocs[i] as string) as FundDoc;
+        const doc = parseKv<FundDoc>(rawDocs[i]);
         return `empirica-doc:${id}:${doc.id}`;
       });
       if (docKeys.length > 0) await kv.mdel(docKeys);
@@ -487,7 +488,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const rawDoc = await kv.get(`empirica-doc:${fundId}:${docId}`);
       if (!rawDoc) return c.json({ error: "Documento não encontrado" }, 404);
 
-      const doc = JSON.parse(rawDoc as string) as FundDoc;
+      const doc = parseKv<FundDoc>(rawDoc);
       const sb  = sbAdmin();
       await sb.storage.from(BUCKET).remove([doc.pdfPath]);
       await kv.del(`empirica-doc:${fundId}:${docId}`);
@@ -507,7 +508,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const rawDoc = await kv.get(`empirica-doc:${fundId}:${docId}`);
       if (!rawDoc) return c.json({ error: "Documento não encontrado" }, 404);
 
-      const doc = JSON.parse(rawDoc as string) as FundDoc;
+      const doc = parseKv<FundDoc>(rawDoc);
       const body = await c.req.json();
 
       if (body.label !== undefined) {
@@ -540,7 +541,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       for (const item of body.order) {
         const raw = await kv.get(`empirica-doc:${fundId}:${item.id}`);
         if (!raw) continue;
-        const doc = JSON.parse(raw as string) as FundDoc;
+        const doc = parseKv<FundDoc>(raw);
         doc.sortOrder = item.sortOrder;
         await kv.set(`empirica-doc:${fundId}:${item.id}`, JSON.stringify(doc));
       }
@@ -558,7 +559,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const rawDocs = await kv.getByPrefix(`empirica-doc:${id}:`);
       const sb      = sbAdmin();
       const docs = rawDocs.map((d: any) => {
-        const doc = JSON.parse(d as string) as FundDoc;
+        const doc = parseKv<FundDoc>(d);
         const pdfUrl = doc.pdfPath
           ? sb.storage.from(BUCKET).getPublicUrl(doc.pdfPath).data.publicUrl
           : "";
@@ -601,7 +602,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   app.get("/make-server-57709921/empirica/gestor", async (c) => {
     try {
       const raws = await kv.getByPrefix("empirica-gestor:");
-      const items: GestorItem[] = raws.map((v: any) => JSON.parse(v as string));
+      const items: GestorItem[] = raws.map((v: any) => parseKv<GestorItem>(v)).filter(Boolean) as GestorItem[];
       items.sort((a, b) => a.fundName.localeCompare(b.fundName, "pt-BR"));
       return c.json({ items: items.map(gestorWithUrls) });
     } catch (e) {
@@ -638,7 +639,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-gestor:${id}`);
       if (!raw) return c.json({ error: "Comunicado não encontrado" }, 404);
-      const item = JSON.parse(raw as string) as GestorItem;
+      const item = parseKv<GestorItem>(raw);
       const body = await c.req.json();
       const updated: GestorItem = {
         ...item,
@@ -662,7 +663,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-gestor:${id}`);
       if (!raw) return c.json({ error: "Comunicado não encontrado" }, 404);
-      const item = JSON.parse(raw as string) as GestorItem;
+      const item = parseKv<GestorItem>(raw);
 
       const form = await c.req.formData();
       const file = form.get("pdf") as File | null;
@@ -699,7 +700,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-gestor:${id}`);
       if (!raw) return c.json({ error: "Comunicado não encontrado" }, 404);
-      const item = JSON.parse(raw as string) as GestorItem;
+      const item = parseKv<GestorItem>(raw);
 
       const form = await c.req.formData();
       const file = form.get("pdf") as File | null;
@@ -734,7 +735,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-gestor:${id}`);
       if (!raw) return c.json({ error: "Comunicado não encontrado" }, 404);
-      const item = JSON.parse(raw as string) as GestorItem;
+      const item = parseKv<GestorItem>(raw);
       const sb   = sbAdmin();
       const paths = [item.cartaPath, item.updatePath].filter(Boolean) as string[];
       if (paths.length > 0) await sb.storage.from(BUCKET).remove(paths);
@@ -768,8 +769,8 @@ export function registerEmpricaCmsRoutes(app: Hono) {
     try {
       const items = await kv.getByPrefix("empirica-compliance:");
       const parsed = (items ?? [])
-        .map(raw => JSON.parse(raw as string) as ComplianceDoc)
-        .filter(d => !d.deleted)
+        .map(raw => parseKv<ComplianceDoc>(raw))
+        .filter((d): d is ComplianceDoc => !!d && !d.deleted)
         .sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999));
       return c.json({ items: parsed.map(complianceWithUrl) });
     } catch (e) {
@@ -811,7 +812,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-compliance:${id}`);
       const existing: ComplianceDoc = raw
-        ? JSON.parse(raw as string)
+        ? (parseKv<ComplianceDoc>(raw) ?? { id, nome: id })
         : { id, nome: id };
       const body = await c.req.json();
       const updated: ComplianceDoc = {
@@ -834,7 +835,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-compliance:${id}`);
       if (!raw) return c.json({ error: "Item não encontrado" }, 404);
-      const doc = JSON.parse(raw as string) as ComplianceDoc;
+      const doc = parseKv<ComplianceDoc>(raw);
 
       // delete PDF from storage if exists
       if (doc.pdfPath) {
@@ -857,7 +858,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-compliance:${id}`);
       const existing: ComplianceDoc = raw
-        ? JSON.parse(raw as string)
+        ? (parseKv<ComplianceDoc>(raw) ?? { id, nome: id })
         : { id, nome: id };
 
       const form = await c.req.formData();
@@ -900,7 +901,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-compliance:${id}`);
       if (!raw) return c.json({ error: "Documento não encontrado" }, 404);
-      const doc = JSON.parse(raw as string) as ComplianceDoc;
+      const doc = parseKv<ComplianceDoc>(raw);
       if (!doc.pdfPath) return c.json({ error: "PDF não disponível" }, 404);
       const { data: { publicUrl } } = sbAdmin().storage.from(BUCKET).getPublicUrl(doc.pdfPath);
       const res = await fetch(publicUrl);
@@ -924,10 +925,10 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       // search for the doc across all fund doc entries
       const allDocs = await kv.getByPrefix("empirica-doc:");
       const match = allDocs.find((raw: any) => {
-        try { return (JSON.parse(raw as string) as FundDoc).id === docId; } catch { return false; }
+        return parseKv<FundDoc>(raw)?.id === docId;
       });
       if (!match) return c.json({ error: "Documento não encontrado" }, 404);
-      const doc = JSON.parse(match as string) as FundDoc;
+      const doc = parseKv<FundDoc>(match);
       const { data: { publicUrl } } = sbAdmin().storage.from(BUCKET).getPublicUrl(doc.pdfPath);
       const res = await fetch(publicUrl);
       if (!res.ok) return c.json({ error: `Erro ao buscar PDF: ${res.status}` }, 500);
@@ -951,7 +952,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       const id  = c.req.param("id");
       const raw = await kv.get(`empirica-compliance:${id}`);
       if (!raw) return c.json({ error: "Documento não encontrado" }, 404);
-      const doc = JSON.parse(raw as string) as ComplianceDoc;
+      const doc = parseKv<ComplianceDoc>(raw);
       if (doc.pdfPath) {
         await sbAdmin().storage.from(BUCKET).remove([doc.pdfPath]);
       }

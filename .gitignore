@@ -1,0 +1,7 @@
+node_modules/
+.pnpm-store/
+dist/
+dist-poc2/
+.DS_Store
+*.local
+public/named-assets/

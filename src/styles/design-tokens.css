@@ -1,0 +1,186 @@
+/**
+ * Design Tokens - Internet Banking B2B
+ * Sistema de tokenização para aplicações financeiras corporativas
+ */
+
+@layer theme {
+  :root {
+    /* ========================================
+       COLOR TOKENS - BRAND
+       ======================================== */
+    
+    /* Primary - Ações principais e identidade da marca */
+    --color-primary-900: #0f2256;
+    --color-primary-800: #0e4099;
+    --color-primary-700: #1054cd;
+    --color-primary-600: #2d448c;
+    --color-primary-500: #3b82f6;
+    --color-primary-400: #60a5fa;
+    --color-primary-300: #93c5fd;
+    --color-primary-200: #bfdbfe;
+    --color-primary-100: #dbeafe;
+    
+    /* ========================================
+       COLOR TOKENS - SEMANTIC
+       ======================================== */
+    
+    /* Success - Confirmações e saldos positivos */
+    --color-success-900: #00842a;
+    --color-success-700: #16a34a;
+    --color-success-500: #22c55e;
+    --color-success-300: #86efac;
+    --color-success-100: #d4fde5;
+    
+    /* Warning - Alertas e avisos importantes */
+    --color-warning-900: #92400e;
+    --color-warning-700: #c98d0f;
+    --color-warning-600: #433a12;
+    --color-warning-500: #eab308;
+    --color-warning-300: #fde047;
+    --color-warning-200: rgba(255, 212, 42, 0.56);
+    --color-warning-100: #fef9c3;
+    
+    /* Error - Erros e transações negativas */
+    --color-error-900: #7f1d1d;
+    --color-error-700: #dc2626;
+    --color-error-500: #fe4a5f;
+    --color-error-300: #fca5a5;
+    --color-error-100: #fee2e2;
+    
+    /* Info - Informações e notificações */
+    --color-info-900: #1e3a8a;
+    --color-info-700: #1d4ed8;
+    --color-info-500: #3b82f6;
+    --color-info-300: #93c5fd;
+    --color-info-100: #dbeafe;
+    
+    /* ========================================
+       COLOR TOKENS - NEUTRAL
+       ======================================== */
+    
+    /* Neutrals - Textos, bordas e backgrounds */
+    --color-neutral-900: #00081e;
+    --color-neutral-800: #2a2a2d;
+    --color-neutral-700: #3a3a3d;
+    --color-neutral-600: #52525b;
+    --color-neutral-500: #71717a;
+    --color-neutral-400: #8e8e93;
+    --color-neutral-300: #a1a1aa;
+    --color-neutral-200: #cbd5e1;
+    --color-neutral-100: #e2e8f0;
+    --color-neutral-50: #f0f2f6;
+    --color-neutral-25: #f8fafc;
+    
+    /* ========================================
+       TYPOGRAPHY TOKENS
+       ======================================== */
+    
+    /* Font Families */
+    --font-primary: 'Inter', sans-serif;
+    --font-secondary: 'Montserrat', sans-serif;
+    
+    /* Font Sizes */
+    --font-size-xs: 10px;
+    --font-size-sm: 12px;
+    --font-size-base: 14px;
+    --font-size-lg: 16px;
+    --font-size-xl: 18px;
+    --font-size-2xl: 20px;
+    --font-size-3xl: 24px;
+    --font-size-4xl: 28px;
+    --font-size-5xl: 32px;
+    
+    /* Font Weights */
+    --font-weight-regular: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+    
+    /* Letter Spacing */
+    --letter-spacing-tight: -0.02em;
+    --letter-spacing-normal: 0;
+    --letter-spacing-wide: 0.05em;
+    
+    /* Line Heights */
+    --line-height-tight: 1.1;
+    --line-height-normal: 1.5;
+    --line-height-relaxed: 1.75;
+    
+    /* ========================================
+       SPACING TOKENS
+       ======================================== */
+    
+    --spacing-0: 0px;
+    --spacing-1: 4px;
+    --spacing-2: 8px;
+    --spacing-3: 12px;
+    --spacing-4: 16px;
+    --spacing-5: 20px;
+    --spacing-6: 24px;
+    --spacing-8: 32px;
+    --spacing-10: 40px;
+    --spacing-12: 48px;
+    --spacing-16: 64px;
+    --spacing-20: 80px;
+    
+    /* ========================================
+       RADIUS TOKENS
+       ======================================== */
+    
+    --radius-none: 0px;
+    --radius-sm: 4px;
+    --radius-base: 6px;
+    --radius-md: 8px;
+    --radius-lg: 12px;
+    --radius-xl: 16px;
+    --radius-full: 9999px;
+    
+    /* ========================================
+       SHADOW TOKENS
+       ======================================== */
+    
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
+    --shadow-base: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+    --shadow-xl: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    --shadow-focus: 0 0 0 4px rgba(59, 130, 246, 0.5);
+    
+    /* ========================================
+       SIZE TOKENS
+       ======================================== */
+    
+    /* Button Heights */
+    --size-button-sm: 32px;
+    --size-button-md: 40px;
+    --size-button-lg: 48px;
+    
+    /* Icon Sizes */
+    --size-icon-xs: 16px;
+    --size-icon-sm: 20px;
+    --size-icon-base: 24px;
+    --size-icon-lg: 32px;
+    --size-icon-xl: 40px;
+    
+    /* ========================================
+       TRANSITION TOKENS
+       ======================================== */
+    
+    --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+    
+    /* ========================================
+       Z-INDEX TOKENS
+       ======================================== */
+    
+    --z-base: 0;
+    --z-dropdown: 1000;
+    --z-sticky: 1100;
+    --z-overlay: 1200;
+    --z-modal: 1300;
+    --z-popover: 1400;
+    --z-tooltip: 1500;
+  }
+}

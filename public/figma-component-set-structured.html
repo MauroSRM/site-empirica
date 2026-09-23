@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Component Set - Estruturado para Figma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      padding: 48px;
+      line-height: 1.5;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: #64748b;
+    }
+
+    .variant-section {
+      margin-bottom: 48px;
+      padding: 32px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .variant-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .variant-indicator {
+      width: 6px;
+      height: 32px;
+      border-radius: 3px;
+    }
+
+    .variant-indicator.primary { background: #071744; }
+    .variant-indicator.secondary { background: #00081e; }
+    .variant-indicator.ghost { background: #475569; }
+
+    .variant-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #00081e;
+    }
+
+    .size-group {
+      margin-bottom: 32px;
+    }
+
+    .size-header {
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .size-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #00081e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .state-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .state-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* BUTTON BASE - STRUCTURED WITH LAYERS */
+    .btn-structured {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* LAYERS */
+    .layer-background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+
+    .layer-overlay {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .layer-text {
+      position: relative;
+      z-index: 3;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+    }
+
+    /* SIZES */
+    .btn-sm {
+      height: 32px;
+      padding: 8px 12px;
+    }
+
+    .btn-sm .layer-text {
+      font-size: 11px;
+      line-height: 16px;
+    }
+
+    .btn-md {
+      height: 40px;
+      padding: 10px 16px;
+    }
+
+    .btn-md .layer-text {
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .btn-lg {
+      height: 48px;
+      padding: 12px 20px;
+    }
+
+    .btn-lg .layer-text {
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    /* ========================================
+       PRIMARY VARIANT
+    ======================================== */
+
+    /* PRIMARY - DEFAULT */
+    .btn-primary-default .layer-background {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+    }
+
+    .btn-primary-default .layer-overlay {
+      left: -100%;
+      background: linear-gradient(135deg, #082f62 0%, #024291 100%);
+      opacity: 0;
+    }
+
+    .btn-primary-default .layer-text {
+      color: #f0f2f6;
+    }
+
+    /* PRIMARY - HOVER */
+    .btn-primary-hover .layer-background {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+    }
+
+    .btn-primary-hover .layer-overlay {
+      left: 0;
+      background: linear-gradient(135deg, #082f62 0%, #024291 100%);
+      opacity: 1;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    .btn-primary-hover .layer-text {
+      color: #f0f2f6;
+    }
+
+    /* PRIMARY - ACTIVE */
+    .btn-primary-active .layer-background {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+    }
+
+    .btn-primary-active .layer-overlay {
+      left: 0;
+      background: linear-gradient(135deg, #05132e 0%, #071f4a 100%);
+      opacity: 1;
+      box-shadow: 0 2px 6px rgba(7, 23, 68, 0.3);
+    }
+
+    .btn-primary-active .layer-text {
+      color: #f0f2f6;
+    }
+
+    /* PRIMARY - FOCUS */
+    .btn-primary-focus .layer-background {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+    }
+
+    .btn-primary-focus .layer-overlay {
+      left: -100%;
+      background: linear-gradient(135deg, #082f62 0%, #024291 100%);
+      opacity: 0;
+    }
+
+    .btn-primary-focus .layer-text {
+      color: #f0f2f6;
+    }
+
+    /* PRIMARY - DISABLED */
+    .btn-primary-disabled .layer-background {
+      background: linear-gradient(135deg, #475569 0%, #64748b 100%);
+    }
+
+    .btn-primary-disabled .layer-overlay {
+      left: -100%;
+      background: transparent;
+      opacity: 0;
+    }
+
+    .btn-primary-disabled .layer-text {
+      color: #94a3b8;
+    }
+
+    /* PRIMARY - LOADING */
+    .btn-primary-loading .layer-background {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+    }
+
+    .btn-primary-loading .layer-overlay {
+      left: -100%;
+      background: linear-gradient(135deg, #082f62 0%, #024291 100%);
+      opacity: 0;
+    }
+
+    .btn-primary-loading .layer-text {
+      color: #f0f2f6;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ========================================
+       SECONDARY VARIANT
+    ======================================== */
+
+    /* SECONDARY - DEFAULT */
+    .btn-secondary-default .layer-background {
+      background: transparent;
+      border: 1.5px solid #00081e;
+    }
+
+    .btn-secondary-default .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.15);
+      opacity: 0;
+      border: 1.5px solid transparent;
+    }
+
+    .btn-secondary-default .layer-text {
+      color: #00081e;
+    }
+
+    /* SECONDARY - HOVER */
+    .btn-secondary-hover .layer-background {
+      background: transparent;
+      border: 1.5px solid #00081e;
+    }
+
+    .btn-secondary-hover .layer-overlay {
+      left: 0;
+      background: rgba(59, 130, 246, 0.15);
+      opacity: 1;
+      border: 1.5px solid #3b82f6;
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25);
+    }
+
+    .btn-secondary-hover .layer-text {
+      color: #1e40af;
+    }
+
+    /* SECONDARY - ACTIVE */
+    .btn-secondary-active .layer-background {
+      background: transparent;
+      border: 1.5px solid #00081e;
+    }
+
+    .btn-secondary-active .layer-overlay {
+      left: 0;
+      background: rgba(30, 64, 175, 0.2);
+      opacity: 1;
+      border: 1.5px solid #1e40af;
+    }
+
+    .btn-secondary-active .layer-text {
+      color: #1e3a8a;
+    }
+
+    /* SECONDARY - FOCUS */
+    .btn-secondary-focus .layer-background {
+      background: transparent;
+      border: 1.5px solid #00081e;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3);
+    }
+
+    .btn-secondary-focus .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.15);
+      opacity: 0;
+    }
+
+    .btn-secondary-focus .layer-text {
+      color: #00081e;
+    }
+
+    /* SECONDARY - DISABLED */
+    .btn-secondary-disabled .layer-background {
+      background: transparent;
+      border: 1.5px solid #cbd5e1;
+    }
+
+    .btn-secondary-disabled .layer-overlay {
+      left: -100%;
+      background: transparent;
+      opacity: 0;
+    }
+
+    .btn-secondary-disabled .layer-text {
+      color: #94a3b8;
+    }
+
+    /* SECONDARY - LOADING */
+    .btn-secondary-loading .layer-background {
+      background: transparent;
+      border: 1.5px solid #00081e;
+    }
+
+    .btn-secondary-loading .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.15);
+      opacity: 0;
+    }
+
+    .btn-secondary-loading .layer-text {
+      color: #00081e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* ========================================
+       GHOST VARIANT
+    ======================================== */
+
+    /* GHOST - DEFAULT */
+    .btn-ghost-default .layer-background {
+      background: transparent;
+    }
+
+    .btn-ghost-default .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.12);
+      opacity: 0;
+    }
+
+    .btn-ghost-default .layer-text {
+      color: #00081e;
+    }
+
+    /* GHOST - HOVER */
+    .btn-ghost-hover .layer-background {
+      background: transparent;
+    }
+
+    .btn-ghost-hover .layer-overlay {
+      left: 0;
+      background: rgba(59, 130, 246, 0.12);
+      opacity: 1;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+    }
+
+    .btn-ghost-hover .layer-text {
+      color: #1e40af;
+    }
+
+    /* GHOST - ACTIVE */
+    .btn-ghost-active .layer-background {
+      background: transparent;
+    }
+
+    .btn-ghost-active .layer-overlay {
+      left: 0;
+      background: rgba(30, 64, 175, 0.18);
+      opacity: 1;
+    }
+
+    .btn-ghost-active .layer-text {
+      color: #1e3a8a;
+    }
+
+    /* GHOST - FOCUS */
+    .btn-ghost-focus .layer-background {
+      background: transparent;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+    }
+
+    .btn-ghost-focus .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.12);
+      opacity: 0;
+    }
+
+    .btn-ghost-focus .layer-text {
+      color: #00081e;
+    }
+
+    /* GHOST - DISABLED */
+    .btn-ghost-disabled .layer-background {
+      background: transparent;
+    }
+
+    .btn-ghost-disabled .layer-overlay {
+      left: -100%;
+      background: transparent;
+      opacity: 0;
+    }
+
+    .btn-ghost-disabled .layer-text {
+      color: #94a3b8;
+    }
+
+    /* GHOST - LOADING */
+    .btn-ghost-loading .layer-background {
+      background: transparent;
+    }
+
+    .btn-ghost-loading .layer-overlay {
+      left: -100%;
+      background: rgba(59, 130, 246, 0.12);
+      opacity: 0;
+    }
+
+    .btn-ghost-loading .layer-text {
+      color: #00081e;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* LOADING SPINNER */
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    .btn-md .loading-spinner {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-lg .loading-spinner {
+      width: 18px;
+      height: 18px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* INSTRUCTIONS */
+    .instructions {
+      margin-top: 48px;
+      padding: 32px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .instructions-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 16px;
+    }
+
+    .instructions-list {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.8;
+      padding-left: 20px;
+    }
+
+    .instructions-list li {
+      margin-bottom: 8px;
+    }
+
+    .tip-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #065f46;
+    }
+
+    .tip-box strong {
+      color: #047857;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1 class="page-title">Component Set - Estruturado para Figma</h1>
+    <p class="page-subtitle">Componentes com estrutura de camadas pronta para animação (Background + Overlay + Text)</p>
+  </div>
+
+  <!-- PRIMARY VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator primary"></div>
+      <h2 class="variant-title">Primary</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small • 32px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-sm btn-primary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-sm btn-primary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-sm btn-primary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-sm btn-primary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-sm btn-primary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-sm btn-primary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Primary Small
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium • 40px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-md btn-primary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-md btn-primary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-md btn-primary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-md btn-primary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-md btn-primary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-md btn-primary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Primary Medium
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large • 48px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-lg btn-primary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-lg btn-primary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-lg btn-primary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-lg btn-primary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-lg btn-primary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Primary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-lg btn-primary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Primary Large
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECONDARY VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator secondary"></div>
+      <h2 class="variant-title">Secondary</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small • 32px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-sm btn-secondary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-sm btn-secondary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-sm btn-secondary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-sm btn-secondary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-sm btn-secondary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-sm btn-secondary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Secondary Small
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium • 40px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-md btn-secondary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-md btn-secondary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-md btn-secondary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-md btn-secondary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-md btn-secondary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-md btn-secondary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Secondary Medium
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large • 48px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-lg btn-secondary-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-lg btn-secondary-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-lg btn-secondary-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-lg btn-secondary-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-lg btn-secondary-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Secondary Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-lg btn-secondary-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Secondary Large
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GHOST VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator ghost"></div>
+      <h2 class="variant-title">Ghost</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small • 32px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-sm btn-ghost-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-sm btn-ghost-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-sm btn-ghost-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-sm btn-ghost-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-sm btn-ghost-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Small</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-sm btn-ghost-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Ghost Small
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium • 40px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-md btn-ghost-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-md btn-ghost-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-md btn-ghost-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-md btn-ghost-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-md btn-ghost-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Medium</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-md btn-ghost-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Ghost Medium
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large • 48px</h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <div class="btn-structured btn-lg btn-ghost-default">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <div class="btn-structured btn-lg btn-ghost-hover">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <div class="btn-structured btn-lg btn-ghost-active">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <div class="btn-structured btn-lg btn-ghost-focus">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <div class="btn-structured btn-lg btn-ghost-disabled">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">Ghost Large</div>
+          </div>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <div class="btn-structured btn-lg btn-ghost-loading">
+            <div class="layer-background"></div>
+            <div class="layer-overlay"></div>
+            <div class="layer-text">
+              <span class="loading-spinner"></span>
+              Ghost Large
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTIONS -->
+  <section class="instructions">
+    <h2 class="instructions-title">📥 Estrutura de Camadas</h2>
+    <p style="margin-bottom: 16px; color: #475569;">Cada botão já vem com 3 camadas organizadas:</p>
+    <ol class="instructions-list">
+      <li><strong>Layer 1: Background</strong> - Gradiente de fundo base (sempre visível)</li>
+      <li><strong>Layer 2: Overlay</strong> - Camada de sobreposição que desliza no hover
+        <ul style="margin-top: 8px;">
+          <li>No estado <strong>Default</strong>: <code>left: -100%</code> e <code>opacity: 0</code></li>
+          <li>No estado <strong>Hover</strong>: <code>left: 0</code> e <code>opacity: 1</code></li>
+        </ul>
+      </li>
+      <li><strong>Layer 3: Text</strong> - Texto do botão (sempre por cima)</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>💡 Como usar no Figma:</strong><br><br>
+      1. Importe com html.to.design<br>
+      2. As camadas já estarão nomeadas corretamente: "layer-background", "layer-overlay", "layer-text"<br>
+      3. Renomeie para nomes mais simples: "Background", "Overlay", "Text"<br>
+      4. Para prototipar: Default → Hover com "While hovering" + "Smart Animate" + 300ms<br>
+      5. O Smart Animate irá animar automaticamente a posição X e opacity da Overlay!<br><br>
+      <strong>⚡ Gradiente do Overlay Hover já corrigido:</strong> #082f62 → #024291 (conforme o anexo)
+    </div>
+  </section>
+
+</body>
+</html>

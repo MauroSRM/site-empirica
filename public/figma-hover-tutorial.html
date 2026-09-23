@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tutorial: Efeito Hover Deslizante - Figma</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      padding: 48px;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      margin-bottom: 48px;
+    }
+
+    .title {
+      font-size: 36px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 12px;
+      letter-spacing: -0.02em;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      color: #64748b;
+    }
+
+    .section {
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px;
+      margin-bottom: 32px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .section-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon {
+      font-size: 28px;
+    }
+
+    /* ANATOMY SECTION */
+    .anatomy-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 40px;
+    }
+
+    .state-demo {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .state-label {
+      font-size: 18px;
+      font-weight: 600;
+      color: #00081e;
+      text-align: center;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 8px;
+    }
+
+    /* BUTTON STRUCTURE */
+    .button-container {
+      position: relative;
+      width: 280px;
+      height: 200px;
+      margin: 0 auto;
+    }
+
+    .layer {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      font-weight: 500;
+      border-radius: 6px;
+      transition: all 0.3s ease;
+    }
+
+    /* Layer 1: Background */
+    .layer-bg {
+      width: 240px;
+      height: 48px;
+      top: 76px;
+      left: 20px;
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+      color: #f0f2f6;
+      z-index: 1;
+    }
+
+    /* Layer 2: Overlay (Default = fora à esquerda) */
+    .layer-overlay-default {
+      width: 240px;
+      height: 48px;
+      top: 76px;
+      left: -220px; /* Posicionado fora à esquerda */
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: #ffffff;
+      opacity: 0;
+      z-index: 2;
+      border: 2px dashed #3b82f6;
+    }
+
+    /* Layer 2: Overlay (Hover = centralizado) */
+    .layer-overlay-hover {
+      width: 240px;
+      height: 48px;
+      top: 76px;
+      left: 20px; /* Posicionado centralizado */
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      color: #ffffff;
+      opacity: 1;
+      z-index: 2;
+    }
+
+    /* Layer 3: Text */
+    .layer-text {
+      width: 240px;
+      height: 48px;
+      top: 76px;
+      left: 20px;
+      background: transparent;
+      color: #f0f2f6;
+      font-weight: 600;
+      z-index: 3;
+      pointer-events: none;
+    }
+
+    /* Layer Labels */
+    .layer-label {
+      position: absolute;
+      font-size: 11px;
+      font-weight: 600;
+      color: #64748b;
+      background: #ffffff;
+      padding: 4px 8px;
+      border-radius: 4px;
+      border: 1px solid #e2e8f0;
+      white-space: nowrap;
+    }
+
+    .label-bg {
+      top: 40px;
+      left: 20px;
+    }
+
+    .label-overlay-default {
+      top: 40px;
+      left: -220px;
+    }
+
+    .label-overlay-hover {
+      top: 40px;
+      left: 20px;
+    }
+
+    .label-text {
+      top: 140px;
+      left: 20px;
+    }
+
+    /* PROPERTIES TABLE */
+    .properties-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 24px;
+      font-size: 13px;
+    }
+
+    .properties-table th {
+      background: #f1f5f9;
+      padding: 12px;
+      text-align: left;
+      font-weight: 600;
+      color: #475569;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .properties-table td {
+      padding: 12px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .properties-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .prop-name {
+      font-weight: 600;
+      color: #00081e;
+    }
+
+    .prop-value {
+      font-family: 'Monaco', 'Courier New', monospace;
+      background: #f8fafc;
+      padding: 4px 8px;
+      border-radius: 4px;
+      color: #0ea5e9;
+    }
+
+    /* INTERACTIVE DEMO */
+    .demo-area {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 32px;
+      padding: 48px;
+      background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+      border-radius: 12px;
+    }
+
+    .demo-button {
+      position: relative;
+      width: 240px;
+      height: 48px;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: none;
+      outline: none;
+    }
+
+    .demo-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+      z-index: 1;
+    }
+
+    .demo-overlay {
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+      opacity: 0;
+      z-index: 2;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .demo-button:hover .demo-overlay {
+      left: 0;
+      opacity: 1;
+    }
+
+    .demo-text {
+      position: relative;
+      z-index: 3;
+      color: #f0f2f6;
+      font-size: 15px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+    }
+
+    .demo-instruction {
+      font-size: 14px;
+      color: #475569;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    /* STEPS */
+    .steps {
+      counter-reset: step-counter;
+    }
+
+    .step {
+      counter-increment: step-counter;
+      margin-bottom: 32px;
+      padding-left: 48px;
+      position: relative;
+    }
+
+    .step::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 32px;
+      height: 32px;
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+      color: #ffffff;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .step-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 8px;
+    }
+
+    .step-content {
+      color: #475569;
+      line-height: 1.8;
+    }
+
+    .code-block {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 16px;
+      border-radius: 8px;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 13px;
+      margin: 12px 0;
+      overflow-x: auto;
+    }
+
+    .highlight {
+      background: #fef3c7;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: 600;
+    }
+
+    .tip-box {
+      background: #ecfdf5;
+      border: 2px solid #10b981;
+      border-radius: 8px;
+      padding: 16px;
+      margin: 24px 0;
+    }
+
+    .tip-title {
+      font-weight: 700;
+      color: #065f46;
+      margin-bottom: 8px;
+      font-size: 14px;
+    }
+
+    .tip-content {
+      color: #047857;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    /* COMPARISON */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    .compare-item {
+      padding: 16px;
+      border-radius: 8px;
+      font-size: 13px;
+    }
+
+    .compare-correct {
+      background: #ecfdf5;
+      border: 2px solid #10b981;
+    }
+
+    .compare-wrong {
+      background: #fef2f2;
+      border: 2px solid #ef4444;
+    }
+
+    .compare-label {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .compare-correct .compare-label {
+      color: #065f46;
+    }
+
+    .compare-wrong .compare-label {
+      color: #991b1b;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    
+    <!-- HEADER -->
+    <div class="header">
+      <h1 class="title">🎨 Tutorial: Efeito Hover Deslizante</h1>
+      <p class="subtitle">Aprenda a criar o efeito de overlay deslizando da esquerda para direita no Figma</p>
+    </div>
+
+    <!-- ANATOMIA DO BOTÃO -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">🔍</span>
+        Anatomia do Botão - Estrutura em Camadas
+      </h2>
+
+      <div class="anatomy-grid">
+        <!-- DEFAULT STATE -->
+        <div class="state-demo">
+          <div class="state-label">Estado DEFAULT</div>
+          <div class="button-container">
+            <div class="layer-label label-bg">Layer 1: Background</div>
+            <div class="layer layer-bg">Gradiente Base</div>
+            
+            <div class="layer-label label-overlay-default">Layer 2: Overlay (Fora)</div>
+            <div class="layer layer-overlay-default">Overlay</div>
+            
+            <div class="layer-label label-text">Layer 3: Text</div>
+            <div class="layer layer-text">Primary Button</div>
+          </div>
+
+          <!-- Properties Table -->
+          <table class="properties-table">
+            <thead>
+              <tr>
+                <th>Camada</th>
+                <th>Propriedade</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="prop-name">Background</td>
+                <td>Position X</td>
+                <td><span class="prop-value">0</span></td>
+              </tr>
+              <tr>
+                <td class="prop-name">Overlay</td>
+                <td>Position X</td>
+                <td><span class="prop-value">-240px</span> (fora à esquerda)</td>
+              </tr>
+              <tr>
+                <td class="prop-name">Overlay</td>
+                <td>Opacity</td>
+                <td><span class="prop-value">0%</span></td>
+              </tr>
+              <tr>
+                <td class="prop-name">Text</td>
+                <td>Position X</td>
+                <td><span class="prop-value">0</span> (centralizado)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- HOVER STATE -->
+        <div class="state-demo">
+          <div class="state-label">Estado HOVER</div>
+          <div class="button-container">
+            <div class="layer-label label-bg">Layer 1: Background</div>
+            <div class="layer layer-bg">Gradiente Base</div>
+            
+            <div class="layer-label label-overlay-hover">Layer 2: Overlay (Visível)</div>
+            <div class="layer layer-overlay-hover">Overlay</div>
+            
+            <div class="layer-label label-text">Layer 3: Text</div>
+            <div class="layer layer-text">Primary Button</div>
+          </div>
+
+          <!-- Properties Table -->
+          <table class="properties-table">
+            <thead>
+              <tr>
+                <th>Camada</th>
+                <th>Propriedade</th>
+                <th>Valor</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="prop-name">Background</td>
+                <td>Position X</td>
+                <td><span class="prop-value">0</span> (sem mudança)</td>
+              </tr>
+              <tr>
+                <td class="prop-name">Overlay</td>
+                <td>Position X</td>
+                <td><span class="prop-value">0</span> (centralizado)</td>
+              </tr>
+              <tr>
+                <td class="prop-name">Overlay</td>
+                <td>Opacity</td>
+                <td><span class="prop-value">100%</span></td>
+              </tr>
+              <tr>
+                <td class="prop-name">Text</td>
+                <td>Position X</td>
+                <td><span class="prop-value">0</span> (sem mudança)</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">💡 Observação Importante</div>
+        <div class="tip-content">
+          A <strong>única diferença</strong> entre Default e Hover é a posição X e opacity da camada "Overlay". 
+          Todas as outras camadas permanecem EXATAMENTE iguais. Isso permite que o Smart Animate funcione perfeitamente.
+        </div>
+      </div>
+    </section>
+
+    <!-- DEMO INTERATIVA -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">⚡</span>
+        Demonstração Interativa
+      </h2>
+
+      <div class="demo-area">
+        <p class="demo-instruction">Passe o mouse no botão abaixo para ver o efeito em ação:</p>
+        
+        <button class="demo-button">
+          <div class="demo-bg"></div>
+          <div class="demo-overlay"></div>
+          <div class="demo-text">Primary Button</div>
+        </button>
+
+        <p class="demo-instruction" style="font-size: 12px; color: #94a3b8;">
+          Este é exatamente o resultado que você terá no protótipo do Figma
+        </p>
+      </div>
+    </section>
+
+    <!-- PASSO A PASSO -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">📝</span>
+        Passo a Passo no Figma
+      </h2>
+
+      <div class="steps">
+        
+        <div class="step">
+          <div class="step-title">Criar o Frame do Botão Default</div>
+          <div class="step-content">
+            Crie um <span class="highlight">Frame</span> de 240×48px chamado "Button/Primary/Default"
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Adicionar Layer 1 - Background</div>
+          <div class="step-content">
+            Dentro do frame, adicione um <span class="highlight">retângulo</span> que preencha todo o espaço (240×48px):
+            <div class="code-block">
+Nome: "Background"
+Fill: Linear Gradient 135°
+  • Color 1: #071744
+  • Color 2: #0a2c68
+Position: X=0, Y=0</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Adicionar Layer 2 - Overlay (Estado Oculto)</div>
+          <div class="step-content">
+            Adicione outro <span class="highlight">retângulo</span> do mesmo tamanho:
+            <div class="code-block">
+Nome: "Overlay"
+Fill: Linear Gradient 135°
+  • Color 1: #1e40af
+  • Color 2: #3b82f6
+Position: X=-240, Y=0
+Opacity: 0%</div>
+            <strong>Importante:</strong> A posição X=-240 coloca a overlay completamente fora do frame à esquerda
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Adicionar Layer 3 - Text</div>
+          <div class="step-content">
+            Adicione o <span class="highlight">texto</span>:
+            <div class="code-block">
+Nome: "Text"
+Content: "Primary Button"
+Color: #f0f2f6
+Font: Inter 15px / 600
+Position: Centralizado (Auto Layout ou constraints)</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Ativar Clip Content</div>
+          <div class="step-content">
+            Selecione o frame principal e ative <span class="highlight">"Clip content"</span> para esconder a overlay quando estiver fora do frame
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Duplicar para criar estado Hover</div>
+          <div class="step-content">
+            Duplique o frame e renomeie para "Button/Primary/Hover". Ajuste APENAS a layer "Overlay":
+            <div class="code-block">
+Nome: "Overlay" (mesmo nome!)
+Position: X=0, Y=0
+Opacity: 100%</div>
+          </div>
+        </div>
+
+        <div class="step">
+          <div class="step-title">Configurar Protótipo</div>
+          <div class="step-content">
+            Selecione o botão "Default", vá em <span class="highlight">Prototype</span> e configure:
+            <div class="code-block">
+Trigger: While hovering
+Action: Change to → Button/Primary/Hover
+Animation: Smart Animate
+Easing: Ease Out
+Duration: 300ms</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="tip-box">
+        <div class="tip-title">🎯 Dica Crítica: Nomes das Camadas</div>
+        <div class="tip-content">
+          Para o Smart Animate funcionar, as camadas devem ter <strong>EXATAMENTE o mesmo nome</strong> nos dois estados (Default e Hover).
+          Se você nomear diferente, o Figma não conseguirá interpolar a animação.
+        </div>
+      </div>
+    </section>
+
+    <!-- COMPARAÇÃO CERTO vs ERRADO -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">✅</span>
+        Certo vs Errado
+      </h2>
+
+      <div class="comparison">
+        <div class="compare-item compare-correct">
+          <div class="compare-label">✅ CORRETO</div>
+          <div class="code-block" style="margin-top: 12px;">
+Default:
+  └─ Background
+  └─ Overlay (X=-240, Opacity=0%)
+  └─ Text
+
+Hover:
+  └─ Background
+  └─ Overlay (X=0, Opacity=100%)
+  └─ Text</div>
+          <div style="margin-top: 12px; color: #065f46;">
+            Nomes idênticos = Smart Animate funciona!
+          </div>
+        </div>
+
+        <div class="compare-item compare-wrong">
+          <div class="compare-label">❌ ERRADO</div>
+          <div class="code-block" style="margin-top: 12px;">
+Default:
+  └─ Background
+  └─ Rectangle 1
+  └─ Text
+
+Hover:
+  └─ Background
+  └─ Rectangle 2
+  └─ Text Copy</div>
+          <div style="margin-top: 12px; color: #991b1b;">
+            Nomes diferentes = Fade simples (sem slide)
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- VARIAÇÕES -->
+    <section class="section">
+      <h2 class="section-title">
+        <span class="icon">🎨</span>
+        Variações do Efeito
+      </h2>
+
+      <table class="properties-table">
+        <thead>
+          <tr>
+            <th>Efeito</th>
+            <th>Default</th>
+            <th>Hover</th>
+            <th>Descrição</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="prop-name">Deslizar Esquerda → Direita</td>
+            <td>X=-240, Opacity=0%</td>
+            <td>X=0, Opacity=100%</td>
+            <td>Overlay desliza de fora para dentro</td>
+          </tr>
+          <tr>
+            <td class="prop-name">Crescer do Centro</td>
+            <td>Scale=0%</td>
+            <td>Scale=100%</td>
+            <td>Use elipse, centralizada</td>
+          </tr>
+          <tr>
+            <td class="prop-name">Fade Simples</td>
+            <td>Opacity=0%</td>
+            <td>Opacity=100%</td>
+            <td>Sem movimento, só opacity</td>
+          </tr>
+          <tr>
+            <td class="prop-name">Expandir Width</td>
+            <td>Width=0</td>
+            <td>Width=240px</td>
+            <td>Expande da borda esquerda</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Button Component Set - Internet Banking B2B</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: #f8fafc;
+      padding: 48px;
+      line-height: 1.5;
+    }
+
+    .page-header {
+      margin-bottom: 48px;
+    }
+
+    .page-title {
+      font-size: 32px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+
+    .page-subtitle {
+      font-size: 15px;
+      color: #64748b;
+    }
+
+    .variant-section {
+      margin-bottom: 48px;
+      padding: 32px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .variant-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid #e2e8f0;
+    }
+
+    .variant-indicator {
+      width: 6px;
+      height: 32px;
+      border-radius: 3px;
+    }
+
+    .variant-indicator.primary { background: #071744; }
+    .variant-indicator.secondary { background: #00081e; }
+    .variant-indicator.ghost { background: #475569; }
+
+    .variant-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #00081e;
+    }
+
+    .size-group {
+      margin-bottom: 32px;
+    }
+
+    .size-header {
+      margin-bottom: 16px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1f5f9;
+    }
+
+    .size-title {
+      font-size: 13px;
+      font-weight: 600;
+      color: #00081e;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .size-subtitle {
+      color: #64748b;
+      font-weight: 500;
+    }
+
+    .states-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+      align-items: start;
+    }
+
+    .state-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .state-label {
+      font-size: 11px;
+      font-weight: 500;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* BASE BUTTON STYLES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      white-space: nowrap;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      border-radius: 6px;
+      outline: none;
+      text-decoration: none;
+      user-select: none;
+    }
+
+    /* SIZES */
+    .btn-sm {
+      height: 32px;
+      padding: 8px 12px;
+      font-size: 11px;
+      line-height: 16px;
+    }
+
+    .btn-md {
+      height: 40px;
+      padding: 10px 16px;
+      font-size: 13px;
+      line-height: 18px;
+    }
+
+    .btn-lg {
+      height: 48px;
+      padding: 12px 20px;
+      font-size: 15px;
+      line-height: 20px;
+    }
+
+    /* PRIMARY VARIANT */
+    .btn-primary {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%);
+      color: #f0f2f6;
+      border: none;
+      box-shadow: none;
+    }
+
+    .btn-primary.hover {
+      background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%) !important;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4) !important;
+      border: none !important;
+    }
+
+    .btn-primary.active {
+      background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%) !important;
+      box-shadow: 0 2px 6px rgba(7, 23, 68, 0.3) !important;
+      border: none !important;
+    }
+
+    .btn-primary.focus {
+      background: linear-gradient(135deg, #071744 0%, #0a2c68 100%) !important;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5) !important;
+      border: none !important;
+    }
+
+    .btn-primary.disabled {
+      background: linear-gradient(135deg, #475569 0%, #64748b 100%) !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* SECONDARY VARIANT */
+    .btn-secondary {
+      background: transparent;
+      color: #00081e;
+      border: 1.5px solid #00081e;
+      box-shadow: none;
+    }
+
+    .btn-secondary.hover {
+      border: 1.5px solid #3b82f6 !important;
+      box-shadow: 0 4px 16px rgba(59, 130, 246, 0.25) !important;
+      background: rgba(59, 130, 246, 0.15) !important;
+      color: #1e40af !important;
+    }
+
+    .btn-secondary.active {
+      border: 1.5px solid #1e40af !important;
+      background: rgba(30, 64, 175, 0.2) !important;
+      box-shadow: none !important;
+      color: #1e3a8a !important;
+    }
+
+    .btn-secondary.focus {
+      border: 1.5px solid #00081e !important;
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.3) !important;
+      background: transparent !important;
+    }
+
+    .btn-secondary.disabled {
+      background: transparent !important;
+      color: #94a3b8 !important;
+      border: 1.5px solid #cbd5e1 !important;
+      cursor: not-allowed;
+      box-shadow: none !important;
+    }
+
+    /* GHOST VARIANT */
+    .btn-ghost {
+      background: transparent;
+      color: #00081e;
+      border: none;
+      box-shadow: none;
+    }
+
+    .btn-ghost.hover {
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2) !important;
+      background: rgba(59, 130, 246, 0.12) !important;
+      border: none !important;
+      color: #1e40af !important;
+    }
+
+    .btn-ghost.active {
+      background: rgba(30, 64, 175, 0.18) !important;
+      box-shadow: none !important;
+      border: none !important;
+      color: #1e3a8a !important;
+    }
+
+    .btn-ghost.focus {
+      box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2) !important;
+      background: transparent !important;
+      border: none !important;
+    }
+
+    .btn-ghost.disabled {
+      background: transparent !important;
+      color: #94a3b8 !important;
+      cursor: not-allowed;
+      box-shadow: none !important;
+      border: none !important;
+    }
+
+    /* LOADING STATE */
+    .btn-loading {
+      position: relative;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      border: 2px solid currentColor;
+      border-radius: 50%;
+      border-top-color: transparent;
+      animation: spin 1s linear infinite;
+    }
+
+    .btn-md .loading-spinner {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-lg .loading-spinner {
+      width: 18px;
+      height: 18px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ICONS */
+    .btn-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .btn-sm .btn-icon {
+      width: 14px;
+      height: 14px;
+    }
+
+    .btn-md .btn-icon {
+      width: 16px;
+      height: 16px;
+    }
+
+    .btn-lg .btn-icon {
+      width: 18px;
+      height: 18px;
+    }
+
+    .btn-icon svg {
+      width: 100%;
+      height: 100%;
+      stroke-width: 2px;
+    }
+
+    /* INSTRUCTIONS */
+    .instructions {
+      margin-top: 48px;
+      padding: 32px;
+      background: #ffffff;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .instructions-title {
+      font-size: 20px;
+      font-weight: 700;
+      color: #00081e;
+      margin-bottom: 16px;
+    }
+
+    .instructions-list {
+      font-size: 14px;
+      color: #475569;
+      line-height: 1.8;
+      padding-left: 20px;
+    }
+
+    .instructions-list li {
+      margin-bottom: 8px;
+    }
+
+    .tip-box {
+      margin-top: 20px;
+      padding: 16px;
+      background: #ecfdf5;
+      border: 1px solid #10b981;
+      border-radius: 8px;
+      font-size: 13px;
+      color: #065f46;
+    }
+
+    .tip-box strong {
+      color: #047857;
+    }
+
+    /* WITH ICONS SECTION */
+    .icons-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 24px;
+    }
+
+    .icon-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <h1 class="page-title">Button Component Set</h1>
+    <p class="page-subtitle">Internet Banking Digital B2B - Design System</p>
+  </div>
+
+  <!-- PRIMARY VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator primary"></div>
+      <h2 class="variant-title">Primary</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small <span class="size-subtitle">• 32px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-primary btn-sm">Primary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-primary btn-sm hover">Primary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-primary btn-sm active">Primary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-primary btn-sm focus">Primary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-primary btn-sm disabled" disabled>Primary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-primary btn-sm btn-loading">
+            <span class="loading-spinner"></span>
+            Primary Small
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium <span class="size-subtitle">• 40px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-primary btn-md">Primary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-primary btn-md hover">Primary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-primary btn-md active">Primary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-primary btn-md focus">Primary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-primary btn-md disabled" disabled>Primary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-primary btn-md btn-loading">
+            <span class="loading-spinner"></span>
+            Primary Medium
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large <span class="size-subtitle">• 48px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-primary btn-lg">Primary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-primary btn-lg hover">Primary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-primary btn-lg active">Primary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-primary btn-lg focus">Primary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-primary btn-lg disabled" disabled>Primary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-primary btn-lg btn-loading">
+            <span class="loading-spinner"></span>
+            Primary Large
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- With Icons -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">With Icons <span class="size-subtitle">• Medium</span></h3>
+      </div>
+      <div class="icons-grid">
+        <div class="icon-item">
+          <label class="state-label">Icon Left</label>
+          <button class="btn btn-primary btn-md">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+            Download
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Right</label>
+          <button class="btn btn-primary btn-md">
+            Continuar
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Only</label>
+          <button class="btn btn-primary btn-md" style="min-width: 40px; padding: 10px;">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECONDARY VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator secondary"></div>
+      <h2 class="variant-title">Secondary</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small <span class="size-subtitle">• 32px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-secondary btn-sm">Secondary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-secondary btn-sm hover">Secondary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-secondary btn-sm active">Secondary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-secondary btn-sm focus">Secondary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-secondary btn-sm disabled" disabled>Secondary Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-secondary btn-sm btn-loading">
+            <span class="loading-spinner"></span>
+            Secondary Small
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium <span class="size-subtitle">• 40px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-secondary btn-md">Secondary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-secondary btn-md hover">Secondary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-secondary btn-md active">Secondary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-secondary btn-md focus">Secondary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-secondary btn-md disabled" disabled>Secondary Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-secondary btn-md btn-loading">
+            <span class="loading-spinner"></span>
+            Secondary Medium
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large <span class="size-subtitle">• 48px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-secondary btn-lg">Secondary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-secondary btn-lg hover">Secondary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-secondary btn-lg active">Secondary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-secondary btn-lg focus">Secondary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-secondary btn-lg disabled" disabled>Secondary Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-secondary btn-lg btn-loading">
+            <span class="loading-spinner"></span>
+            Secondary Large
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- With Icons -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">With Icons <span class="size-subtitle">• Medium</span></h3>
+      </div>
+      <div class="icons-grid">
+        <div class="icon-item">
+          <label class="state-label">Icon Left</label>
+          <button class="btn btn-secondary btn-md">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+            Download
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Right</label>
+          <button class="btn btn-secondary btn-md">
+            Continuar
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Only</label>
+          <button class="btn btn-secondary btn-md" style="min-width: 40px; padding: 10px;">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GHOST VARIANT -->
+  <section class="variant-section">
+    <div class="variant-header">
+      <div class="variant-indicator ghost"></div>
+      <h2 class="variant-title">Ghost</h2>
+    </div>
+
+    <!-- Small -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Small <span class="size-subtitle">• 32px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-ghost btn-sm">Ghost Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-ghost btn-sm hover">Ghost Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-ghost btn-sm active">Ghost Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-ghost btn-sm focus">Ghost Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-ghost btn-sm disabled" disabled>Ghost Small</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-ghost btn-sm btn-loading">
+            <span class="loading-spinner"></span>
+            Ghost Small
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Medium -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Medium <span class="size-subtitle">• 40px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-ghost btn-md">Ghost Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-ghost btn-md hover">Ghost Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-ghost btn-md active">Ghost Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-ghost btn-md focus">Ghost Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-ghost btn-md disabled" disabled>Ghost Medium</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-ghost btn-md btn-loading">
+            <span class="loading-spinner"></span>
+            Ghost Medium
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Large -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">Large <span class="size-subtitle">• 48px</span></h3>
+      </div>
+      <div class="states-grid">
+        <div class="state-item">
+          <label class="state-label">Default</label>
+          <button class="btn btn-ghost btn-lg">Ghost Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Hover</label>
+          <button class="btn btn-ghost btn-lg hover">Ghost Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Active</label>
+          <button class="btn btn-ghost btn-lg active">Ghost Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Focus</label>
+          <button class="btn btn-ghost btn-lg focus">Ghost Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Disabled</label>
+          <button class="btn btn-ghost btn-lg disabled" disabled>Ghost Large</button>
+        </div>
+        <div class="state-item">
+          <label class="state-label">Loading</label>
+          <button class="btn btn-ghost btn-lg btn-loading">
+            <span class="loading-spinner"></span>
+            Ghost Large
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- With Icons -->
+    <div class="size-group">
+      <div class="size-header">
+        <h3 class="size-title">With Icons <span class="size-subtitle">• Medium</span></h3>
+      </div>
+      <div class="icons-grid">
+        <div class="icon-item">
+          <label class="state-label">Icon Left</label>
+          <button class="btn btn-ghost btn-md">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+            Download
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Right</label>
+          <button class="btn btn-ghost btn-md">
+            Continuar
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+        <div class="icon-item">
+          <label class="state-label">Icon Only</label>
+          <button class="btn btn-ghost btn-md" style="min-width: 40px; padding: 10px;">
+            <span class="btn-icon">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+              </svg>
+            </span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- INSTRUCTIONS -->
+  <section class="instructions">
+    <h2 class="instructions-title">📥 Como importar no Figma com html.to.design</h2>
+    <ol class="instructions-list">
+      <li><strong>Instale o plugin:</strong> No Figma, vá em Resources (Shift+I) → Procure "html.to.design" → Clique em Run</li>
+      <li><strong>Cole a URL:</strong> 
+        <ul style="margin-top: 8px;">
+          <li>Se estiver rodando localmente: <code>http://localhost:[porta]/button-component-set.html</code></li>
+          <li>Ou faça deploy desta página e use a URL pública</li>
+        </ul>
+      </li>
+      <li><strong>Configure as opções:</strong>
+        <ul style="margin-top: 8px;">
+          <li>✅ Import responsive breakpoints (se desejar)</li>
+          <li>✅ Convert to Auto Layout (recomendado)</li>
+          <li>✅ Import text styles</li>
+          <li>✅ Import color styles</li>
+        </ul>
+      </li>
+      <li><strong>Clique em "Import":</strong> O plugin irá converter todo o HTML/CSS em elementos do Figma</li>
+      <li><strong>Organize os componentes:</strong>
+        <ul style="margin-top: 8px;">
+          <li>Selecione cada grupo de estados (Default, Hover, Active, etc.)</li>
+          <li>Selecione todos os botões de uma variante</li>
+          <li>Clique com botão direito → "Create component set"</li>
+          <li>Configure as propriedades: Variant, Size, State</li>
+        </ul>
+      </li>
+      <li><strong>Publique na biblioteca:</strong> Menu superior → Ícone de livro → Publish</li>
+    </ol>
+
+    <div class="tip-box">
+      <strong>💡 Dica Pro:</strong> Após importar, agrupe os elementos por seção (Primary, Secondary, Ghost) e converta cada seção em um Component Set separado. Depois você pode organizá-los todos em um único Component Set master se preferir, ou manter separados para melhor organização.
+      <br><br>
+      <strong>⚡ Atalho:</strong> Use <code>Cmd/Ctrl + Click</code> para selecionar múltiplos botões de uma vez e criar o Component Set mais rapidamente.
+      <br><br>
+      <strong>🎨 Ajustes:</strong> O plugin preserva todos os estilos CSS (gradientes, sombras, bordas, etc.). Você pode precisar apenas ajustar o Auto Layout e criar as variantes após a importação.
+    </div>
+  </section>
+
+</body>
+</html>

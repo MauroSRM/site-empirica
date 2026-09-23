@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+
+  <!-- ══ Google Tag Manager ══════════════════════════════════════════════ -->
+  <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-T6MSLLXL');</script>
+  <!-- End Google Tag Manager -->
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Página não encontrada — Grupo SRM</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue-srm:  #162e61;
+      --orange:    #ff8200;
+      --gray-50:   #F0F2F6;
+      --gray-200:  #e5e7eb;
+      --gray-500:  #6b7280;
+      --white:     #ffffff;
+      --font:      'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+    }
+
+    html, body {
+      min-height: 100%;
+      background: var(--gray-50);
+      font-family: var(--font);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ══ HEADER ══════════════════════════════════════════════════ */
+    .header {
+      background: var(--white);
+      border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .header-logo  { display: flex; align-items: center; text-decoration: none; }
+    /* SrmButton primary light — spec: bg #162e61, text #f0f2f6, radius 3px, h32, px16, fs12 */
+    .header-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 32px; padding: 0 16px;
+      background: #162e61;
+      color: #f0f2f6;
+      border: none; border-radius: 3px;
+      font-family: var(--font);
+      font-size: 12px; font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: filter 0.18s;
+    }
+    .header-cta:hover { filter: brightness(1.15); }
+
+    /* ══ HERO (SiteSrmBanner) ════════════════════════════════════ */
+    /* Exato: gradient, dots pattern + radial glow, padding, left-aligned */
+    .hero {
+      background: linear-gradient(148deg,#2250A0 0%,#1D3F80 30%,#162E6C 60%,#0E2258 80%,#091A48 100%);
+      position: relative;
+      overflow: hidden;
+      padding: 64px 56px 72px;
+      font-family: var(--font);
+    }
+    /* Dots overlay — radial-gradient(circle, rgba(255,255,255,0.07) 1.2px, transparent 1.2px) 26px */
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.07) 1.2px, transparent 1.2px);
+      background-size: 26px 26px;
+      pointer-events: none;
+    }
+    /* Radial glow top-right */
+    .hero-glow {
+      position: absolute; top: -20%; right: -4%;
+      width: 480px; height: 480px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(80,140,255,0.3) 0%, transparent 65%);
+      filter: blur(90px);
+      pointer-events: none;
+    }
+    .hero-inner {
+      position: relative;
+      max-width: 1328px;
+      margin: 0 auto;
+    }
+
+    /* Breadcrumbs */
+    .hero-crumbs {
+      display: flex; align-items: center; gap: 8px;
+      margin-bottom: 20px; flex-wrap: wrap;
+    }
+    .hero-crumb-home {
+      color: rgba(255,255,255,0.55);
+      font-size: 12.5px; text-decoration: none;
+      transition: color 0.15s;
+    }
+    .hero-crumb-home:hover { color: rgba(255,255,255,0.9); }
+    .hero-crumb-sep  { color: rgba(255,255,255,0.3); display: flex; align-items: center; }
+    .hero-crumb-curr { color: rgba(255,255,255,0.85); font-size: 12.5px; }
+
+    /* Badge — spec: rgba(255,255,255,0.12) bg, border rgba(255,255,255,0.28), radius 6, color #cce0ff */
+    .hero-badge {
+      display: inline-flex; align-items: center;
+      padding: 4px 12px;
+      margin-bottom: 16px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.28);
+      border-radius: 6px;
+      color: #cce0ff;
+      font-size: 13px; font-weight: 400;
+      backdrop-filter: blur(8px);
+    }
+
+    /* Title — spec: #fff, 52px, 800, lh 1.1, ls -0.02em, maxW 820, textShadow */
+    .hero h1 {
+      color: #fff;
+      font-size: 52px; font-weight: 800;
+      line-height: 1.1; letter-spacing: -0.02em;
+      margin-bottom: 16px;
+      max-width: 820px;
+      text-shadow: 0 2px 28px rgba(0,0,0,0.22);
+    }
+
+    /* Subtitle — spec: rgba(255,255,255,0.82), 18px, lh 1.72, maxW 620 */
+    .hero p {
+      color: rgba(255,255,255,0.82);
+      font-size: 18px; line-height: 1.72;
+      max-width: 620px;
+      text-shadow: 0 1px 8px rgba(0,0,0,0.12);
+    }
+
+    /* Actions row */
+    .hero-actions {
+      display: flex; align-items: center;
+      gap: 12px; margin-top: 28px; flex-wrap: wrap;
+    }
+    /* SrmButton primary dark — spec: linear-gradient orange, h48, px24, fs14, fw600 */
+    .btn-primary-dark {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 48px; padding: 0 24px;
+      background: linear-gradient(90deg, #ff9928 0%, #ff8200 100%);
+      border: none; border-radius: 3px;
+      font-family: var(--font);
+      font-size: 14px; font-weight: 600;
+      color: #ffffff;
+      text-decoration: none; cursor: pointer;
+      transition: filter 0.18s; white-space: nowrap;
+    }
+    .btn-primary-dark:hover { filter: brightness(1.08); }
+    /* SrmButton secondary dark — spec: transparent, border 2px #c7d9ff, text #c7d9ff, h48, px24 */
+    .btn-secondary-dark {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 48px; padding: 0 24px;
+      background: transparent;
+      border: 2px solid #c7d9ff; border-radius: 3px;
+      font-family: var(--font);
+      font-size: 14px; font-weight: 600;
+      color: #c7d9ff;
+      text-decoration: none; cursor: pointer;
+      transition: all 0.18s; white-space: nowrap;
+    }
+    .btn-secondary-dark:hover { background: rgba(199,217,255,0.12); color: #fff; }
+
+    /* ══ SECTIONS ════════════════════════════════════════════════ */
+    .section-gray  { background: var(--gray-50); padding: 64px 56px; }
+    .section-white { background: var(--white);  padding: 64px 56px; border-top: 1px solid var(--gray-200); }
+    .section-inner { max-width: 1328px; margin: 0 auto; }
+
+    .s-label {
+      font-size: 11px; font-weight: 700;
+      color: var(--orange); letter-spacing: 1.2px;
+      text-transform: uppercase; margin-bottom: 10px;
+    }
+    .s-title {
+      font-size: 32px; font-weight: 800;
+      color: #00081e; letter-spacing: -0.02em;
+      line-height: 1.18; margin-bottom: 10px;
+    }
+    .s-desc {
+      font-size: 15px; color: var(--gray-500);
+      line-height: 1.65; margin-bottom: 36px;
+      max-width: 580px;
+    }
+
+    /* ══ CAROUSEL ════════════════════════════════════════════════ */
+    .carousel-clip  { overflow: hidden; }
+    .carousel-track {
+      display: flex; gap: 16px;
+      transition: transform 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+      will-change: transform;
+    }
+
+    /* ══ UNIT CARD — idêntico CardUnidade SrmMobileHome ══════════ */
+    /* bg white, radius 3, shadow, padding 24, position relative, overflow hidden */
+    .unit-card {
+      flex: 0 0 calc(33.333% - 10.67px); min-width: 0;
+      background: var(--white);
+      border-radius: 3px;
+      box-shadow: 0 8px 24px 0 rgba(22,46,97,0.10);
+      padding: 24px;
+      position: relative; overflow: hidden;
+      cursor: pointer; text-decoration: none; color: inherit;
+      display: block; transition: box-shadow 0.18s;
+    }
+    .unit-card:hover { box-shadow: 0 12px 32px 0 rgba(22,46,97,0.16); }
+
+    /* icon-srm decorativo topo-direita */
+    .card-icon-srm {
+      position: absolute; top: 16px; right: 16px;
+      width: 34px; height: 39px;
+      opacity: 0.9; pointer-events: none;
+    }
+
+    /* inner row: vertical label + content, height 162 */
+    .card-inner { display: flex; gap: 32px; align-items: flex-end; height: 162px; }
+
+    /* coluna vertical: width 11, alinhada na base */
+    .card-vert-col {
+      width: 11px; align-self: stretch; flex-shrink: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: flex-end;
+    }
+    /* rótulo: 9px, 600, laranja, writing-mode, rotate 180 */
+    .card-vert-label {
+      font-size: 9px; font-weight: 600;
+      color: var(--orange); letter-spacing: 0.54px;
+      text-transform: uppercase;
+      writing-mode: vertical-rl;
+      transform: rotate(180deg);
+      white-space: nowrap; margin: 0;
+    }
+
+    /* coluna de conteúdo: flex 1, space-between, height 100% */
+    .card-content {
+      display: flex; flex-direction: column;
+      justify-content: space-between;
+      flex: 1; min-width: 0; height: 100%;
+    }
+    /* título: 17px, 700, azul, uppercase */
+    .card-title {
+      font-size: 17px; font-weight: 700;
+      color: #162e61; text-transform: uppercase;
+      margin: 0 0 10px; line-height: normal;
+    }
+    /* linha laranja: 40×3px */
+    .card-accent { width: 40px; height: 3px; background: var(--orange); border-radius: 2px; }
+
+    /* descrição: 12px, cinza */
+    .card-desc {
+      font-size: 12px; font-weight: 400;
+      color: rgba(97,107,128,0.8);
+      line-height: normal; margin: 0;
+    }
+    /* saiba mais */
+    .card-link { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .card-link-text { font-size: 13px; font-weight: 500; color: #162e61; }
+
+    /* ══ CAROUSEL CONTROLS ══════════════════════════════════════ */
+    .carousel-controls { display: flex; align-items: center; justify-content: space-between; margin-top: 24px; }
+    .carousel-dots { display: flex; gap: 6px; align-items: center; }
+    .carousel-dot {
+      height: 8px; border-radius: 4px;
+      background: var(--gray-200); border: none; cursor: pointer;
+      padding: 0; transition: all 0.25s ease;
+    }
+    .carousel-dot.active { width: 20px !important; background: var(--orange); }
+    .carousel-arrows { display: flex; gap: 8px; }
+    .carousel-arrow {
+      width: 40px; height: 40px; border-radius: 3px;
+      background: transparent; border: 1.5px solid #162e61;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.18s;
+    }
+    .carousel-arrow svg { display: block; }
+    .carousel-arrow:hover { background: #162e61; }
+    .carousel-arrow:hover polyline { stroke: #fff; }
+
+    /* ══ QUICK LINKS ════════════════════════════════════════════ */
+    .quick-links { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 48px; }
+    /* SrmButton secondary light — transparent, border 2px #162e61, text #162e61, h32, px16, fs12 */
+    .quick-link {
+      display: inline-flex; align-items: center;
+      height: 32px; padding: 0 16px;
+      background: transparent;
+      border: 2px solid #162e61; border-radius: 3px;
+      font-family: var(--font);
+      font-size: 12px; font-weight: 600;
+      color: #162e61; text-decoration: none;
+      white-space: nowrap; transition: all 0.15s;
+    }
+    .quick-link:hover { background: rgba(225,236,255,0.5); }
+
+    .footer-bar {
+      display: flex; align-items: center; justify-content: space-between;
+      padding-top: 28px; border-top: 1px solid var(--gray-50);
+      gap: 20px; flex-wrap: wrap;
+    }
+    .footer-bar p { font-size: 14px; color: var(--gray-500); line-height: 1.55; }
+    .footer-bar a.inline { color: #162e61; font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+    /* SrmButton primary light — h40, px20, fs13 */
+    .btn-primary-light {
+      display: inline-flex; align-items: center; gap: 8px;
+      height: 40px; padding: 0 20px;
+      background: #162e61; border: none; border-radius: 3px;
+      font-family: var(--font); font-size: 13px; font-weight: 600;
+      color: #f0f2f6; text-decoration: none;
+      white-space: nowrap; cursor: pointer; transition: filter 0.18s; flex-shrink: 0;
+    }
+    .btn-primary-light:hover { filter: brightness(1.15); }
+
+    /* ══ CTA (SiteSrmCtaComp) ════════════════════════════════════ */
+    .cta-section {
+      background: linear-gradient(135deg,#091A48 0%,#162E6C 50%,#1D3F80 100%);
+      padding: 80px 56px;
+      font-family: var(--font);
+    }
+    .cta-inner { max-width: 1328px; margin: 0 auto; }
+    .cta-label { font-size: 11px; font-weight: 700; color: var(--orange); letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 12px; }
+    .cta-title { font-size: 30px; font-weight: 800; color: #fff; letter-spacing: -0.3px; line-height: 1.2; margin-bottom: 12px; max-width: 700px; }
+    .cta-accent { width: 48px; height: 3px; background: var(--orange); border-radius: 2px; margin-bottom: 20px; }
+    .cta-desc { font-size: 16px; color: rgba(255,255,255,0.55); line-height: 1.72; margin-bottom: 32px; max-width: 600px; }
+    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+
+    /* ══ PAGE FOOTER ════════════════════════════════════════════ */
+    .page-footer {
+      background: #00081e;
+      padding: 28px 56px;
+    }
+    .page-footer p { font-size: 13px; color: rgba(255,255,255,0.35); line-height: 1.5; }
+    .page-footer a { color: rgba(255,255,255,0.5); text-decoration: none; }
+    .page-footer a:hover { color: rgba(255,255,255,0.8); }
+
+    /* ══ RESPONSIVE ═════════════════════════════════════════════ */
+    @media (max-width: 1099px) {
+      .unit-card { flex: 0 0 calc(50% - 8px); }
+      .section-gray, .section-white { padding: 56px 32px; }
+      .cta-section { padding: 64px 32px; }
+    }
+    @media (max-width: 767px) {
+      .unit-card { flex: 0 0 100%; }
+      .hero { padding: 40px 20px 48px; }
+      .hero h1 { font-size: 28px; }
+      .hero p { font-size: 15px; }
+      .hero-badge { font-size: 11px; }
+      .hero-glow { width: 260px; height: 260px; }
+      .section-gray, .section-white { padding: 40px 24px; }
+      .s-title { font-size: 22px; }
+      .cta-section { padding: 48px 24px; }
+      .cta-title { font-size: 22px; }
+      .footer-bar { flex-direction: column; align-items: flex-start; }
+      .page-footer { padding: 24px; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn-primary-dark, .btn-secondary-dark { justify-content: center; }
+      .header-cta span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ══ Google Tag Manager (noscript) ═══════════════════════════════════ -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-T6MSLLXL"
+  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+
+  <!-- ══ HEADER ══════════════════════════════════════════════════ -->
+  <header class="header">
+    <a href="/" class="header-logo" aria-label="Grupo SRM — Página inicial">
+      <!-- LogoColor — spec exato de SiteLogos.tsx: viewBox 0 0 125 32, #597CA3 + #184987 -->
+      <svg width="125" height="32" viewBox="0 0 125 32" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M118.042 1.31399L115.017 4.1688L101.522 17.474L87.8766 3.91358H85.2108H84.653V29.9662L85.2108 30.5239H87.7112L88.2689 29.9662V9.48142L101.163 22.3754H101.797L115.683 8.48885L124.48 0L118.042 1.31399Z" fill="#597CA3"/>
+        <path d="M114.691 11.4692V30.5265H115.249H117.749H118.307V7.85339L114.691 11.4692Z" fill="#184987"/>
+        <path d="M77.5359 18.8118C78.1079 18.8023 78.7507 18.6747 79.4502 18.4384L79.5022 18.4195C82.8062 16.9826 84.4841 14.695 84.4841 11.618V10.9374C84.4841 10.323 84.3092 9.48163 83.9405 8.35672L83.9169 8.28583L83.8791 8.21965C82.1586 5.3601 79.9985 3.90906 77.4556 3.90906H64.5093V7.54376L77.5501 7.60992L78.1835 7.75173C79.9749 8.52688 80.8493 9.69905 80.8635 11.3202C80.7075 12.4972 80.5704 12.7477 80.5563 12.7713L80.5137 12.8375C79.7102 14.3689 78.7081 15.1156 77.4509 15.1156H61.3944V8.81991H57.7785V30.5241H61.3944V18.8118H72.8376L84.1958 30.5241H88.256V29.5079L77.5265 18.8118H77.5359Z" fill="#184987"/>
+        <path d="M56.2225 19.4416C54.6202 16.5678 52.3419 15.1121 49.4492 15.1121H39.4854L35.7561 18.8082L49.6572 18.8933L50.1535 18.9642C52.271 19.6165 53.2683 20.8501 53.2825 22.8399L53.0462 24.1681C52.3986 25.95 50.8861 26.8149 48.4282 26.8149H29.4366V30.5158H49.8699C50.6829 30.5158 51.718 30.218 53.032 29.6036L53.136 29.5421C55.6884 27.7366 56.9788 25.6711 56.9788 23.4024V22.5516C56.9788 21.4456 56.7235 20.401 56.2178 19.4274L56.2225 19.4416Z" fill="#184987"/>
+        <path d="M36.4652 3.91223C35.7751 3.91223 34.8676 4.1202 33.6954 4.54558L33.6292 4.56921L33.5725 4.60702C30.831 6.31329 29.4414 8.44497 29.4414 10.9406V11.6212C29.4414 12.9446 29.8763 14.3153 30.7271 15.7002L30.7979 15.7947C31.9134 17.0472 33.0526 17.9169 34.1775 18.3896L34.5698 18.555L38.1006 15.2606L35.9264 15.0432C33.9884 14.3437 33.0478 13.11 33.0478 11.2809C33.0478 10.4301 33.3834 9.63132 34.0735 8.82782L34.1208 8.76164C34.6643 7.94395 35.9925 7.52802 38.0675 7.52802H60.7223L63.5489 7.5422V3.91223H36.4557H36.4652Z" fill="#597CA3"/>
+        <path d="M0 10.4802V24.4423L12.0955 3.49438L0 10.4802ZM0.330871 25.019L12.4263 32.0001L24.5218 25.019H0.330871ZM12.7572 3.49912L24.8527 24.4471V10.4849L12.7572 3.49912Z" fill="#184987"/>
+      </svg>
+    </a>
+    <a href="/" class="header-cta">
+      <!-- home icon 12px -->
+      <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      <span>Página inicial</span>
+    </a>
+  </header>
+
+  <!-- ══ HERO — SiteSrmBanner ════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-glow"></div>
+    <div class="hero-inner">
+
+      <!-- Breadcrumbs: Home › Página não encontrada -->
+      <nav class="hero-crumbs" aria-label="Breadcrumb">
+        <a href="/" class="hero-crumb-home">Home</a>
+        <span class="hero-crumb-sep">
+          <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </span>
+        <span class="hero-crumb-curr">Página não encontrada</span>
+      </nav>
+
+      <!-- Badge — spec: rgba bg + border rgba, radius 6, color #cce0ff, fw400 -->
+      <div class="hero-badge">Erro 404</div>
+
+      <!-- Título — spec: #fff, 52px, 800, lh 1.1, ls -0.02em, maxW 820, textShadow -->
+      <h1>Página não encontrada</h1>
+
+      <!-- Subtítulo — spec: rgba(255,255,255,0.82), 18px, lh 1.72, maxW 620 -->
+      <p>O endereço que você acessou não existe ou foi movido. Use os atalhos abaixo para encontrar o que procura no site do Grupo SRM.</p>
+
+      <!-- Ações — spec: mt 28, gap 12, flex wrap -->
+      <div class="hero-actions">
+        <!-- SrmButton primary dark → orange gradient, h48, px24 -->
+        <a href="/" class="btn-primary-dark">Ir para a página inicial</a>
+        <!-- SrmButton secondary dark → transparent, border #c7d9ff, text #c7d9ff, h48 -->
+        <a href="/contato" class="btn-secondary-dark">Falar com nossa equipe</a>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ══ UNIDADES DE NEGÓCIO — Carrossel ═════════════════════════ -->
+  <section class="section-gray">
+    <div class="section-inner">
+      <p class="s-label">Grupo SRM</p>
+      <h2 class="s-title">Nossas Unidades de Negócio</h2>
+      <p class="s-desc">Explore as empresas do Grupo SRM e encontre a solução certa para o seu negócio.</p>
+
+      <div id="carousel" onmouseenter="pauseAuto()" onmouseleave="resumeAuto()">
+        <div class="carousel-clip">
+          <div class="carousel-track" id="track">
+
+            <!-- SRM ASSET -->
+            <a href="/unidades/srm-asset" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">GESTÃO ATIVA E TECNOLOGIA</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM ASSET</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Estrutura alternativas complexas de funding e capital para empresas que precisam alinhar crescimento, prazo e governança.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM IP -->
+            <a href="/unidades/srm-ip" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">LIQUIDEZ OPERACIONAL</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM IP</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Contas escrow, garantias digitais e cobrança automatizada para sustentar a liquidez diária da operação com mais controle.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM TRUST -->
+            <a href="/unidades/srm-trust" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">RELACIONAMENTO ÁGIL</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM TRUST</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Canal dedicado para PMEs e empresas que precisam organizar capital de giro e conexão comercial com maior velocidade.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM SECURITIZADORA -->
+            <a href="/unidades/srm-sec" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">ARQUITETURA REGULATÓRIA</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM SECURITIZADORA</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Transforma recebíveis originados em instrumentos estruturados com liquidez, governança e aderência regulatória.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM DTVM -->
+            <a href="/unidades/srm-dtvm" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">MERCADO DE CAPITAIS</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM DTVM</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Viabiliza distribuição, intermediação de valores mobiliários e autonomia institucional para operações mais sofisticadas.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM EMPÍRICA -->
+            <a href="/unidades/srm-empirica" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">ENGENHARIA FINANCEIRA</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM EMPÍRICA</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Estruturas alternativas complexas de funding e capital para empresas que precisam alinhar crescimento, prazo e governança.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+            <!-- SRM VENTURES -->
+            <a href="/unidades/srm-ventures" class="unit-card">
+              <svg class="card-icon-srm" viewBox="0 0 41.8473 48" fill="none" aria-hidden="true">
+                <path d="M2.30321e-05 11.7632V35.2738L20.3665 4.60642e-06L2.30321e-05 11.7632ZM0.557148 36.2447L20.9236 48L41.2902 36.2447H0.557148ZM21.4808 0.00797126L41.8473 35.2817V11.7712L21.4808 0.00797126Z" fill="#F0F2F6"/>
+              </svg>
+              <div class="card-inner">
+                <div class="card-vert-col"><span class="card-vert-label">EXPANSÃO ESTRATÉGICA</span></div>
+                <div class="card-content">
+                  <div><p class="card-title">SRM VENTURES</p><div class="card-accent"></div></div>
+                  <p class="card-desc">Conecta o ecossistema a novas teses, inovação e participação em equity para ampliar a agenda de crescimento.</p>
+                  <div class="card-link"><span class="card-link-text">Saiba mais</span><svg width="20" height="11" viewBox="0 0 20 11" fill="none" aria-hidden="true"><path d="M0 5.26h18.5M13.5 0l6.5 5.26-6.5 5.26" stroke="#162E61" stroke-width="1.2" stroke-linecap="round"/></svg></div>
+                </div>
+              </div>
+            </a>
+
+          </div><!-- /track -->
+        </div><!-- /clip -->
+
+        <!-- Controls -->
+        <div class="carousel-controls">
+          <div class="carousel-dots" id="dots"></div>
+          <div class="carousel-arrows">
+            <button class="carousel-arrow" onclick="cPrev()" aria-label="Anterior">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6" stroke="#162e61" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+            <button class="carousel-arrow" onclick="cNext()" aria-label="Próximo">
+              <svg width="18" height="18" fill="none" viewBox="0 0 24 24" aria-hidden="true"><polyline points="9 18 15 12 9 6" stroke="#162e61" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+          </div>
+        </div>
+      </div><!-- /carousel -->
+    </div>
+  </section>
+
+  <!-- ══ ACESSO RÁPIDO ═══════════════════════════════════════════ -->
+  <section class="section-white">
+    <div class="section-inner">
+      <p class="s-label">Navegação</p>
+      <h2 class="s-title" style="font-size:26px">Acesso rápido</h2>
+
+      <!-- SrmButton secondary light chips -->
+      <div class="quick-links">
+        <a href="/srm-asset/fundos-investimentos" class="quick-link">Fundos de Investimento</a>
+        <a href="/srm-asset/capital-de-giro"       class="quick-link">Capital de Giro</a>
+        <a href="/srm-asset/antecipacao-recebiveis" class="quick-link">Antecipação de Recebíveis</a>
+        <a href="/solucoes"                         class="quick-link">Soluções</a>
+        <a href="/contato"                          class="quick-link">Contato</a>
+        <a href="/faq"                              class="quick-link">FAQ</a>
+        <a href="/trabalhe-conosco"                 class="quick-link">Trabalhe Conosco</a>
+        <a href="/central-de-etica"                 class="quick-link">Central de Ética</a>
+        <a href="/politica-de-privacidade"          class="quick-link">Política de Privacidade</a>
+      </div>
+
+      <div class="footer-bar">
+        <p>Não encontrou o que procurava? <a href="/contato" class="inline">Entre em contato</a> com nossa equipe.</p>
+        <!-- SrmButton primary light -->
+        <a href="/" class="btn-primary-light">Ir para a página inicial</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ CTA ═════════════════════════════════════════════════════ -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <p class="cta-label">Fale com a SRM</p>
+      <h2 class="cta-title">Pronto para buscar o financiamento ideal para a sua empresa?</h2>
+      <div class="cta-accent"></div>
+      <p class="cta-desc">Fale com nossos especialistas e descubra como o Ecossistema Financeiro da SRM pode acelerar o crescimento da sua empresa.</p>
+      <div class="cta-actions">
+        <a href="/contato" class="btn-primary-dark">Falar com um especialista</a>
+        <a href="https://homebanking.srmasset.com/login" class="btn-secondary-dark" target="_blank" rel="noopener">HB Digital</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══ FOOTER ══════════════════════════════════════════════════ -->
+  <footer class="page-footer">
+    <p>
+      &copy; <span id="yr"></span> Grupo SRM &mdash; Todos os direitos reservados.
+      &nbsp;|&nbsp;<a href="/politica-de-privacidade">Política de Privacidade</a>
+    </p>
+  </footer>
+
+  <!-- ══ VANILLA JS — carrossel autoplay + loop ══════════════════ -->
+  <script>
+    document.getElementById('yr').textContent = new Date().getFullYear();
+
+    var TOTAL   = 7;
+    var idx     = 0;
+    var paused  = false;
+    var timer   = null;
+
+    function vis() {
+      return window.innerWidth >= 1100 ? 3 : window.innerWidth >= 768 ? 2 : 1;
+    }
+    function maxIdx() { return TOTAL - vis(); }
+
+    function move() {
+      var v = vis(), gap = 16;
+      var pct = 100 / v;
+      document.getElementById('track').style.transform =
+        'translateX(calc(' + (-idx * pct) + '% - ' + (idx * gap) + 'px))';
+    }
+
+    function dots() {
+      var max = maxIdx(), html = '';
+      for (var i = 0; i <= max; i++) {
+        html += '<button class="carousel-dot' + (i === idx ? ' active' : '') + '"'
+              + ' style="width:' + (i === idx ? 20 : 8) + 'px"'
+              + ' data-i="' + i + '" aria-label="Slide ' + (i+1) + '"></button>';
+      }
+      var d = document.getElementById('dots');
+      d.innerHTML = html;
+      d.querySelectorAll('button').forEach(function(b) {
+        b.addEventListener('click', function() { goTo(+this.dataset.i); });
+      });
+    }
+
+    function goTo(i) { idx = i; move(); dots(); }
+
+    function cNext() {
+      idx = idx >= maxIdx() ? 0 : idx + 1;
+      move(); dots();
+    }
+    function cPrev() {
+      idx = idx <= 0 ? maxIdx() : idx - 1;
+      move(); dots();
+    }
+
+    function startAuto() {
+      clearInterval(timer);
+      timer = setInterval(function() { if (!paused) cNext(); }, 4000);
+    }
+    function pauseAuto()  { paused = true;  }
+    function resumeAuto() { paused = false; }
+
+    /* touch / swipe */
+    var tx0 = 0;
+    var el  = document.getElementById('carousel');
+    el.addEventListener('touchstart', function(e) { tx0 = e.touches[0].clientX; }, { passive: true });
+    el.addEventListener('touchend',   function(e) {
+      var dx = e.changedTouches[0].clientX - tx0;
+      if (Math.abs(dx) > 40) { dx < 0 ? cNext() : cPrev(); }
+    }, { passive: true });
+
+    /* resize */
+    var rt;
+    window.addEventListener('resize', function() {
+      clearTimeout(rt);
+      rt = setTimeout(function() {
+        if (idx > maxIdx()) idx = 0;
+        move(); dots();
+      }, 120);
+    });
+
+    dots();
+    startAuto();
+  </script>
+</body>
+</html>

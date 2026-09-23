@@ -60,6 +60,23 @@ function slugify(name: string): string {
     .replace(/^-|-$/g, "");
 }
 
+// A rota pública do fundo é /empirica/nossos-fundos/<tipo>/<slug>, e a página
+// de detalhe casa pelo slug. Dois fundos com o mesmo slug fariam o visitante
+// cair sempre no primeiro, então o slug precisa ser único.
+async function slugUnico(nome: string): Promise<string> {
+  const base = slugify(nome) || "fundo";
+  const existentes = new Set<string>();
+  for (const raw of await kv.getByPrefix("empirica-fund:")) {
+    const f = parseKv<Fund>(raw);
+    if (f?.slug) existentes.add(f.slug);
+  }
+  if (!existentes.has(base)) return base;
+  for (let n = 2; n < 1000; n++) {
+    if (!existentes.has(`${base}-${n}`)) return `${base}-${n}`;
+  }
+  return `${base}-${uid().slice(0, 8)}`;
+}
+
 function uid(): string {
   return crypto.randomUUID();
 }
@@ -346,14 +363,18 @@ export function registerEmpricaCmsRoutes(app: Hono) {
         id,
         type,
         name: name.trim(),
-        slug: slugify(name.trim()),
+        slug: await slugUnico(name.trim()),
         fields,
         categories: categories.map((cat: any) => ({ id: uid(), name: cat.name ?? cat })),
         createdAt: now,
         updatedAt: now,
       };
 
-      await kv.set(`empirica-fund:${id}`, JSON.stringify(fund));
+      // Trava: create nunca pode sobrescrever um registro existente
+      const chave = `empirica-fund:${id}`;
+      if (await kv.get(chave)) return c.json({ error: "Já existe um fundo com esse identificador." }, 409);
+
+      await kv.set(chave, JSON.stringify(fund));
       return c.json({ fund }, 201);
     } catch (e) {
       return c.json({ error: `Erro ao criar fundo: ${e}` }, 500);

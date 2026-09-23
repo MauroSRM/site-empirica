@@ -47,14 +47,17 @@ const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`
 
 interface CmsCategory { id: string; name: string }
 interface CmsDoc { id: string; categoryId: string; label: string; pdfUrl: string }
-interface CmsData { categories: CmsCategory[]; docs: CmsDoc[] }
+interface CmsData { categories: CmsCategory[]; docs: CmsDoc[]; fund?: any }
 
 function useCmsFundDocs(slug: string | undefined) {
   const [data,    setData]    = useState<CmsData | null>(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    if (!slug) { setLoading(false); return; }
+    if (!slug) { setData(null); setLoading(false); return; }
     let cancelled = false;
+    // Limpa antes de buscar: sem isso, ao trocar de fundo a ficha montada a
+    // partir do CMS ficaria com os dados do fundo anterior.
+    setData(null);
     setLoading(true);
     async function load() {
       try {
@@ -73,7 +76,11 @@ function useCmsFundDocs(slug: string | undefined) {
         });
         const json2 = await r2.json();
         if (!cancelled) {
-          setData({ categories: json2.fund?.categories ?? [], docs: json2.docs ?? [] });
+          setData({
+            categories: json2.fund?.categories ?? [],
+            docs: json2.docs ?? [],
+            fund: json2.fund ?? match,
+          });
           setLoading(false);
         }
       } catch {
@@ -86,6 +93,31 @@ function useCmsFundDocs(slug: string | undefined) {
   return { data, loading };
 }
 
+
+// Fundos criados direto no CMS não existem em empirica-funds.ts. Nesse caso a
+// ficha é remontada a partir dos fields[] devolvidos pelo backend.
+function fundInfoDoCms(cmsFund: any, category: FundCategory, slug: string): FundInfo | undefined {
+  if (!cmsFund) return undefined;
+  const v = (label: string) =>
+    (cmsFund.fields ?? []).find((f: any) => f.label === label)?.value ?? '';
+  return {
+    slug,
+    category,
+    shortName:            cmsFund.name ?? '',
+    fullName:             v('Nome') || cmsFund.name || '',
+    cnpj:                 v('CNPJ'),
+    regulamentacao:       v('Regulamentação'),
+    gestao:               v('Gestão'),
+    politicaInvestimento: v('Política de Investimento'),
+    rentabilidade:        v('Rentabilidade'),
+    publicoAlvo:          v('Público-Alvo'),
+    tributacao:           v('Tributação Aplicável'),
+    taxaAdministracao:    v('Taxa de Administração'),
+    taxaPerformance:      v('Taxa de Performance'),
+    taxaCarencia:         v('Taxa de Carência'),
+    enquadramentoText:    v('Condições de Enquadramento'),
+  } as FundInfo;
+}
 
 function InfoTable({ fund }: { fund: FundInfo }) {
   const { tokens: t } = useTheme();
@@ -312,12 +344,17 @@ export default function EmpiricaFundoDetailPage() {
   const { isMobile } = useSrmViewport();
   const { data: cms, loading: cmsLoading } = useCmsFundDocs(slug);
 
-  if (!category || !slug) return <FundNotFound />;
-  const fund = getFundBySlug(category as FundCategory, slug);
-  if (!fund) return <FundNotFound category={category} />;
-  const meta = CATEGORY_META[category as FundCategory];
+  // A ficha pode vir do arquivo local ou do CMS (fundos criados lá não existem
+  // em empirica-funds.ts). Como a resolução via CMS é assíncrona, nenhum return
+  // antecipado pode ficar antes dos hooks abaixo — isso mudaria a quantidade de
+  // hooks entre renderizações e quebra as regras do React.
+  const fund = category && slug
+    ? getFundBySlug(category as FundCategory, slug)
+        ?? fundInfoDoCms(cms?.fund, category as FundCategory, slug)
+    : undefined;
+  const meta = category ? CATEGORY_META[category as FundCategory] : undefined;
 
-  const isLotusIpca = LOTUS_SPECIAL_SLUGS.has(slug);
+  const isLotusIpca = !!slug && LOTUS_SPECIAL_SLUGS.has(slug);
   const isIpca = slug === 'empirica-lotus-ipca-fif-em-cotas-de-fim';
   const fundFaq  = slug ? FUND_FAQS[slug] : undefined;
   const planoFaq = isLotusIpca
@@ -336,6 +373,10 @@ export default function EmpiricaFundoDetailPage() {
     ...(planoFaq ? [{ label: 'Plano de Ação',                          onClick: () => setPlanoOpen(true) }] : []),
     ...(agcFaq   ? [{ label: 'Resultado da Assembleia de Fechamento',  onClick: () => setAgcOpen(true)   }] : []),
   ], [fundFaq, planoFaq, agcFaq]);
+
+  // Só agora, com todos os hooks já executados, decide o que renderizar
+  if (!category || !slug) return <FundNotFound />;
+  if (!fund) return cmsLoading ? null : <FundNotFound category={category} />;
 
   return (
     <EmpiricaLayout>

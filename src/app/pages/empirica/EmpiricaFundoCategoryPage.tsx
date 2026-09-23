@@ -2,9 +2,10 @@
  * EmpiricaFundoCategoryPage — Listagem de fundos por categoria
  * 100% inline styles via useTheme() — zero Tailwind, zero hardcoded values.
  */
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { ChevronRight } from 'lucide-react';
+import { projectId, publicAnonKey } from '/utils/supabase/info';
 import { EmpiricaLayout } from './EmpiricaLayout';
 import { SiteSrmBanner } from '../site/poc2/SiteSrmBanner';
 import { useSrmViewport } from '../site/poc2/useSrmViewport';
@@ -22,6 +23,40 @@ import { EmpiricaGestorBar } from './EmpiricaGestorBar';
 import { EmpiricaGestorModal } from './EmpiricaGestorModal';
 
 const PAGE_SIZE = 10;
+const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`;
+
+/**
+ * Lista os fundos da categoria a partir do CMS, caindo no arquivo local
+ * enquanto a requisição não volta (ou se ela falhar). Sem isso, um fundo
+ * cadastrado no CMS não apareceria na listagem.
+ */
+function useFundosDaCategoria(category: FundCategory): FundInfo[] {
+  const [funds, setFunds] = useState<FundInfo[]>(() => getFundsByCategory(category));
+
+  useEffect(() => {
+    let cancelado = false;
+    setFunds(getFundsByCategory(category));
+
+    fetch(`${API}/empirica/fundos?type=${category.toUpperCase()}`, {
+      headers: { Authorization: `Bearer ${publicAnonKey}` },
+    })
+      .then(r => r.json())
+      .then((d: { funds?: any[] }) => {
+        if (cancelado || !d.funds?.length) return;
+        setFunds(d.funds.map(f => ({
+          slug:      f.slug,
+          shortName: f.name,
+          fullName:  f.fields?.find((x: any) => x.label === 'Nome')?.value || f.name,
+          category,
+        } as FundInfo)));
+      })
+      .catch(() => { /* mantém o fallback local */ });
+
+    return () => { cancelado = true; };
+  }, [category]);
+
+  return funds;
+}
 
 // ─── Contador — separador ─────────────────────────────────────────────────────
 function FundDivider({ total, filtered, query }: {
@@ -120,7 +155,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
 
   const isFif = category === 'fif';
   const meta  = CATEGORY_META[category];
-  const funds = getFundsByCategory(category);
+  const funds = useFundosDaCategoria(category);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return funds;

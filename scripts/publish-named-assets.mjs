@@ -17,19 +17,11 @@ const ROOT      = join(__dirname, '..');
 const SRC_DIR   = join(ROOT, 'src', 'imports');
 const DEST_DIR  = join(ROOT, 'public', 'named-assets');
 
-// Lista explícita dos PNGs nomeados que os componentes precisam
-const NAMED_ASSETS = [
-  'sl1-pic1-1.png', 'sl1-pic2-1.png',
-  'sl2-pic1-1.png', 'sl2-pic2-1.png',
-  'sl3-pic1-1.png', 'sl3-pic2-1.png',
-  'sl4-pic1-1.png', 'sl4-pic2-1.png',
-  'sl5-pic1-1.png', 'sl5-pic2-1.png',
-  'sl6-pic1-1.png', 'sl6-pic2-1.png',
-  'sl7-pic1-1.png', 'sl7-pic2-1.png',
-  'Img-BUS-Nucleo.png',
-  'DiagramMobilevf1.png',
-  'central-etica.jpg',
-];
+// Lista explícita dos PNGs nomeados que os componentes precisam.
+// Estava preenchida com assets do site do Grupo SRM (sl1..sl7, Img-BUS-Nucleo,
+// DiagramMobilevf1, central-etica) que nenhum componente daqui referencia —
+// só geravam 17 avisos de "não encontrado" a cada dev/build.
+const NAMED_ASSETS = [];
 
 if (!existsSync(DEST_DIR)) {
   mkdirSync(DEST_DIR, { recursive: true });

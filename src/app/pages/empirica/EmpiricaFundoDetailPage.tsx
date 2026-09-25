@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 import { EmpiricaLayout }    from './EmpiricaLayout';
-import { SiteSrmBanner }     from '../site/poc2/SiteSrmBanner';
+import { EmpiricaBanner }    from './EmpiricaBanner';
 import { useSrmViewport }    from '../site/poc2/useSrmViewport';
 import { EmpiricaGestorBar } from './EmpiricaGestorBar';
 import { EmpiricaGestorModal } from './EmpiricaGestorModal';
@@ -393,7 +393,7 @@ export default function EmpiricaFundoDetailPage() {
       <EmpiricaFaqDrawer isOpen={agcOpen}   faq={agcFaq   ?? { fundTitle: '', pageTitle: '', items: [] }} onClose={() => setAgcOpen(false)}   />
       {gestorOpen && <EmpiricaGestorModal filterFund={fund.shortName} onClose={() => setGestorOpen(false)} />}
 
-      <SiteSrmBanner
+      <EmpiricaBanner
         title={fund.shortName}
         badge={meta.code}
         breadcrumbs={[

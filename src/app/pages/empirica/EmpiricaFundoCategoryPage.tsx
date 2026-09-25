@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import { ChevronRight } from 'lucide-react';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 import { EmpiricaLayout } from './EmpiricaLayout';
-import { SiteSrmBanner } from '../site/poc2/SiteSrmBanner';
+import { EmpiricaBanner } from './EmpiricaBanner';
 import { useSrmViewport } from '../site/poc2/useSrmViewport';
 import {
   FundCategory, FundInfo,
@@ -183,7 +183,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
     <EmpiricaLayout>
       {gestorModalOpen && <EmpiricaGestorModal onClose={closeGestorModal} />}
 
-      <SiteSrmBanner
+      <EmpiricaBanner
         title={meta.label}
         subtitle={meta.description}
         badge={meta.code}

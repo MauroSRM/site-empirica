@@ -10,7 +10,8 @@ import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { EmpiricaLogoSvg } from "./EmpiricaLogoSvg";
 import { useTheme } from "../../../design-system";
 
-const SEAL_COLOR = "#99A4B1";
+// Selos em cinza médio: o rodapé passou de azul escuro para cinza claro
+const SEAL_COLOR = "#6b7280";
 
 function SealLogo({ viewBox, children, w, h }: {
   viewBox: string; children: React.ReactNode; w: number; h: number;
@@ -35,7 +36,7 @@ function FooterLink({ label, href = "#", external = false }: { label: string; hr
   const base: React.CSSProperties = {
     display: "flex", alignItems: "center",
     fontFamily: t.fontFamily, fontSize: 13.5, fontWeight: 400,
-    color: hov ? "rgba(255,255,255,0.85)" : "rgba(255,255,255,0.55)",
+    color: hov ? t.textPrimary : t.textSecondary,
     lineHeight: "20.25px", textDecoration: "none",
     whiteSpace: "nowrap", transition: "color 0.15s ease", cursor: "pointer",
   };
@@ -62,7 +63,7 @@ function FooterLink({ label, href = "#", external = false }: { label: string; hr
 function ColLabel({ label }: { label: string }) {
   const { tokens: t } = useTheme();
   return (
-    <span style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 600, color: "rgba(255,255,255,0.35)", letterSpacing: "0.88px", textTransform: "uppercase", lineHeight: "16.5px" }}>
+    <span style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 600, color: t.textPrimary, letterSpacing: "0.88px", textTransform: "uppercase", lineHeight: "16.5px" }}>
       {label}
     </span>
   );
@@ -85,8 +86,8 @@ function ColBrand() {
   const { tokens: t } = useTheme();
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 0, flexShrink: 0, width: 280 }}>
-      <EmpiricaLogoSvg height={40} variant="white" />
-      <p style={{ fontFamily: t.fontFamily, fontSize: 13.5, fontWeight: 400, color: "rgba(255,255,255,0.55)", lineHeight: "22.95px", marginTop: 20, marginBottom: 0, width: 280 }}>
+      <EmpiricaLogoSvg height={40} variant="color" />
+      <p style={{ fontFamily: t.fontFamily, fontSize: 13.5, fontWeight: 400, color: t.neutral700, lineHeight: "22.95px", marginTop: 20, marginBottom: 0, width: 280 }}>
         Gestora CVM especializada em crédito estruturado com mais de 20 anos de experiência combinada e R$ 3bi+ em ativos sob gestão.
       </p>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 6, marginTop: 20 }}>
@@ -94,7 +95,7 @@ function ColBrand() {
           <path d="M6.5 1.5C4.29 1.5 2.5 3.29 2.5 5.5C2.5 8.5 6.5 11.5 6.5 11.5C6.5 11.5 10.5 8.5 10.5 5.5C10.5 3.29 8.71 1.5 6.5 1.5Z" stroke="white" strokeOpacity="0.4" strokeWidth="1.08" strokeLinecap="round" strokeLinejoin="round" />
           <circle cx="6.5" cy="5.5" r="1.5" stroke="white" strokeOpacity="0.4" strokeWidth="1.08" />
         </svg>
-        <span style={{ fontFamily: t.fontFamily, fontSize: 12.5, fontWeight: 400, color: "rgba(255,255,255,0.35)", whiteSpace: "nowrap" }}>
+        <span style={{ fontFamily: t.fontFamily, fontSize: 12.5, fontWeight: 400, color: t.neutral700, whiteSpace: "nowrap" }}>
           Millennium Office Park, Av. Chedid Jafet, 222, 2º andar – Bl. C, Vila Olímpia – SP • CEP 04551-050
         </span>
       </div>
@@ -157,7 +158,7 @@ function FooterBottom({ isMobile }: { isMobile: boolean }) {
           <SealLogo viewBox="0 0 107.459 81" w={88} h={66}><path d={svgUnion.p65ef800} fill={SEAL_COLOR} /></SealLogo>
         </div>
         <div style={{ padding: "20px 24px 40px" }}>
-          <p style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 400, color: "rgba(255,255,255,0.28)", lineHeight: "19.25px", margin: 0 }}>
+          <p style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 400, color: t.neutral700, lineHeight: "19.25px", margin: 0 }}>
             {legalText}
           </p>
         </div>
@@ -167,7 +168,7 @@ function FooterBottom({ isMobile }: { isMobile: boolean }) {
 
   return (
     <div style={{ display: "flex", alignItems: "center", padding: "32px 56px 64px", width: "100%", boxSizing: "border-box", gap: 48 }}>
-      <p style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 400, color: "rgba(255,255,255,0.28)", lineHeight: "19.25px", margin: 0, flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 }}>
+      <p style={{ fontFamily: t.fontFamily, fontSize: t.textSm, fontWeight: 400, color: t.neutral700, lineHeight: "19.25px", margin: 0, flexGrow: 1, flexShrink: 1, flexBasis: 0, minWidth: 0 }}>
         {legalText}
       </p>
       <div style={{ display: "flex", alignItems: "center", gap: 46, flexGrow: 0, flexShrink: 0, flexBasis: "auto", flexDirection: "row" }}>
@@ -184,9 +185,9 @@ export function EmpiricaFooter() {
   const { tokens: t } = useTheme();
   const { isMobile } = useSrmViewport();
   return (
-    <footer style={{ background: "#001b3d", width: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "flex-start", fontFamily: t.fontFamily }}>
+    <footer style={{ background: t.surfaceMuted, width: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "flex-start", fontFamily: t.fontFamily }}>
       <FooterSiteMap isMobile={isMobile} />
-      <div style={{ width: "100%", height: 1, background: "rgba(255,255,255,0.08)", flexShrink: 0 }} />
+      <div style={{ width: "100%", height: 1, background: t.borderDefault, flexShrink: 0 }} />
       <FooterBottom isMobile={isMobile} />
     </footer>
   );

@@ -4,7 +4,7 @@
  */
 import React, { useEffect, useState } from "react";
 import { EmpiricaLayout } from "./EmpiricaLayout";
-import { SiteSrmBanner } from "../site/poc2/SiteSrmBanner";
+import { EmpiricaBanner } from "./EmpiricaBanner";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { useTheme, DSAlertCard, DSTag } from "../../../design-system";
 import { Download, FileText } from "lucide-react";
@@ -180,7 +180,7 @@ export default function EmpiricaCompliancePage() {
 
   return (
     <EmpiricaLayout>
-      <SiteSrmBanner
+      <EmpiricaBanner
         title="Compliance"
         subtitle="Documentos regulatórios publicados em atendimento ao Art. 16 da Resolução CVM nº 21 de 25/02/2021."
         badge="CVM · Resolução 21/2021"

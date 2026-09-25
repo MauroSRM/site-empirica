@@ -1,16 +1,14 @@
 /**
  * EmpiricaLayout — Wrapper das páginas do site SRM Empírica
  *
- * Mobile  → EmpiricaFixedTopNav (sticky, sempre visível — brand bar + logo + hambúrguer)
- * Desktop → EmpiricaHeader (sticky, brand bar + nav pills completo)
- *           + EmpiricaScrollNav (fixed, aparece após scroll — brand bar + nav pills compact)
+ * Sem header: o site é de finalidade regulatória e a navegação vive no rodapé
+ * (fundos, compliance, legal) e nos breadcrumbs do banner. O header trazia o
+ * logo e o botão "Ecossistema SRM", que caracterizavam o site como do Grupo.
  *
  * 100% inline styles — zero Tailwind.
  */
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { useLocation } from "react-router";
-import { EmpiricaHeader } from "./EmpiricaHeader";
-import { EmpiricaFixedTopNav } from "./EmpiricaFixedTopNav";
 import { EmpiricaFooter }      from "./EmpiricaFooter";
 import { useTheme } from "../../../design-system";
 
@@ -23,21 +21,9 @@ interface EmpiricaLayoutProps {
   children: React.ReactNode;
 }
 
-// padding-top 16px + button 44px + marginTop 12px + divider 1px = 73px
-const MOBILE_NAV_H = 73;
-
 export function EmpiricaLayout({ children }: EmpiricaLayoutProps) {
   const { tokens: t } = useTheme();
   const { pathname } = useLocation();
-  const [vw, setVw] = useState(() => typeof window !== "undefined" ? window.innerWidth : 1440);
-  const isMobile = vw < 768;
-
-  useEffect(() => {
-    const onResize = () => setVw(window.innerWidth);
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, []);
-
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   }, [pathname]);
@@ -49,14 +35,7 @@ export function EmpiricaLayout({ children }: EmpiricaLayoutProps) {
       fontFamily: t.fontFamily,
       overflowX: "hidden",
     }}>
-      {isMobile ? (
-        <EmpiricaFixedTopNav />
-      ) : (
-        <EmpiricaHeader />
-      )}
-
-      {/* Compensação do header fixo mobile */}
-      <div style={{ width: "100%", background: t.surfaceCanvas, paddingTop: isMobile ? MOBILE_NAV_H : 0 }}>
+      <div style={{ width: "100%", background: t.surfaceCanvas }}>
         {children}
         <EmpiricaFooter />
       </div>

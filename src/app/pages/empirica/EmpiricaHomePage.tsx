@@ -8,7 +8,7 @@
 import React, { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router';
 import { EmpiricaLayout } from './EmpiricaLayout';
-import { SiteSrmBanner } from '../site/poc2/SiteSrmBanner';
+import { EmpiricaBanner } from './EmpiricaBanner';
 import { useSrmViewport } from '../site/poc2/useSrmViewport';
 import { EmpiricaFundCategoryCard } from './EmpiricaFundCategoryCard';
 import type { FundCategoryCardData } from './EmpiricaFundCategoryCard';
@@ -48,9 +48,9 @@ function FiltroChip({ ativo, label, onClick }: { ativo: boolean; label: string; 
       style={{
         padding: '7px 16px',
         borderRadius: 999,
-        border: `1px solid ${ativo ? t.brandPrimary : t.borderDefault}`,
-        background: ativo ? t.brandPrimary : (hov ? t.surfaceMuted : t.surfaceDefault),
-        color: ativo ? t.textOnBrand : t.textSecondary,
+        border: `1px solid ${ativo ? t.neutral900 : t.borderDefault}`,
+        background: ativo ? t.neutral900 : (hov ? t.surfaceMuted : t.surfaceDefault),
+        color: ativo ? t.neutral0 : t.textSecondary,
         fontFamily: t.fontFamily,
         fontSize: t.textSm,
         fontWeight: 600,
@@ -89,7 +89,7 @@ export default function EmpiricaHomePage() {
 
   return (
     <EmpiricaLayout>
-      <SiteSrmBanner
+      <EmpiricaBanner
         title="Fundos SRM Empírica"
         subtitle="Materiais e documentos dos fundos sob gestão. Voltados a Investidores Profissionais e Qualificados."
         badge="Gestora CVM"

@@ -5,7 +5,7 @@
  */
 import React from "react";
 import { EmpiricaLayout } from "./EmpiricaLayout";
-import { SiteSrmBanner } from "../site/poc2/SiteSrmBanner";
+import { EmpiricaBanner } from "./EmpiricaBanner";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { useTheme } from "../../../design-system";
 
@@ -34,7 +34,7 @@ export default function EmpiricaPrivacidadePage() {
 
   return (
     <EmpiricaLayout>
-      <SiteSrmBanner
+      <EmpiricaBanner
         title="Política de Privacidade e Cookies"
         subtitle="Entenda os tipos de informação que utilizamos ao coletar seus dados em nossos serviços."
         badge="LGPD · Lei 13.709/2018"

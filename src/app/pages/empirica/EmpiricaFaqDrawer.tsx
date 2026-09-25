@@ -12,7 +12,6 @@ import { FundFaq } from './data/fund-faqs';
 
 const BG_HEADER  = '#0e2041';
 const SIDEBAR_BG = '#1d3f80';
-const DIAMOND    = 'M0.00489387 7.27925V21.8279L12.654 1.36185e-07L0.00489387 7.27925ZM0.350909 22.4287L12.9999 29.7031L25.6491 22.4287H0.350909ZM13.346 0.00493001L25.9951 21.8328V7.28418L13.346 0.00493001Z';
 
 // ── Markdown-lite inline renderer ─────────────────────────────────────────────
 function renderInline(
@@ -80,14 +79,6 @@ export function EmpiricaFaqDrawer({ isOpen, onClose, faq, onBannerAction }: Prop
     }}>
       {/* Left tarja */}
       <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: 14, background: SIDEBAR_BG }} />
-
-      {/* Diamond watermark */}
-      <svg viewBox="0 0 26 29.7031" fill="none" style={{
-        position: 'absolute', right: 72, bottom: -10,
-        width: 88, height: 100, opacity: 0.06, pointerEvents: 'none',
-      }}>
-        <path d={DIAMOND} fill="white" />
-      </svg>
 
       {/* Text */}
       <div style={{ paddingLeft: 18 }}>

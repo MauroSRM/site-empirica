@@ -6,7 +6,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router";
 import { useTheme } from "../../../design-system";
-import svgIconPaths from "../../../imports/svg-jbx6ays0z2";
 
 export interface FundCategoryCardData {
   code:  string;
@@ -42,19 +41,6 @@ export function EmpiricaFundCategoryCard({ card }: { card: FundCategoryCardData 
         boxSizing: "border-box" as const,
       }}
     >
-      {/* Ícone SVG decorativo — topo-direita */}
-      <svg
-        aria-hidden
-        style={{
-          position: "absolute", top: 16, right: 16,
-          width: 34, height: 39, opacity: 0.9, pointerEvents: "none",
-        }}
-        viewBox="0 0 41.8473 48"
-        fill="none"
-      >
-        <path d={svgIconPaths.p1e6e5e30} fill={t.surfaceMuted} />
-      </svg>
-
       <div style={{ display: "flex", gap: 32, alignItems: "flex-end" }}>
         {/* Rótulo vertical laranja */}
         <div style={{

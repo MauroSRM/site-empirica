@@ -26,41 +26,22 @@ const NAV_H    = 80;  // t.navHeight
 
 // ─── Mega menu data — Empírica ────────────────────────────────────────────────
 
-const EMPIRICA_QUEM_SOMOS = [
-  {
-    label: "INSTITUCIONAL",
-    icon: Building2,
-    items: [
-      {
-        title: "Quem Somos",
-        description: "A origem da fusão SRM Asset + Empírica Investimentos, crenças e estratégias de atuação.",
-        href: "/empirica/institucional",
-      },
-      {
-        title: "Compliance",
-        description: "Documentos regulatórios em atendimento ao Art. 16 da Resolução CVM nº 21/2021.",
-        href: "/empirica/compliance",
-      },
-    ],
-  },
-];
-
 const EMPIRICA_FUNDOS = [
   {
     label: "CRÉDITO & RENDA",
     icon: TrendingUp,
     items: [
-      { title: "FIDC", description: "Fundos de Investimento em Direitos Creditórios, pioneiros no mercado de crédito estruturado.", href: "/empirica/nossos-fundos/fidc" },
-      { title: "FIF",  description: "Fundo de Investimento Financeiro, crédito privado High Grade e High Yield.", href: "/empirica/nossos-fundos/fif" },
-      { title: "FII",  description: "Fundo de Investimento Imobiliário, corporativos, Built-to-Suit e Sale-Lease-Back.", href: "/empirica/nossos-fundos/fii" },
+      { title: "FIDC", description: "Fundos de Investimento em Direitos Creditórios, pioneiros no mercado de crédito estruturado.", href: "/fundos/fidc" },
+      { title: "FIF",  description: "Fundo de Investimento Financeiro, crédito privado High Grade e High Yield.", href: "/fundos/fif" },
+      { title: "FII",  description: "Fundo de Investimento Imobiliário, corporativos, Built-to-Suit e Sale-Lease-Back.", href: "/fundos/fii" },
     ],
   },
   {
     label: "PARTICIPAÇÕES",
     icon: Rocket,
     items: [
-      { title: "FIP", description: "Fundo de Investimento em Participações, venture capital e private equity.", href: "/empirica/nossos-fundos/fip" },
-      { title: "Todos os Fundos", description: "Visão geral de todas as estratégias e categorias sob gestão da SRM Empírica.", href: "/empirica/nossos-fundos" },
+      { title: "FIP", description: "Fundo de Investimento em Participações, venture capital e private equity.", href: "/fundos/fip" },
+      { title: "Todos os Fundos", description: "Visão geral de todas as estratégias e categorias sob gestão da SRM Empírica.", href: "/fundos" },
     ],
   },
 ];
@@ -127,14 +108,12 @@ export function EmpiricaHeaderInner() {
   const closeMega = () => { hideTimer.current = setTimeout(() => setOpenMega(null), 120); };
 
   const path            = location.pathname;
-  const isInicio        = path === "/empirica" || path === "/";
-  const isInstitucional = path.startsWith("/empirica/institucional");
-  const isFundos        = path.startsWith("/empirica/nossos-fundos");
-  const isCompliance    = path.startsWith("/empirica/compliance");
-  const isContato       = path.startsWith("/empirica/contato");
+  const isInicio     = path === "/";
+  const isFundos     = path.startsWith("/fundos");
+  const isCompliance = path.startsWith("/compliance");
 
   const megaColumns = EMPIRICA_FUNDOS;
-  const megaFooter  = { ctaLabel: "Ver todos os fundos", ctaHref: "/empirica/nossos-fundos", tagline: "Estratégias de crédito estruturado" };
+  const megaFooter  = { ctaLabel: "Ver todos os fundos", ctaHref: "/fundos", tagline: "Estratégias de crédito estruturado" };
 
   return (
     <div style={{ position: "relative" }}>
@@ -157,15 +136,12 @@ export function EmpiricaHeaderInner() {
 
         {/* Nav pills — gap 32px, conforme spec */}
         <div style={{ display: "flex", alignItems: "center", gap: 32 }}>
-          <NavPill label="Início"        href="/empirica"               isActive={isInicio} />
-          <NavPill label="Institucional" href="/empirica/institucional"  isActive={isInstitucional} />
           <NavPill
-            label="Fundos"     href="/empirica/nossos-fundos" isActive={isFundos}
+            label="Fundos"  href="/fundos" isActive={isInicio || isFundos}
             onMouseEnter={() => openMenu("fundos")}
             onMouseLeave={closeMega}
           />
-          <NavPill label="Compliance"    href="/empirica/compliance"     isActive={isCompliance} />
-          <NavPill label="Contato"       href="/empirica/contato"        isActive={isContato} />
+          <NavPill label="Compliance" href="/compliance" isActive={isCompliance} />
         </div>
 
         {/* CTA */}
@@ -223,15 +199,12 @@ export function EmpiricaScrollNav() {
   useEffect(() => { setMenuOpen(false); }, [location.pathname]);
 
   const EMPIRICA_NAV = [
-    { label: "Início",            href: "/empirica" },
-    { label: "Institucional",     href: "/empirica/institucional" },
-    { label: "Compliance",        href: "/empirica/compliance" },
-    { label: "Nossos Fundos",     href: "/empirica/nossos-fundos" },
-    { label: "FIDC",              href: "/empirica/nossos-fundos/fidc" },
-    { label: "FIF",               href: "/empirica/nossos-fundos/fif" },
-    { label: "FII",               href: "/empirica/nossos-fundos/fii" },
-    { label: "FIP",               href: "/empirica/nossos-fundos/fip" },
-    { label: "Contato",           href: "/empirica/contato" },
+    { label: "Fundos",            href: "/fundos" },
+    { label: "FIDC",              href: "/fundos/fidc" },
+    { label: "FIF",               href: "/fundos/fif" },
+    { label: "FII",               href: "/fundos/fii" },
+    { label: "FIP",               href: "/fundos/fip" },
+    { label: "Compliance",        href: "/compliance" },
   ];
 
   return (
@@ -256,7 +229,7 @@ export function EmpiricaScrollNav() {
         justifyContent: "space-between",
         boxSizing: "border-box",
       }}>
-        <div style={{ cursor: "pointer" }} onClick={() => navigate("/empirica")}>
+        <div style={{ cursor: "pointer" }} onClick={() => navigate("/")}>
           <EmpiricaLogoSvg />
         </div>
 
@@ -302,7 +275,7 @@ export function EmpiricaScrollNav() {
           {EMPIRICA_NAV.map(item => {
             const isActive =
               location.pathname === item.href ||
-              (item.href !== "/empirica" && location.pathname.startsWith(item.href));
+              (item.href !== "/" && location.pathname.startsWith(item.href));
             return (
               <Link
                 key={item.href}
@@ -349,15 +322,12 @@ function MobileHeader() {
   const go = (href: string) => { setOpen(false); navigate(href); };
 
   const NAV_MOBILE = [
-    { label: "Início",            href: "/empirica" },
-    { label: "Institucional",     href: "/empirica/institucional" },
-    { label: "Nossos Fundos",     href: "/empirica/nossos-fundos" },
-    { label: "FIDC",              href: "/empirica/nossos-fundos/fidc" },
-    { label: "FIF",               href: "/empirica/nossos-fundos/fif" },
-    { label: "FII",               href: "/empirica/nossos-fundos/fii" },
-    { label: "FIP",               href: "/empirica/nossos-fundos/fip" },
-    { label: "Compliance",        href: "/empirica/compliance" },
-    { label: "Contato",           href: "/empirica/contato" },
+    { label: "Fundos",            href: "/fundos" },
+    { label: "FIDC",              href: "/fundos/fidc" },
+    { label: "FIF",               href: "/fundos/fif" },
+    { label: "FII",               href: "/fundos/fii" },
+    { label: "FIP",               href: "/fundos/fip" },
+    { label: "Compliance",        href: "/compliance" },
   ];
 
   return (
@@ -368,7 +338,7 @@ function MobileHeader() {
         display: "flex", alignItems: "center",
         justifyContent: "space-between", padding: "0 20px", boxSizing: "border-box",
       }}>
-        <div onClick={() => go("/empirica")} style={{ cursor: "pointer" }}>
+        <div onClick={() => go("/")} style={{ cursor: "pointer" }}>
           <EmpiricaLogoSvg />
         </div>
         <button onClick={() => setOpen(v => !v)} style={{ background: "none", border: "none", cursor: "pointer", padding: 6 }}>

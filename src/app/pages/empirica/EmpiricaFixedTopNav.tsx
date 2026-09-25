@@ -14,42 +14,28 @@ interface NavSection { sectionLabel?: string; children: NavChild[]; }
 interface NavItem    { label: string; href: string; sections?: NavSection[]; }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: "Início", href: "/empirica" },
   {
-    label: "Quem Somos",
-    href: "/empirica/institucional",
-    sections: [
-      {
-        sectionLabel: "Institucional",
-        children: [
-          { label: "Institucional", href: "/empirica/institucional" },
-          { label: "Compliance",    href: "/empirica/compliance" },
-        ],
-      },
-    ],
-  },
-  {
-    label: "Nossos Fundos",
-    href: "/empirica/nossos-fundos",
+    label: "Fundos",
+    href: "/fundos",
     sections: [
       {
         sectionLabel: "FIDC · FIF · FII",
         children: [
-          { label: "FIDC", href: "/empirica/nossos-fundos/fidc" },
-          { label: "FIF",  href: "/empirica/nossos-fundos/fif"  },
-          { label: "FII",  href: "/empirica/nossos-fundos/fii"  },
+          { label: "FIDC", href: "/fundos/fidc" },
+          { label: "FIF",  href: "/fundos/fif"  },
+          { label: "FII",  href: "/fundos/fii"  },
         ],
       },
       {
         sectionLabel: "FIP · Todos",
         children: [
-          { label: "FIP",             href: "/empirica/nossos-fundos/fip" },
-          { label: "Todos os Fundos", href: "/empirica/nossos-fundos"     },
+          { label: "FIP",             href: "/fundos/fip" },
+          { label: "Todos os Fundos", href: "/fundos"     },
         ],
       },
     ],
   },
-  { label: "Contato", href: "/empirica/contato" },
+  { label: "Compliance", href: "/compliance" },
 ];
 
 function hasActiveChild(item: NavItem, pathname: string): boolean {
@@ -99,8 +85,8 @@ function DrawerItem({ item, pathname, onClose }: {
 
   const isActive =
     pathname === item.href ||
-    (item.href === "/empirica" && pathname === "/") ||
-    (item.href !== "/empirica" && pathname.startsWith(item.href)) ||
+    (item.href === "/" && pathname === "/") ||
+    (item.href !== "/" && pathname.startsWith(item.href)) ||
     hasActiveChild(item, pathname);
 
   const hasChildren = !!(item.sections && item.sections.length > 0);
@@ -178,8 +164,8 @@ function DrawerItem({ item, pathname, onClose }: {
 
   const simpleActive =
     pathname === item.href ||
-    (item.href === "/empirica" && pathname === "/") ||
-    (item.href !== "/empirica" && pathname.startsWith(item.href));
+    (item.href === "/" && pathname === "/") ||
+    (item.href !== "/" && pathname.startsWith(item.href));
 
   return (
     <Link
@@ -254,7 +240,7 @@ export function EmpiricaFixedTopNav() {
         padding: `16px ${px}px 0`,
         gap: 12,
       }}>
-        <Link to="/empirica" style={{ textDecoration: "none", flexShrink: 0 }}>
+        <Link to="/" style={{ textDecoration: "none", flexShrink: 0 }}>
           <EmpiricaLogoSvg height={32} />
         </Link>
         <ToggleBtn open={menuOpen} onClick={() => setMenuOpen(v => !v)} />

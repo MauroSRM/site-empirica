@@ -3,18 +3,14 @@ import { createBrowserRouter, Outlet, useLocation } from "react-router";
 import { AnimatePresence, motion } from "motion/react";
 
 import EmpiricaHomePage           from "./pages/empirica/EmpiricaHomePage";
-import EmpiricaInstitucionalPage  from "./pages/empirica/EmpiricaInstitucionalPage";
 import EmpiricaCompliancePage     from "./pages/empirica/EmpiricaCompliancePage";
-import EmpiricaFundosPage         from "./pages/empirica/EmpiricaFundosPage";
 import EmpiricaFIDCPage           from "./pages/empirica/EmpiricaFIDCPage";
 import EmpiricaFIFPage            from "./pages/empirica/EmpiricaFIFPage";
 import EmpiricaFIIPage            from "./pages/empirica/EmpiricaFIIPage";
 import EmpiricaFIPPage            from "./pages/empirica/EmpiricaFIPPage";
 import EmpiricaFundoDetailPage    from "./pages/empirica/EmpiricaFundoDetailPage";
 import EmpiricaPdfViewerPage      from "./pages/empirica/EmpiricaPdfViewerPage";
-import EmpiricaContatoPage        from "./pages/empirica/EmpiricaContatoPage";
 import EmpiricaPrivacidadePage    from "./pages/empirica/EmpiricaPrivacidadePage";
-import EmpiricaTestePage          from "./pages/empirica/EmpiricaTestePage";
 import {
   default as EmpiricaCmsPage,
   CmsFundosPage,
@@ -73,7 +69,7 @@ function GlobalError() {
       flexDirection: "column", gap: 16,
     }}>
       <p style={{ color: "#223572", margin: 0 }}>Algo deu errado. Tente novamente.</p>
-      <a href="/empirica" style={{ color: "#FF8200", fontSize: 14 }}>Voltar ao início</a>
+      <a href="/" style={{ color: "#FF8200", fontSize: 14 }}>Voltar ao início</a>
     </div>
   );
 }
@@ -85,22 +81,22 @@ export const router = createBrowserRouter([
     HydrateFallback,
     errorElement: <GlobalError />,
     children: [
-      { index: true,                                   Component: EmpiricaHomePage },
+      // Site de finalidade regulatória: existe para exibir e divulgar os
+      // materiais dos fundos. Home é a própria listagem.
+      { index: true,                              Component: EmpiricaHomePage },
 
-      { path: "empirica",                              Component: EmpiricaHomePage },
-      { path: "empirica/institucional",                Component: EmpiricaInstitucionalPage },
-      { path: "empirica/compliance",                   Component: EmpiricaCompliancePage },
-      { path: "empirica/nossos-fundos",                Component: EmpiricaFundosPage },
-      { path: "empirica/nossos-fundos/fidc",           Component: EmpiricaFIDCPage },
-      { path: "empirica/nossos-fundos/fif",            Component: EmpiricaFIFPage },
-      { path: "empirica/nossos-fundos/fii",            Component: EmpiricaFIIPage },
-      { path: "empirica/nossos-fundos/fip",            Component: EmpiricaFIPPage },
-      { path: "empirica/nossos-fundos/:category/:slug",Component: EmpiricaFundoDetailPage },
-      { path: "empirica/contato",                      Component: EmpiricaContatoPage },
-      { path: "empirica/politica-de-privacidade",      Component: EmpiricaPrivacidadePage },
-      { path: "empirica/documento/compliance/:docId", Component: EmpiricaPdfViewerPage },
-      { path: "empirica/documento/:docId",            Component: EmpiricaPdfViewerPage },
-      { path: "empirica/teste",                        Component: EmpiricaTestePage },
+      { path: "fundos",                           Component: EmpiricaHomePage },
+      { path: "fundos/fidc",                      Component: EmpiricaFIDCPage },
+      { path: "fundos/fif",                       Component: EmpiricaFIFPage },
+      { path: "fundos/fii",                       Component: EmpiricaFIIPage },
+      { path: "fundos/fip",                       Component: EmpiricaFIPPage },
+      { path: "fundos/:category/:slug",           Component: EmpiricaFundoDetailPage },
+
+      { path: "compliance",                       Component: EmpiricaCompliancePage },
+      { path: "politica-de-privacidade",          Component: EmpiricaPrivacidadePage },
+
+      { path: "documento/compliance/:docId",      Component: EmpiricaPdfViewerPage },
+      { path: "documento/:docId",                 Component: EmpiricaPdfViewerPage },
 
       { path: "srm-ops/emp-gstf",                      Component: EmpiricaCmsPage },
       { path: "srm-ops/emp-gstf/fundos",               Component: CmsFundosPage },

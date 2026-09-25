@@ -104,18 +104,17 @@ function ColBrand() {
 
 function FooterSiteMap({ isMobile }: { isMobile: boolean }) {
   const linksNossosFundos = [
-    { text: "FIDC", href: "/empirica/nossos-fundos/fidc" },
-    { text: "FIF",  href: "/empirica/nossos-fundos/fif"  },
-    { text: "FII",  href: "/empirica/nossos-fundos/fii"  },
-    { text: "FIP",  href: "/empirica/nossos-fundos/fip"  },
+    { text: "Todos os fundos", href: "/fundos" },
+    { text: "FIDC", href: "/fundos/fidc" },
+    { text: "FIF",  href: "/fundos/fif"  },
+    { text: "FII",  href: "/fundos/fii"  },
+    { text: "FIP",  href: "/fundos/fip"  },
   ];
-  const linksQuemSomos = [
-    { text: "Institucional", href: "/empirica/institucional" },
-    { text: "Compliance",    href: "/empirica/compliance" },
-    { text: "Contato",       href: "/empirica/contato" },
+  const linksRegulatorio = [
+    { text: "Compliance", href: "/compliance" },
   ];
   const linksLegal = [
-    { text: "Política de Privacidade", href: "/empirica/politica-de-privacidade" },
+    { text: "Política de Privacidade", href: "/politica-de-privacidade" },
     { text: "Canal de Denúncias",      href: "https://srmasset.legaletica.com.br/client/", external: true },
   ];
   return (
@@ -130,13 +129,13 @@ function FooterSiteMap({ isMobile }: { isMobile: boolean }) {
       {isMobile ? (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "28px 16px", width: "100%" }}>
           <LinkCol label="Nossos Fundos" links={linksNossosFundos} isMobile />
-          <LinkCol label="Quem Somos"    links={linksQuemSomos}    isMobile />
+          <LinkCol label="Regulatório"   links={linksRegulatorio}  isMobile />
           <LinkCol label="Legal"         links={linksLegal}        isMobile />
         </div>
       ) : (
         <>
           <LinkCol label="Nossos Fundos" links={linksNossosFundos} />
-          <LinkCol label="Quem Somos"    links={linksQuemSomos} />
+          <LinkCol label="Regulatório"   links={linksRegulatorio} />
           <LinkCol label="Legal"         links={linksLegal} />
         </>
       )}

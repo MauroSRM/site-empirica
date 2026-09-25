@@ -217,7 +217,7 @@ function buildAccordionItems(cms: CmsData | null, fallback: string[], loading = 
           buttons: docs.map((doc) => ({
             label: doc.label,
             // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
-            onClick: () => window.open(`/empirica/documento/${doc.id}`, '_blank'),
+            onClick: () => window.open(`/documento/${doc.id}`, '_blank'),
           })),
         };
       });
@@ -328,7 +328,7 @@ function FundNotFound({ category }: { category?: string }) {
           variant="primary"
           theme="dark"
           size="lg"
-          onClick={() => navigate(`/empirica/nossos-fundos/${category ?? ''}`)}
+          onClick={() => navigate(`/fundos/${category ?? ''}`)}
         >
           Voltar à listagem
         </DSButton>
@@ -397,8 +397,8 @@ export default function EmpiricaFundoDetailPage() {
         title={fund.shortName}
         badge={meta.code}
         breadcrumbs={[
-          { label: 'Nossos Fundos',  href: '/empirica/nossos-fundos' },
-          { label: meta.breadcrumb,  href: `/empirica/nossos-fundos/${category}` },
+          { label: 'Nossos Fundos',  href: '/fundos' },
+          { label: meta.breadcrumb,  href: `/fundos/${category}` },
           { label: fund.shortName },
         ]}
       />
@@ -451,7 +451,7 @@ export default function EmpiricaFundoDetailPage() {
               size="sm"
               icon="left"
               iconEl={<ArrowLeft size={14} />}
-              onClick={() => navigate(`/empirica/nossos-fundos/${category}`)}
+              onClick={() => navigate(`/fundos/${category}`)}
               style={{ opacity: 0.75 }}
             >
               Voltar aos fundos {meta.code}

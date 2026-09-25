@@ -1,7 +1,7 @@
 /**
  * EmpiricaPdfViewerPage
- *   /empirica/documento/:docId              → documento de fundo
- *   /empirica/documento/compliance/:docId   → documento de compliance
+ *   /documento/:docId              → documento de fundo
+ *   /documento/compliance/:docId   → documento de compliance
  *
  * O PDF é baixado pelo proxy do backend e exibido num iframe. A URL que fica na
  * barra do browser é a rota da aplicação: o link pode ser copiado e aberto de

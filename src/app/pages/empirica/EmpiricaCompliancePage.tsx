@@ -1,5 +1,5 @@
 /**
- * EmpiricaCompliancePage — Compliance · /empirica/compliance
+ * EmpiricaCompliancePage — Compliance · /compliance
  * 100% inline styles — usa useTheme() do DS Matriz
  */
 import React, { useEffect, useState } from "react";
@@ -171,7 +171,7 @@ export default function EmpiricaCompliancePage() {
         setDocs(d.items.map(item => ({
           id:         item.id,
           nome:       item.nome ?? "Documento",
-          href:       `/empirica/documento/compliance/${item.id}`,
+          href:       `/documento/compliance/${item.id}`,
           atualizado: item.atualizado,
         })));
       })

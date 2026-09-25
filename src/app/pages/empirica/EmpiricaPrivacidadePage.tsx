@@ -1,6 +1,6 @@
 /**
  * EmpiricaPrivacidadePage — Política de Privacidade e Cookies
- * /empirica/politica-de-privacidade
+ * /politica-de-privacidade
  * 100% inline styles — usa useTheme() do DS Matriz
  */
 import React from "react";

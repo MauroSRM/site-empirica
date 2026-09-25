@@ -22,6 +22,10 @@ import {
 import { EmpiricaGestorBar } from './EmpiricaGestorBar';
 import { EmpiricaGestorModal } from './EmpiricaGestorModal';
 
+// Busca ignorando acento: digitar "lotus" precisa achar "EMPÍRICA LÓTUS".
+const semAcento = (s: string) =>
+  (s ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+
 const PAGE_SIZE = 10;
 const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`;
 
@@ -30,14 +34,20 @@ const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`
  * enquanto a requisição não volta (ou se ela falhar). Sem isso, um fundo
  * cadastrado no CMS não apareceria na listagem.
  */
-function useFundosDaCategoria(category: FundCategory): FundInfo[] {
-  const [funds, setFunds] = useState<FundInfo[]>(() => getFundsByCategory(category));
+export function useFundosDaCategoria(category?: FundCategory): FundInfo[] {
+  const todas: FundCategory[] = ['fidc', 'fif', 'fii', 'fip'];
+  const locais = () => category
+    ? getFundsByCategory(category)
+    : todas.flatMap(c => getFundsByCategory(c));
+
+  const [funds, setFunds] = useState<FundInfo[]>(locais);
 
   useEffect(() => {
     let cancelado = false;
-    setFunds(getFundsByCategory(category));
+    setFunds(locais());
 
-    fetch(`${API}/empirica/fundos?type=${category.toUpperCase()}`, {
+    const filtro = category ? `?type=${category.toUpperCase()}` : '';
+    fetch(`${API}/empirica/fundos${filtro}`, {
       headers: { Authorization: `Bearer ${publicAnonKey}` },
     })
       .then(r => r.json())
@@ -47,7 +57,7 @@ function useFundosDaCategoria(category: FundCategory): FundInfo[] {
           slug:      f.slug,
           shortName: f.name,
           fullName:  f.fields?.find((x: any) => x.label === 'Nome')?.value || f.name,
-          category,
+          category:  (f.type ?? category ?? '').toLowerCase() as FundCategory,
         } as FundInfo)));
       })
       .catch(() => { /* mantém o fallback local */ });
@@ -59,7 +69,7 @@ function useFundosDaCategoria(category: FundCategory): FundInfo[] {
 }
 
 // ─── Contador — separador ─────────────────────────────────────────────────────
-function FundDivider({ total, filtered, query }: {
+export function FundDivider({ total, filtered, query }: {
   total: number; filtered: number; query: string;
 }) {
   const { tokens: t } = useTheme();
@@ -84,7 +94,7 @@ function FundDivider({ total, filtered, query }: {
 }
 
 // ─── FundCard ─────────────────────────────────────────────────────────────────
-function FundCard({ fund, onClick }: { fund: FundInfo; onClick: () => void }) {
+export function FundCard({ fund, onClick }: { fund: FundInfo; onClick: () => void }) {
   const { tokens: t } = useTheme();
   const [hov, setHov] = useState(false);
   return (
@@ -159,10 +169,10 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
 
   const filtered = useMemo(() => {
     if (!query.trim()) return funds;
-    const q = query.toLowerCase();
+    const q = semAcento(query);
     return funds.filter(f =>
-      f.shortName.toLowerCase().includes(q) ||
-      f.fullName.toLowerCase().includes(q)
+      semAcento(f.shortName).includes(q) ||
+      semAcento(f.fullName).includes(q)
     );
   }, [funds, query]);
 
@@ -178,7 +188,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
         subtitle={meta.description}
         badge={meta.code}
         breadcrumbs={[
-          { label: 'Nossos Fundos', href: '/empirica/nossos-fundos' },
+          { label: 'Nossos Fundos', href: '/fundos' },
           { label: meta.breadcrumb },
         ]}
       />
@@ -267,7 +277,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
                     <FundCard
                       key={fund.slug}
                       fund={fund}
-                      onClick={() => navigate(`/empirica/nossos-fundos/${category}/${fund.slug}`)}
+                      onClick={() => navigate(`/fundos/${category}/${fund.slug}`)}
                     />
                   ))}
                 </div>

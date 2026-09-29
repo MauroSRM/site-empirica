@@ -190,7 +190,7 @@ export default function EmpiricaCompliancePage() {
 
       <section style={{ background: t.surfaceDefault, padding: isMobile ? "48px 24px" : "72px 80px", width: "100%", boxSizing: "border-box" as const }}>
         <div style={{ maxWidth: 1120, margin: "0 auto" }}>
-          <DSTag variant="neutral-brand2" size="lg">Regulatório</DSTag>
+          <DSTag variant="neutral" size="lg">Regulatório</DSTag>
           <h2 style={{ fontFamily: t.fontFamily, fontSize: t.text3xl, fontWeight: 700, color: t.primary800, margin: "12px 0 16px", letterSpacing: "-0.03em" }}>
             Documentos Obrigatórios
           </h2>

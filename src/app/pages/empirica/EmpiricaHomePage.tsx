@@ -103,7 +103,7 @@ export default function EmpiricaHomePage() {
         width: '100%', boxSizing: 'border-box' as const,
       }}>
         <div style={{ maxWidth: 1120, margin: '0 auto', padding: isMobile ? '0 24px' : '0 80px', boxSizing: 'border-box' as const }}>
-          <DSTag variant="neutral-brand2" size="lg">Categorias</DSTag>
+          <DSTag variant="neutral" size="lg">Categorias</DSTag>
           <h2 style={{ fontFamily: t.fontFamily, fontSize: t.text3xl, fontWeight: 700, color: t.primary800, margin: '12px 0 8px', letterSpacing: '-0.03em' }}>
             Navegue por categoria
           </h2>
@@ -123,7 +123,7 @@ export default function EmpiricaHomePage() {
         width: '100%', boxSizing: 'border-box' as const,
       }}>
         <div style={{ maxWidth: 780, margin: '0 auto', padding: isMobile ? '0 20px' : '0 56px', boxSizing: 'border-box' as const }}>
-          <DSTag variant="neutral-brand2" size="lg">Todos os fundos</DSTag>
+          <DSTag variant="neutral" size="lg">Todos os fundos</DSTag>
           <h2 style={{ fontFamily: t.fontFamily, fontSize: t.text3xl, fontWeight: 700, color: t.primary800, margin: '12px 0 24px', letterSpacing: '-0.03em' }}>
             Encontre um fundo
           </h2>

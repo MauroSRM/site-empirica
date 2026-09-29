@@ -479,7 +479,7 @@ export default function EmpiricaFundoDetailPage() {
 
               {/* Coluna dir — tabela de informações */}
               <div>
-                <div style={{ marginBottom: 16 }}><DSTag variant="neutral-brand2" size="lg">Informações do Fundo</DSTag></div>
+                <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Informações do Fundo</DSTag></div>
                 <InfoTable fund={fund} />
               </div>
             </div>
@@ -493,7 +493,7 @@ export default function EmpiricaFundoDetailPage() {
             }}>
               {/* Coluna esq — documentos */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <div style={{ marginBottom: 16 }}><DSTag variant="neutral-brand2" size="lg">Documentos</DSTag></div>
+                <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
                 <DSAccordion
                   items={buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading)}
                 />
@@ -501,7 +501,7 @@ export default function EmpiricaFundoDetailPage() {
 
               {/* Coluna dir — tabela */}
               <div>
-                <div style={{ marginBottom: 16 }}><DSTag variant="neutral-brand2" size="lg">Informações do Fundo</DSTag></div>
+                <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Informações do Fundo</DSTag></div>
                 <InfoTable fund={fund} />
               </div>
             </div>

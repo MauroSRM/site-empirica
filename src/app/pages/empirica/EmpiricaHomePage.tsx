@@ -90,7 +90,7 @@ export default function EmpiricaHomePage() {
   return (
     <EmpiricaLayout>
       <EmpiricaBanner
-        title="Fundos SRM Empírica"
+        title="Fundos Empírica"
         subtitle="Materiais e documentos dos fundos sob gestão. Voltados a Investidores Profissionais e Qualificados."
         badge="Gestora CVM"
         breadcrumbs={[{ label: 'Fundos' }]}

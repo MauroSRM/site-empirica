@@ -7,7 +7,6 @@ import { Link } from "react-router";
 import svgPaths from "../../../imports/svg-zz0jnu9ee2";
 import svgUnion from "../../../imports/Union/svg-5u4fc108dz";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
-import { EmpiricaLogoSvg } from "./EmpiricaLogoSvg";
 import { useTheme } from "../../../design-system";
 
 // Selos em cinza médio: o rodapé passou de azul escuro para cinza claro
@@ -86,7 +85,6 @@ function ColBrand() {
   const { tokens: t } = useTheme();
   return (
     <div style={{ display: "flex", flexDirection: "column", gap: 0, flexShrink: 0, width: 280 }}>
-      <EmpiricaLogoSvg height={40} variant="color" />
       <p style={{ fontFamily: t.fontFamily, fontSize: 13.5, fontWeight: 400, color: t.neutral700, lineHeight: "22.95px", marginTop: 20, marginBottom: 0, width: 280 }}>
         Gestora CVM especializada em crédito estruturado com mais de 20 anos de experiência combinada e R$ 3bi+ em ativos sob gestão.
       </p>

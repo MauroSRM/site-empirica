@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
 import { EmpiricaLayout }    from './EmpiricaLayout';
 import { EmpiricaBanner }    from './EmpiricaBanner';
+import { comBase }           from './comBase';
 import { useSrmViewport }    from '../site/poc2/useSrmViewport';
 import { EmpiricaGestorBar } from './EmpiricaGestorBar';
 import { EmpiricaGestorModal } from './EmpiricaGestorModal';
@@ -217,7 +218,7 @@ function buildAccordionItems(cms: CmsData | null, fallback: string[], loading = 
           buttons: docs.map((doc) => ({
             label: doc.label,
             // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
-            onClick: () => window.open(`/documento/${doc.id}`, '_blank'),
+            onClick: () => window.open(comBase(`/documento/${doc.id}`), '_blank'),
           })),
         };
       });

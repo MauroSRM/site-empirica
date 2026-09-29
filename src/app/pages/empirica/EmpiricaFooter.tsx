@@ -46,9 +46,9 @@ function FooterLink({ label, href = "#", external = false }: { label: string; hr
         onMouseEnter={() => setHov(true)} onMouseLeave={() => setHov(false)} style={base}>
         {label}
         <svg width="10" height="10" viewBox="0 0 10 10" fill="none" style={{ marginLeft: 4 }}>
-          <path d="M6.25 1.25H8.75V3.75" stroke="white" strokeOpacity="0.4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
-          <path d="M4.17 5.83L8.75 1.25" stroke="white" strokeOpacity="0.4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
-          <path d="M3.75 2.5H1.25V8.75H7.5V6.25" stroke="white" strokeOpacity="0.4" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
+          <path d="M6.25 1.25H8.75V3.75" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
+          <path d="M4.17 5.83L8.75 1.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
+          <path d="M3.75 2.5H1.25V8.75H7.5V6.25" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="0.833" />
         </svg>
       </a>
     );
@@ -92,10 +92,10 @@ function ColBrand() {
       </p>
       <div style={{ display: "flex", alignItems: "flex-start", gap: 6, marginTop: 20 }}>
         <svg width="13" height="13" viewBox="0 0 13 13" fill="none" style={{ flexShrink: 0, marginTop: 2 }}>
-          <path d="M6.5 1.5C4.29 1.5 2.5 3.29 2.5 5.5C2.5 8.5 6.5 11.5 6.5 11.5C6.5 11.5 10.5 8.5 10.5 5.5C10.5 3.29 8.71 1.5 6.5 1.5Z" stroke="white" strokeOpacity="0.4" strokeWidth="1.08" strokeLinecap="round" strokeLinejoin="round" />
-          <circle cx="6.5" cy="5.5" r="1.5" stroke="white" strokeOpacity="0.4" strokeWidth="1.08" />
+          <path d="M6.5 1.5C4.29 1.5 2.5 3.29 2.5 5.5C2.5 8.5 6.5 11.5 6.5 11.5C6.5 11.5 10.5 8.5 10.5 5.5C10.5 3.29 8.71 1.5 6.5 1.5Z" stroke={t.neutral500} strokeWidth="1.08" strokeLinecap="round" strokeLinejoin="round" />
+          <circle cx="6.5" cy="5.5" r="1.5" stroke={t.neutral500} strokeWidth="1.08" />
         </svg>
-        <span style={{ fontFamily: t.fontFamily, fontSize: 12.5, fontWeight: 400, color: t.neutral700, whiteSpace: "nowrap" }}>
+        <span style={{ fontFamily: t.fontFamily, fontSize: 12.5, fontWeight: 400, color: t.neutral700, lineHeight: "19px" }}>
           Millennium Office Park, Av. Chedid Jafet, 222, 2º andar – Bl. C, Vila Olímpia – SP • CEP 04551-050
         </span>
       </div>

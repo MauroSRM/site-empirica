@@ -108,4 +108,7 @@ export const router = createBrowserRouter([
       { path: "*",                                     Component: EmpiricaHomePage },
     ],
   },
-]);
+],
+  // Sem isso as rotas quebram quando o site não está na raiz do domínio
+  { basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/" },
+);

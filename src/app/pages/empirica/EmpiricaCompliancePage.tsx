@@ -5,6 +5,7 @@
 import React, { useEffect, useState } from "react";
 import { EmpiricaLayout } from "./EmpiricaLayout";
 import { EmpiricaBanner } from "./EmpiricaBanner";
+import { comBase } from "./comBase";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { useTheme, DSAlertCard, DSTag } from "../../../design-system";
 import { Download, FileText } from "lucide-react";
@@ -171,7 +172,7 @@ export default function EmpiricaCompliancePage() {
         setDocs(d.items.map(item => ({
           id:         item.id,
           nome:       item.nome ?? "Documento",
-          href:       `/documento/compliance/${item.id}`,
+          href:       comBase(`/documento/compliance/${item.id}`),
           atualizado: item.atualizado,
         })));
       })

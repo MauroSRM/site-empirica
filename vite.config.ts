@@ -300,6 +300,9 @@ function namedAssetsServerPlugin(): Plugin {
 }
 
 export default defineConfig({
+  // O GitHub Pages serve o site em /<repo>/, não na raiz. BASE_PATH é definido
+  // no workflow; local fica '/' e nada muda.
+  base: process.env.BASE_PATH ?? '/',
   plugins: [
     figmaAssetPlugin(),
     figmaAssetLocalFallback(),

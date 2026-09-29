@@ -93,7 +93,6 @@ export default function EmpiricaHomePage() {
         title="Fundos Empírica"
         subtitle="Materiais e documentos dos fundos sob gestão. Voltados a Investidores Profissionais e Qualificados."
         badge="Gestora CVM"
-        breadcrumbs={[{ label: 'Fundos' }]}
       />
 
       {/* ── Categorias ── */}

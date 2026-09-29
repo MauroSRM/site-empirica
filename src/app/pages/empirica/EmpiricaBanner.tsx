@@ -8,8 +8,6 @@
  * aqui o destaque é uma régua horizontal sob o título.
  */
 import React from "react";
-import { Link } from "react-router";
-import { ChevronRight } from "lucide-react";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { useTheme } from "../../../design-system";
 
@@ -17,24 +15,15 @@ import { useTheme } from "../../../design-system";
 const FUNDO_ESCURO = "#102a47";
 const FUNDO_PROFUNDO = "#0a1c30";
 
-export interface Crumb { label: string; href?: string }
-
 export interface EmpiricaBannerProps {
   title: string;
   subtitle?: string;
   badge?: string;
-  breadcrumbs?: Crumb[];
 }
 
-export function EmpiricaBanner({ title, subtitle, badge, breadcrumbs }: EmpiricaBannerProps) {
+export function EmpiricaBanner({ title, subtitle, badge }: EmpiricaBannerProps) {
   const { tokens: t } = useTheme();
   const { isMobile } = useSrmViewport();
-
-  const linkClaro: React.CSSProperties = {
-    fontSize: t.textSm,
-    color: "rgba(255,255,255,0.62)",
-    textDecoration: "none",
-  };
 
   return (
     <header
@@ -49,26 +38,6 @@ export function EmpiricaBanner({ title, subtitle, badge, breadcrumbs }: Empirica
       }}
     >
       <div style={{ maxWidth: 1120, margin: "0 auto", position: "relative" }}>
-
-        {/* Breadcrumbs */}
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav
-            aria-label="Trilha de navegação"
-            style={{ display: "flex", alignItems: "center", flexWrap: "wrap" as const, gap: 6, marginBottom: 18 }}
-          >
-            <Link to="/" style={linkClaro}>Início</Link>
-            {breadcrumbs.map((c, i) => (
-              <React.Fragment key={`${c.label}-${i}`}>
-                <ChevronRight size={13} color="rgba(255,255,255,0.32)" aria-hidden="true" />
-                {c.href ? (
-                  <Link to={c.href} style={linkClaro}>{c.label}</Link>
-                ) : (
-                  <span style={{ fontSize: t.textSm, color: "#ffffff", fontWeight: 600 }}>{c.label}</span>
-                )}
-              </React.Fragment>
-            ))}
-          </nav>
-        )}
 
         {/* Badge */}
         {badge && (

@@ -38,7 +38,6 @@ export default function EmpiricaPrivacidadePage() {
         title="Política de Privacidade e Cookies"
         subtitle="Entenda os tipos de informação que utilizamos ao coletar seus dados em nossos serviços."
         badge="LGPD · Lei 13.709/2018"
-        breadcrumbs={[{ label: "Política de Privacidade" }]}
       />
 
       <section style={{

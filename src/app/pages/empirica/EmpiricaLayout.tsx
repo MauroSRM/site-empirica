@@ -2,7 +2,7 @@
  * EmpiricaLayout — Wrapper das páginas do site SRM Empírica
  *
  * Sem header: o site é de finalidade regulatória e a navegação vive no rodapé
- * (fundos, compliance, legal) e nos breadcrumbs do banner. O header trazia o
+ * (fundos, compliance, legal). O header trazia o
  * logo e o botão "Ecossistema SRM", que caracterizavam o site como do Grupo.
  *
  * 100% inline styles — zero Tailwind.

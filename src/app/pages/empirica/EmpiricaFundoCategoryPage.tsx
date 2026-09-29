@@ -187,10 +187,6 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
         title={meta.label}
         subtitle={meta.description}
         badge={meta.code}
-        breadcrumbs={[
-          { label: 'Nossos Fundos', href: '/fundos' },
-          { label: meta.breadcrumb },
-        ]}
       />
 
       {/* GestorBar mobile — fluxo normal, 32px abaixo do banner */}

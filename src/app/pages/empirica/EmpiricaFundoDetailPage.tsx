@@ -397,11 +397,6 @@ export default function EmpiricaFundoDetailPage() {
       <EmpiricaBanner
         title={fund.shortName}
         badge={meta.code}
-        breadcrumbs={[
-          { label: 'Nossos Fundos',  href: '/fundos' },
-          { label: meta.breadcrumb,  href: `/fundos/${category}` },
-          { label: fund.shortName },
-        ]}
       />
 
       {/* GestorBar mobile — normal flow, 32px below banner */}

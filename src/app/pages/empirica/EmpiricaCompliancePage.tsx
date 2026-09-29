@@ -185,7 +185,6 @@ export default function EmpiricaCompliancePage() {
         title="Compliance"
         subtitle="Documentos regulatórios publicados em atendimento ao Art. 16 da Resolução CVM nº 21 de 25/02/2021."
         badge="CVM · Resolução 21/2021"
-        breadcrumbs={[{ label: "Compliance" }]}
       />
 
       <section style={{ background: t.surfaceDefault, padding: isMobile ? "48px 24px" : "72px 80px", width: "100%", boxSizing: "border-box" as const }}>

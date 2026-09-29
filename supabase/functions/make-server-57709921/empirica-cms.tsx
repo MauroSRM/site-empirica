@@ -924,11 +924,15 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       if (!raw) return c.json({ error: "Documento não encontrado" }, 404);
       const doc = parseKv<ComplianceDoc>(raw);
       if (!doc.pdfPath) return c.json({ error: "PDF não disponível" }, 404);
-      const { data: { publicUrl } } = sbAdmin().storage.from(BUCKET).getPublicUrl(doc.pdfPath);
-      const res = await fetch(publicUrl);
-      if (!res.ok) return c.json({ error: `Erro ao buscar PDF: ${res.status}` }, 500);
+      // download() usa a service role e funciona com o bucket privado;
+      // getPublicUrl exigiria o bucket aberto para leitura anônima.
+      const { data: arquivo, error: erroDownload } =
+        await sbAdmin().storage.from(BUCKET).download(doc.pdfPath);
+      if (erroDownload || !arquivo) {
+        return c.json({ error: `Erro ao buscar PDF: ${erroDownload?.message}` }, 500);
+      }
       const safeFilename = sanitizeStorageKey(doc.pdfName || "document.pdf") || "document.pdf";
-      return new Response(res.body, {
+      return new Response(arquivo.stream(), {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `inline; filename="${safeFilename}"`,
@@ -950,11 +954,15 @@ export function registerEmpricaCmsRoutes(app: Hono) {
       });
       if (!match) return c.json({ error: "Documento não encontrado" }, 404);
       const doc = parseKv<FundDoc>(match);
-      const { data: { publicUrl } } = sbAdmin().storage.from(BUCKET).getPublicUrl(doc.pdfPath);
-      const res = await fetch(publicUrl);
-      if (!res.ok) return c.json({ error: `Erro ao buscar PDF: ${res.status}` }, 500);
+      // download() usa a service role e funciona com o bucket privado;
+      // getPublicUrl exigiria o bucket aberto para leitura anônima.
+      const { data: arquivo, error: erroDownload } =
+        await sbAdmin().storage.from(BUCKET).download(doc.pdfPath);
+      if (erroDownload || !arquivo) {
+        return c.json({ error: `Erro ao buscar PDF: ${erroDownload?.message}` }, 500);
+      }
       const safeFilename = sanitizeStorageKey(doc.pdfName || "document.pdf") || "document.pdf";
-      return new Response(res.body, {
+      return new Response(arquivo.stream(), {
         headers: {
           "Content-Type": "application/pdf",
           "Content-Disposition": `inline; filename="${safeFilename}"`,

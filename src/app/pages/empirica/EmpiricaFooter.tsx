@@ -185,7 +185,7 @@ export function EmpiricaFooter() {
   const { tokens: t } = useTheme();
   const { isMobile } = useSrmViewport();
   return (
-    <footer style={{ background: t.surfaceMuted, width: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "flex-start", fontFamily: t.fontFamily }}>
+    <footer style={{ background: t.surfaceDefault, width: "100%", boxSizing: "border-box", display: "flex", flexDirection: "column", alignItems: "flex-start", fontFamily: t.fontFamily }}>
       <FooterSiteMap isMobile={isMobile} />
       <div style={{ width: "100%", height: 1, background: t.borderDefault, flexShrink: 0 }} />
       <FooterBottom isMobile={isMobile} />

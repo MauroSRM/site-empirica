@@ -33,7 +33,7 @@ const staticTokens = {
   // ═══ NEUTRAL SCALE (cinza) ═══
   neutral0: '#ffffff',
   neutral50: '#f9fafb',
-  neutral100: '#f0f2f6',
+  neutral100: '#e0e7f4',
   neutral200: '#e5e7eb',
   neutral300: '#d1d5db',
   neutral400: '#9ca3af',
@@ -56,7 +56,7 @@ const staticTokens = {
   // ═══ SURFACE TOKENS ═══
   surfaceDefault: '#ffffff', // Alias de neutral0
   surfaceSubtle: '#f9fafb', // Alias de neutral50
-  surfaceMuted: '#f0f2f6', // Alias de neutral100
+  surfaceMuted: '#e0e7f4', // Alias de neutral100
   surfaceInverse: '#1e2b44', // Dark surface
   surfaceSelected: '#f7fafd', // Selected row (mais suave que primary50)
 

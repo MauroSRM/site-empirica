@@ -30,6 +30,12 @@ const DOCUMENT_SECTIONS = [
   "Documentos da Oferta",
 ];
 
+// FIF não tem "Documentos da Oferta" (pedido do jurídico)
+const DOCUMENT_SECTIONS_FIF = DOCUMENT_SECTIONS.filter((s) => s !== "Documentos da Oferta");
+
+const secoesDoTipo = (categoria?: string) =>
+  categoria === "fif" ? DOCUMENT_SECTIONS_FIF : DOCUMENT_SECTIONS;
+
 const FECHAMENTO_SECTIONS = [
   "Fechamento de Fundo",
   "Assembleia de Fechamento",
@@ -201,26 +207,22 @@ function buildAccordionItems(cms: CmsData | null, fallback: string[], loading = 
   if (loading) {
     return fallback.map((title) => ({ title, body: '…' }));
   }
-  if (!cms || cms.categories.length === 0) return [];
-
-  // A ordem das seções é a definida em fallback (pedido do jurídico). Categoria
-  // sem documento cadastrado naquele fundo não aparece.
-  const fallbackSet = new Set(fallback);
-  return cms.categories
-    .filter((c) => fallbackSet.has(c.name))
-    .sort((a, b) => fallback.indexOf(a.name) - fallback.indexOf(b.name))
-    .map((cat) => ({ cat, docs: cms.docs.filter((d) => d.categoryId === cat.id) }))
-    .filter(({ docs }) => docs.length > 0)
-    .map(({ cat, docs }) => ({
-      title: cat.name,
-      body: '',
-      content: 'text-with-buttons' as const,
+  // Todas as seções da lista aparecem, sempre nesta ordem (pedido do jurídico).
+  // A que não tem documento cadastrado no fundo exibe o aviso de vazia.
+  return fallback.map((title) => {
+    const cat  = cms?.categories.find((c) => c.name === title);
+    const docs = cat ? (cms?.docs.filter((d) => d.categoryId === cat.id) ?? []) : [];
+    return {
+      title,
+      body: docs.length === 0 ? EMPTY : '',
+      content: docs.length > 0 ? ('text-with-buttons' as const) : undefined,
       buttons: docs.map((doc) => ({
         label: doc.label,
         // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
         onClick: () => window.open(comBase(`/documento/${doc.id}`), '_blank'),
       })),
-    }));
+    };
+  });
 }
 
 function FundFaqCard({ label, onClick }: { label: string; onClick: () => void }) {
@@ -307,7 +309,7 @@ function LotusIpcaContent({ isMobile, cms, cmsLoading, faqCards }: {
 
       {activeTab === 'documentos' && (
         <DSAccordion
-          items={buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading)}
+          items={buildAccordionItems(cms, DOCUMENT_SECTIONS_FIF, cmsLoading)}
           defaultOpen={null}
         />
       )}
@@ -486,14 +488,10 @@ export default function EmpiricaFundoDetailPage() {
               {/* Coluna esq — documentos. Sem nenhuma seção com documento,
                   a coluna inteira some em vez de deixar um título órfão. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                {buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading).length > 0 && (
-                  <>
-                    <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
-                    <DSAccordion
-                      items={buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading)}
-                    />
-                  </>
-                )}
+                <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
+                <DSAccordion
+                  items={buildAccordionItems(cms, secoesDoTipo(category), cmsLoading)}
+                />
               </div>
 
               {/* Coluna dir — tabela */}

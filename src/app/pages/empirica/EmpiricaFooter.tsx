@@ -1,5 +1,5 @@
 /**
- * EmpiricaFooter — Footer do site SRM Empírica
+ * EmpiricaFooter — Footer do site Empírica
  * 100% inline styles — usa useTheme() do DS Matriz (surfaceInverse para bg escuro)
  */
 import React, { useState } from "react";
@@ -144,7 +144,7 @@ function FooterSiteMap({ isMobile }: { isMobile: boolean }) {
 
 function FooterBottom({ isMobile }: { isMobile: boolean }) {
   const { tokens: t } = useTheme();
-  const legalText = "A SRM Empírica distribui cotas de fundos de investimento sob sua gestão, observadas as políticas disponíveis neste website. Os fundos de investimento não são garantidos pelo administrador, gestor da carteira, qualquer mecanismo de seguro ou pelo Fundo Garantidor de Crédito – FGC. A rentabilidade divulgada não é líquida de impostos. A rentabilidade obtida no passado não representa garantia de resultados futuros. Recomenda-se a leitura cuidadosa, pelo investidor, do regulamento do fundo de investimento antes de aplicar os respectivos recursos.";
+  const legalText = "A Empírica distribui cotas de fundos de investimento sob sua gestão, observadas as políticas disponíveis neste website. Os fundos de investimento não são garantidos pelo administrador, gestor da carteira, qualquer mecanismo de seguro ou pelo Fundo Garantidor de Crédito – FGC. A rentabilidade divulgada não é líquida de impostos. A rentabilidade obtida no passado não representa garantia de resultados futuros. Recomenda-se a leitura cuidadosa, pelo investidor, do regulamento do fundo de investimento antes de aplicar os respectivos recursos.";
 
   if (isMobile) {
     return (

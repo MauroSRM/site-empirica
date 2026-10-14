@@ -194,7 +194,7 @@ export default function EmpiricaCompliancePage() {
             Documentos Obrigatórios
           </h2>
           <p style={{ fontFamily: t.fontFamily, fontSize: t.textXl, color: t.textSecondary, lineHeight: 1.75, margin: "0 0 40px", maxWidth: 760 }}>
-            A SRM Empírica publica os documentos abaixo em atendimento ao <strong style={{ color: t.primary800 }}>Art. 16 da Resolução CVM nº 21 de 25/02/2021</strong>. Todos os documentos estão disponíveis para download em formato PDF.
+            A Empírica publica os documentos abaixo em atendimento ao <strong style={{ color: t.primary800 }}>Art. 16 da Resolução CVM nº 21 de 25/02/2021</strong>. Todos os documentos estão disponíveis para download em formato PDF.
           </p>
 
           {/* Table */}
@@ -219,7 +219,7 @@ export default function EmpiricaCompliancePage() {
             variant="neutral"
             outline
             title="Aviso Legal"
-            body="A SRM Empírica distribui cotas de fundos de investimento sob sua gestão. Os fundos não são garantidos pelo administrador, gestor, qualquer seguro ou pelo FGC. A rentabilidade divulgada não é líquida de impostos. Rentabilidade passada não representa garantia de resultados futuros. Leia o regulamento e o material de divulgação antes de investir."
+            body="A Empírica distribui cotas de fundos de investimento sob sua gestão. Os fundos não são garantidos pelo administrador, gestor, qualquer seguro ou pelo FGC. A rentabilidade divulgada não é líquida de impostos. Rentabilidade passada não representa garantia de resultados futuros. Leia o regulamento e o material de divulgação antes de investir."
           />
         </div>
       </section>

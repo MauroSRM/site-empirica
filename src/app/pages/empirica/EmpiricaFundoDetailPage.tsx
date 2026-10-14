@@ -201,29 +201,26 @@ function buildAccordionItems(cms: CmsData | null, fallback: string[], loading = 
   if (loading) {
     return fallback.map((title) => ({ title, body: '…' }));
   }
-  if (cms && cms.categories.length > 0) {
-    // Only show categories that actually exist in the CMS AND belong to this section.
-    // Deleted categories are absent from cms.categories → they won't appear.
-    // Preserve the predefined section order via fallback.
-    const fallbackSet = new Set(fallback);
-    return cms.categories
-      .filter((c) => fallbackSet.has(c.name))
-      .sort((a, b) => fallback.indexOf(a.name) - fallback.indexOf(b.name))
-      .map((cat) => {
-        const docs = cms.docs.filter((d) => d.categoryId === cat.id);
-        return {
-          title: cat.name,
-          body: docs.length === 0 ? EMPTY : '',
-          content: docs.length > 0 ? ('text-with-buttons' as const) : undefined,
-          buttons: docs.map((doc) => ({
-            label: doc.label,
-            // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
-            onClick: () => window.open(comBase(`/documento/${doc.id}`), '_blank'),
-          })),
-        };
-      });
-  }
-  return fallback.map((title) => ({ title, body: EMPTY }));
+  if (!cms || cms.categories.length === 0) return [];
+
+  // A ordem das seções é a definida em fallback (pedido do jurídico). Categoria
+  // sem documento cadastrado naquele fundo não aparece.
+  const fallbackSet = new Set(fallback);
+  return cms.categories
+    .filter((c) => fallbackSet.has(c.name))
+    .sort((a, b) => fallback.indexOf(a.name) - fallback.indexOf(b.name))
+    .map((cat) => ({ cat, docs: cms.docs.filter((d) => d.categoryId === cat.id) }))
+    .filter(({ docs }) => docs.length > 0)
+    .map(({ cat, docs }) => ({
+      title: cat.name,
+      body: '',
+      content: 'text-with-buttons' as const,
+      buttons: docs.map((doc) => ({
+        label: doc.label,
+        // Rota da aplicação: URL copiável, sem expor o Storage do Supabase
+        onClick: () => window.open(comBase(`/documento/${doc.id}`), '_blank'),
+      })),
+    }));
 }
 
 function FundFaqCard({ label, onClick }: { label: string; onClick: () => void }) {
@@ -486,12 +483,17 @@ export default function EmpiricaFundoDetailPage() {
               gap: isMobile ? t.space4 : 48,
               alignItems: 'start',
             }}>
-              {/* Coluna esq — documentos */}
+              {/* Coluna esq — documentos. Sem nenhuma seção com documento,
+                  a coluna inteira some em vez de deixar um título órfão. */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-                <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
-                <DSAccordion
-                  items={buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading)}
-                />
+                {buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading).length > 0 && (
+                  <>
+                    <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
+                    <DSAccordion
+                      items={buildAccordionItems(cms, DOCUMENT_SECTIONS, cmsLoading)}
+                    />
+                  </>
+                )}
               </div>
 
               {/* Coluna dir — tabela */}
@@ -507,7 +509,7 @@ export default function EmpiricaFundoDetailPage() {
             <DSAlertCard
               variant="info" outline
               title="Aviso Legal"
-              body="A SRM Empírica distribui cotas de fundos de investimento sob sua gestão. Os fundos de investimento não são garantidos pelo administrador, gestor da carteira, qualquer mecanismo de seguro ou pelo Fundo Garantidor de Crédito – FGC. A rentabilidade divulgada não é líquida de impostos. A rentabilidade obtida no passado não representa garantia de resultados futuros. Recomenda-se a leitura cuidadosa do regulamento do fundo antes de aplicar os respectivos recursos."
+              body="A Empírica distribui cotas de fundos de investimento sob sua gestão. Os fundos de investimento não são garantidos pelo administrador, gestor da carteira, qualquer mecanismo de seguro ou pelo Fundo Garantidor de Crédito – FGC. A rentabilidade divulgada não é líquida de impostos. A rentabilidade obtida no passado não representa garantia de resultados futuros. Recomenda-se a leitura cuidadosa do regulamento do fundo antes de aplicar os respectivos recursos."
             />
             <DSAlertCard
               variant="info" outline

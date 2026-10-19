@@ -80,14 +80,13 @@ const staticTokens = {
   textFundoLabel: '#081e47', // Fixed (não reage a ThemeOverride)
 
   // ═══ TAG TOKENS ═══
-  // Rótulo de seção: cinza translúcido, deixa o fundo aparecer por baixo.
-  // O cinza claro antigo (#f0f2f6) ficava a 1.02:1 da superfície e sumia, e
-  // nenhum cinza claro resolve — contra fundo claro o teto é ~1.9:1, abaixo dos
-  // 3:1 que a WCAG pede para o contorno. Com #4b5563 a 85%, o composto dá
-  // 5.15:1 sobre branco e 4.65:1 sobre a superfície da página; o texto branco
-  // fica em 5.15 e 5.31. Abaixo de 80% o texto cai de 4.5 e reprova.
-  tagNeutralBg: 'rgba(75, 85, 99, 0.85)',
-  tagNeutralColor: '#ffffff',
+  // Rótulo de seção: cinza claro translúcido com texto escuro e um fio de
+  // contorno. O preenchimento sozinho nunca separa o chip de um fundo claro
+  // (teto de ~1.9:1), então quem faz esse papel é a borda, a 3.21:1 sobre
+  // branco e 3.01:1 sobre a superfície da página. O texto fica em 8.33 e 7.35.
+  tagNeutralBg: 'rgba(75, 85, 99, 0.14)',
+  tagNeutralColor: '#374151',
+  tagNeutralBorder: 'rgba(75, 85, 99, 0.65)',
 
   // ═══ OVERLAY TOKENS ═══
   overlaySubtle: 'rgba(0,0,0,0.04)', // Hover overlay neutro

@@ -87,6 +87,9 @@ export function DSTag({
     neutral: {
       bg: t.tagNeutralBg,
       color: t.tagNeutralColor,
+      // único variante com contorno: o preenchimento claro não se separa
+      // sozinho de uma superfície clara
+      border: t.tagNeutralBorder,
     },
     info: {
       bg: t.feedbackInfoBg,
@@ -115,6 +118,7 @@ export function DSTag({
     fontFamily: t.fontFamily,
     backgroundColor: cfg.bg,
     color: cfg.color,
+    border: 'border' in cfg && cfg.border ? `1px solid ${cfg.border}` : undefined,
     borderRadius: t.radiusSm,
     whiteSpace: 'nowrap',
     ...style,

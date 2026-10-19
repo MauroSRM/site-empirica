@@ -10,7 +10,6 @@ import { EmpiricaBanner }    from './EmpiricaBanner';
 import { comBase }           from './comBase';
 import { useSrmViewport }    from '../site/poc2/useSrmViewport';
 import { EmpiricaGestorBar } from './EmpiricaGestorBar';
-import { EmpiricaGestorModal } from './EmpiricaGestorModal';
 import {
   FundCategory, FundInfo,
   getFundBySlug, CATEGORY_META,
@@ -54,6 +53,13 @@ const SECOES_DO_GESTOR = [
 /** Das seções acima, as que este fundo realmente usa. */
 const secoesDoGestorEmUso = (cms?: CmsData | null) =>
   SECOES_DO_GESTOR.filter((nome) => {
+    const cat = cms?.categories.find((c) => c.name === nome);
+    return !!cat && (cms?.docs.some((d) => d.categoryId === cat.id) ?? false);
+  });
+
+/** O fundo tem algum documento nas seções do gestor / de fechamento? */
+const temConteudoDoGestor = (cms?: CmsData | null) =>
+  [...FECHAMENTO_SECTIONS, ...SECOES_DO_GESTOR].some((nome) => {
     const cat = cms?.categories.find((c) => c.name === nome);
     return !!cat && (cms?.docs.some((d) => d.categoryId === cat.id) ?? false);
   });
@@ -289,39 +295,64 @@ function FundFaqCard({ label, onClick }: { label: string; onClick: () => void })
   );
 }
 
-function LotusIpcaContent({ isMobile, cms, cmsLoading, faqCards }: {
+function LotusIpcaContent({ isMobile, cms, cmsLoading, faqCards, irParaGestor }: {
   isMobile: boolean;
   cms: CmsData | null;
   cmsLoading: boolean;
   faqCards?: Array<{ label: string; onClick: () => void }>;
+  /** Contador: cada clique na barra "Comunicados do Gestor" incrementa. */
+  irParaGestor?: number;
 }) {
   const { tokens: t } = useTheme();
   const [activeTab, setActiveTab] = useState('fechamento');
+  // DSTabBar e DSAccordion são não-controlados: remontar com key é o jeito de
+  // levá-los a um estado específico quando a navegação vem de fora.
+  const [tabKey,   setTabKey]   = useState(0);
+  const [abrirIdx, setAbrirIdx] = useState<number | null>(null);
+  const alvoRef = React.useRef<HTMLDivElement>(null);
 
   const TABS = [
     { id: 'fechamento', label: 'Fechamento' },
     { id: 'documentos', label: 'Documentos' },
   ];
 
+  const secoesFechamento = React.useMemo(() => secoesDeFechamento(cms), [cms]);
+
   // Exclude accordion items that have a dedicated card button
   const fechamentoItems = React.useMemo(() => {
-    const items = buildAccordionItems(cms, secoesDeFechamento(cms), cmsLoading);
+    const items = buildAccordionItems(cms, secoesFechamento, cmsLoading);
     if (!faqCards?.length) return items;
     const cardLabels = new Set(faqCards.map((c) => c.label));
     return items.filter((item) => !cardLabels.has(item.title));
-  }, [cms, cmsLoading, faqCards]);
+  }, [cms, cmsLoading, faqCards, secoesFechamento]);
+
+  // Clique na barra: volta para a aba Fechamento, abre a primeira seção do
+  // gestor que tenha documento e rola até ela. O índice é o da lista já
+  // filtrada — os itens que viraram cartão não contam.
+  React.useEffect(() => {
+    if (!irParaGestor) return;
+    const alvo = secoesDoGestorEmUso(cms)[0] ?? 'Relatório e Comunicados Mensais';
+    const i    = fechamentoItems.findIndex((item) => item.title === alvo);
+    setActiveTab('fechamento');
+    setTabKey((k) => k + 1);
+    setAbrirIdx(i >= 0 ? i : null);
+    alvoRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [irParaGestor, cms, fechamentoItems]);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
       {/* Tab pill */}
-      <DSTabBar
-        variant="pill"
-        size="md"
-        tabs={TABS}
-        defaultActive="fechamento"
-        onChange={setActiveTab}
-      />
+      <div ref={alvoRef} style={{ scrollMarginTop: 24 }}>
+        <DSTabBar
+          key={tabKey}
+          variant="pill"
+          size="md"
+          tabs={TABS}
+          defaultActive={activeTab}
+          onChange={setActiveTab}
+        />
+      </div>
 
       {/* Conteúdo das abas */}
       {activeTab === 'fechamento' && (
@@ -329,7 +360,7 @@ function LotusIpcaContent({ isMobile, cms, cmsLoading, faqCards }: {
           {faqCards?.map((card) => (
             <FundFaqCard key={card.label} label={card.label} onClick={card.onClick} />
           ))}
-          <DSAccordion items={fechamentoItems} defaultOpen={null} />
+          <DSAccordion key={`f-${irParaGestor ?? 0}`} items={fechamentoItems} defaultOpen={abrirIdx} />
         </div>
       )}
 
@@ -392,7 +423,10 @@ export default function EmpiricaFundoDetailPage() {
   const [faqOpen,    setFaqOpen]    = useState(false);
   const [planoOpen,  setPlanoOpen]  = useState(false);
   const [agcOpen,    setAgcOpen]    = useState(false);
-  const [gestorOpen, setGestorOpen] = useState(false);
+  // A barra "Comunicados do Gestor" não abre mais um painel à parte: ela leva
+  // às seções do gestor já publicadas no próprio fundo. Cada clique incrementa.
+  const [irParaGestor, setIrParaGestor] = useState(0);
+  const temGestor = temConteudoDoGestor(cms);
 
   const lotusFaqCards = React.useMemo(() => [
     ...(fundFaq  ? [{ label: 'Fechamento de Fundo',                    onClick: () => setFaqOpen(true)   }] : []),
@@ -417,7 +451,6 @@ export default function EmpiricaFundoDetailPage() {
       />
       <EmpiricaFaqDrawer isOpen={planoOpen} faq={planoFaq ?? { fundTitle: '', pageTitle: '', items: [] }} onClose={() => setPlanoOpen(false)} />
       <EmpiricaFaqDrawer isOpen={agcOpen}   faq={agcFaq   ?? { fundTitle: '', pageTitle: '', items: [] }} onClose={() => setAgcOpen(false)}   />
-      {gestorOpen && <EmpiricaGestorModal filterFund={fund.shortName} onClose={() => setGestorOpen(false)} />}
 
       <EmpiricaBanner
         title={fund.shortName}
@@ -425,14 +458,14 @@ export default function EmpiricaFundoDetailPage() {
       />
 
       {/* GestorBar mobile — normal flow, 32px below banner */}
-      {isLotusIpca && isMobile && (
+      {isLotusIpca && temGestor && isMobile && (
         <div style={{
           background: t.surfaceMuted,
           padding: '32px 20px 32px',
           width: '100%',
           boxSizing: 'border-box' as const,
         }}>
-          <EmpiricaGestorBar onOpen={() => setGestorOpen(true)} />
+          <EmpiricaGestorBar onOpen={() => setIrParaGestor((n) => n + 1)} />
         </div>
       )}
 
@@ -445,7 +478,7 @@ export default function EmpiricaFundoDetailPage() {
         width: '100%', boxSizing: 'border-box' as const,
       }}>
         {/* GestorBar desktop — overlaps banner with negative marginTop */}
-        {isLotusIpca && !isMobile && (
+        {isLotusIpca && temGestor && !isMobile && (
           <div style={{
             display: 'flex', justifyContent: 'center',
             marginLeft: -56,
@@ -458,7 +491,7 @@ export default function EmpiricaFundoDetailPage() {
             zIndex: 10,
           }}>
             <div style={{ width: '100%', maxWidth: 554 }}>
-              <EmpiricaGestorBar onOpen={() => setGestorOpen(true)} />
+              <EmpiricaGestorBar onOpen={() => setIrParaGestor((n) => n + 1)} />
             </div>
           </div>
         )}
@@ -494,6 +527,7 @@ export default function EmpiricaFundoDetailPage() {
                   cms={cms}
                   cmsLoading={cmsLoading}
                   faqCards={lotusFaqCards}
+                  irParaGestor={irParaGestor}
                 />
               </div>
 

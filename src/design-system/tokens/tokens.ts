@@ -80,8 +80,12 @@ const staticTokens = {
   textFundoLabel: '#081e47', // Fixed (não reage a ThemeOverride)
 
   // ═══ TAG TOKENS ═══
-  tagNeutralBg: '#f0f2f6',
-  tagNeutralColor: '#374151',
+  // Rótulo de seção. O cinza claro antigo (#f0f2f6) tinha 1.02:1 contra a
+  // superfície da página e o chip sumia. Nenhum cinza claro resolve: contra um
+  // fundo claro o teto é ~1.9:1. Daí o chip escuro com texto branco — 6.62:1
+  // sobre o fundo da página, 7.56:1 sobre branco, 7.56:1 no texto.
+  tagNeutralBg: '#4b5563',
+  tagNeutralColor: '#ffffff',
 
   // ═══ OVERLAY TOKENS ═══
   overlaySubtle: 'rgba(0,0,0,0.04)', // Hover overlay neutro

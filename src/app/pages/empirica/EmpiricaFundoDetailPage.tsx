@@ -33,9 +33,6 @@ const DOCUMENT_SECTIONS = [
 // FIF não tem "Documentos da Oferta" (pedido do jurídico)
 const DOCUMENT_SECTIONS_FIF = DOCUMENT_SECTIONS.filter((s) => s !== "Documentos da Oferta");
 
-const secoesDoTipo = (categoria?: string) =>
-  categoria === "fif" ? DOCUMENT_SECTIONS_FIF : DOCUMENT_SECTIONS;
-
 const FECHAMENTO_SECTIONS = [
   "Fechamento de Fundo",
   "Assembleia de Fechamento",
@@ -44,6 +41,35 @@ const FECHAMENTO_SECTIONS = [
   "Principais Dúvidas",
   "Relatório e Comunicados Mensais",
 ];
+
+// Seções do gestor — lâminas mensais, desenquadramentos e comunicados.
+// Entram só no fundo que tem documento cadastrado nelas: o fundo que não usa
+// nem fica sabendo que existem, e a lista fixa do jurídico segue intacta.
+const SECOES_DO_GESTOR = [
+  "Relatório e Comunicados Mensais",
+  "Desenquadramento",
+  "Comunicado EMA",
+];
+
+/** Das seções acima, as que este fundo realmente usa. */
+const secoesDoGestorEmUso = (cms?: CmsData | null) =>
+  SECOES_DO_GESTOR.filter((nome) => {
+    const cat = cms?.categories.find((c) => c.name === nome);
+    return !!cat && (cms?.docs.some((d) => d.categoryId === cat.id) ?? false);
+  });
+
+/** Aba Documentos: lista do jurídico + as seções do gestor que o fundo usa. */
+const secoesDoTipo = (categoria?: string, cms?: CmsData | null) => {
+  const base = categoria === "fif" ? DOCUMENT_SECTIONS_FIF : DOCUMENT_SECTIONS;
+  return [...base, ...secoesDoGestorEmUso(cms)];
+};
+
+/** Aba Fechamento dos Lótus: as seções fixas + Desenquadramento / Comunicado EMA quando houver. */
+const secoesDeFechamento = (cms?: CmsData | null) => {
+  const extras = secoesDoGestorEmUso(cms).filter((n) => !FECHAMENTO_SECTIONS.includes(n));
+  const i = FECHAMENTO_SECTIONS.indexOf("Principais Dúvidas");
+  return [...FECHAMENTO_SECTIONS.slice(0, i), ...extras, ...FECHAMENTO_SECTIONS.slice(i)];
+};
 
 const LOTUS_SPECIAL_SLUGS = new Set([
   'empirica-lotus-ipca-fif-em-cotas-de-fim',
@@ -279,7 +305,7 @@ function LotusIpcaContent({ isMobile, cms, cmsLoading, faqCards }: {
 
   // Exclude accordion items that have a dedicated card button
   const fechamentoItems = React.useMemo(() => {
-    const items = buildAccordionItems(cms, FECHAMENTO_SECTIONS, cmsLoading);
+    const items = buildAccordionItems(cms, secoesDeFechamento(cms), cmsLoading);
     if (!faqCards?.length) return items;
     const cardLabels = new Set(faqCards.map((c) => c.label));
     return items.filter((item) => !cardLabels.has(item.title));
@@ -490,7 +516,7 @@ export default function EmpiricaFundoDetailPage() {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
                 <div style={{ marginBottom: 16 }}><DSTag variant="neutral" size="lg">Documentos</DSTag></div>
                 <DSAccordion
-                  items={buildAccordionItems(cms, secoesDoTipo(category), cmsLoading)}
+                  items={buildAccordionItems(cms, secoesDoTipo(category, cms), cmsLoading)}
                 />
               </div>
 

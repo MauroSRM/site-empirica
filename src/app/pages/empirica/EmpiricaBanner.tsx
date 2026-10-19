@@ -11,9 +11,12 @@ import React from "react";
 import { useSrmViewport } from "../site/poc2/useSrmViewport";
 import { useTheme } from "../../../design-system";
 
-// Azul profundo próprio — não é o #0e2041/#1d3f80 do Grupo SRM
-const FUNDO_ESCURO = "#102a47";
-const FUNDO_PROFUNDO = "#0a1c30";
+// Verde do KV dos comunicados ao cotista (#2f6c47), com um tom mais profundo
+// no fim do gradiente. Não é o azul do Grupo SRM.
+const FUNDO_ESCURO = "#2f6c47";
+const FUNDO_PROFUNDO = "#1b4530";
+// Lima do KV — usada só aqui, sobre o verde, onde tem contraste (3.2:1)
+const LIMA = "#b6c14f";
 
 export interface EmpiricaBannerProps {
   title: string;
@@ -80,7 +83,7 @@ export function EmpiricaBanner({ title, subtitle, badge }: EmpiricaBannerProps) 
           style={{
             width: 56,
             height: 3,
-            background: "rgba(255,255,255,0.55)",
+            background: LIMA,
             borderRadius: 2,
             margin: subtitle ? "20px 0 18px" : "20px 0 0",
           }}

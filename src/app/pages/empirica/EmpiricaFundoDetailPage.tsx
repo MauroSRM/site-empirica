@@ -350,7 +350,7 @@ function FundNotFound({ category }: { category?: string }) {
   const navigate = useNavigate();
   return (
     <EmpiricaLayout>
-      <div style={{ background: "linear-gradient(148deg, #1d3f80 0%, #0e2041 100%)", padding: '120px 56px', textAlign: 'center' }}>
+      <div style={{ background: "linear-gradient(148deg, #2f6c47 0%, #1b4530 100%)", padding: '120px 56px', textAlign: 'center' }}>
         <h1 style={{ fontFamily: t.fontFamily, color: t.textOnBrand, margin: '0 0 24px' }}>Fundo não encontrado</h1>
         <DSButton
           variant="primary"

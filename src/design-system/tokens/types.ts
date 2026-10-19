@@ -43,10 +43,10 @@ export interface ThemeOverride {
  */
 export const defaultOverride: Required<ThemeOverride> = {
   themeName: 'HB Digital',
-  brandPrimary: '#1d3f80',
-  brandAccent: '#1b73d6',
-  brandSecondary: '#1e6b55',
-  surfaceBackground: '#e0e7f4',
+  brandPrimary: '#2f6c47',
+  brandAccent: '#6d742f',
+  brandSecondary: '#4a8260',
+  surfaceBackground: '#ecf0f8',
   buttonRadius: '3px',
   inputRadius: '4px',
   cardRadius: '4px',

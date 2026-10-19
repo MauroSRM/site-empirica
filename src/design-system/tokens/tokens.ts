@@ -13,27 +13,30 @@ import { shadeColor, hexToRgba, getSpacingFactor } from './utils';
  * Tokens estáticos — valores fixos que não mudam com ThemeOverride
  */
 const staticTokens = {
-  // ═══ PRIMARY SCALE (azul HB Digital) ═══
-  primary50: '#f0f5fd',
-  primary100: '#dce8fa',
-  primary200: '#b9d1f5',
-  primary300: '#8db5ed',
-  primary400: '#5d91e0',
-  primary500: '#1d3f80',
-  primary600: '#163462',
-  primary700: '#122a52',
-  primary800: '#0e2041',
-  primary900: '#0a1630',
+  // ═══ PRIMARY SCALE (verde Empírica — KV dos comunicados) ═══
+  primary50: '#f1f7f3',
+  primary100: '#dbeae1',
+  primary200: '#b4d2c1',
+  primary300: '#86b79c',
+  primary400: '#569676',
+  primary500: '#2f6c47',
+  primary600: '#255739',
+  primary700: '#1d452d',
+  primary800: '#163522',
+  primary900: '#0f2517',
 
-  // ═══ ACCENT SCALE (laranja) ═══
-  accent100: '#ffe6cc',
-  accent500: '#ff8200',
-  accent700: '#cc6600',
+  // ═══ ACCENT SCALE (lima do KV) ═══
+  // A lima #b6c14f do KV só tem contraste sobre o verde escuro (3.2:1); sobre
+  // branco fica em 1.96:1. Por isso o token de uso geral é a versão escurecida
+  // (5.0:1) e a lima original vive só no banner, sobre o verde.
+  accent100: '#eef1dc',
+  accent500: '#6d742f',
+  accent700: '#555b24',
 
   // ═══ NEUTRAL SCALE (cinza) ═══
   neutral0: '#ffffff',
   neutral50: '#f9fafb',
-  neutral100: '#e0e7f4',
+  neutral100: '#ecf0f8',
   neutral200: '#e5e7eb',
   neutral300: '#d1d5db',
   neutral400: '#9ca3af',
@@ -56,7 +59,7 @@ const staticTokens = {
   // ═══ SURFACE TOKENS ═══
   surfaceDefault: '#ffffff', // Alias de neutral0
   surfaceSubtle: '#f9fafb', // Alias de neutral50
-  surfaceMuted: '#e0e7f4', // Alias de neutral100
+  surfaceMuted: '#ecf0f8', // Alias de neutral100
   surfaceInverse: '#1e2b44', // Dark surface
   surfaceSelected: '#f7fafd', // Selected row (mais suave que primary50)
 

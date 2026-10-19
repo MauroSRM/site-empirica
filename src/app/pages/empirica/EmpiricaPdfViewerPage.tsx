@@ -14,8 +14,8 @@ import { projectId, publicAnonKey } from "/utils/supabase/info";
 
 const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`;
 const FONT = "Inter, system-ui, -apple-system, sans-serif";
-const NAVY = "#0e2041";
-const BLUE = "#1d3f80";
+const NAVY = "#163522";
+const BLUE = "#2f6c47";
 
 export default function EmpiricaPdfViewerPage() {
   const { docId } = useParams<{ docId: string }>();
@@ -36,13 +36,27 @@ export default function EmpiricaPdfViewerPage() {
       ? `${API}/pdf/compliance/${encodeURIComponent(docId)}`
       : `${API}/pdf/doc/${encodeURIComponent(docId)}`;
 
+    // O título vem do rótulo cadastrado, não do nome do arquivo: os PDFs do
+    // drive ainda trazem "SRM" no nome, que o jurídico pediu para não exibir.
+    if (isCompliance) {
+      fetch(`${API}/empirica/compliance`, { headers: { Authorization: `Bearer ${publicAnonKey}` } })
+        .then(r => r.json())
+        .then((d: { items?: Array<{ id: string; nome?: string }> }) => {
+          const item = d.items?.find(i => i.id === docId);
+          if (item?.nome) setDocName(item.nome);
+        })
+        .catch(() => { /* mantém o fallback do nome do arquivo */ });
+    }
+
     fetch(url, { headers: { Authorization: `Bearer ${publicAnonKey}` } })
       .then(r => {
         if (!r.ok) throw new Error(`HTTP ${r.status}`);
         const cd = r.headers.get("Content-Disposition");
         if (cd) {
           const m = cd.match(/filename="?([^"]+)"?/i);
-          if (m?.[1]) setDocName(decodeURIComponent(m[1].replace(/\.[^.]+$/, "")));
+          // só usa o nome do arquivo quando ainda não veio rótulo do cadastro
+          if (m?.[1]) setDocName(prev => prev === "Documento"
+            ? decodeURIComponent(m[1].replace(/\.[^.]+$/, "")) : prev);
         }
         return r.blob();
       })

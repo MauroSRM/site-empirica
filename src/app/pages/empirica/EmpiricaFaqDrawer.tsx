@@ -10,8 +10,8 @@ import { useTheme } from '../../../design-system';
 import { useSrmViewport } from '../site/poc2/useSrmViewport';
 import { FundFaq } from './data/fund-faqs';
 
-const BG_HEADER  = '#0e2041';
-const SIDEBAR_BG = '#1d3f80';
+const BG_HEADER  = '#163522';
+const SIDEBAR_BG = '#2f6c47';
 
 // ── Markdown-lite inline renderer ─────────────────────────────────────────────
 function renderInline(

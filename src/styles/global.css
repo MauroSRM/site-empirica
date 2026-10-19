@@ -18,8 +18,8 @@ html {
 
 body {
   font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: #e0e7f4;
-  color: #1a2340;
+  background: #ecf0f8;
+  color: #1b2420;
   line-height: 1.5;
 }
 
@@ -31,7 +31,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Links */
 a {
-  color: #1053cb;
+  color: #2f6c47;
   text-decoration: none;
   transition: color 0.15s;
 }

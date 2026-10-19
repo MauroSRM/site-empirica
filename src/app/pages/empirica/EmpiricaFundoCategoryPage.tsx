@@ -2,7 +2,7 @@
  * EmpiricaFundoCategoryPage — Listagem de fundos por categoria
  * 100% inline styles via useTheme() — zero Tailwind, zero hardcoded values.
  */
-import React, { useState, useMemo, useCallback, useEffect } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import { ChevronRight } from 'lucide-react';
 import { projectId, publicAnonKey } from '/utils/supabase/info';
@@ -19,8 +19,6 @@ import {
   DSButton,
   DSEmptyState,
 } from '../../../design-system';
-import { EmpiricaGestorBar } from './EmpiricaGestorBar';
-import { EmpiricaGestorModal } from './EmpiricaGestorModal';
 
 // Busca ignorando acento: digitar "lotus" precisa achar "EMPÍRICA LÓTUS".
 const semAcento = (s: string) =>
@@ -160,10 +158,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
   const [query, setQuery] = useState('');
   const [visibleCount, setVisible] = useState(PAGE_SIZE);
   const [showAll, setShowAll] = useState(false);
-  const [gestorModalOpen, setGestorModalOpen] = useState(false);
-  const closeGestorModal = useCallback(() => setGestorModalOpen(false), []);
 
-  const isFif = category === 'fif';
   const meta  = CATEGORY_META[category];
   const funds = useFundosDaCategoria(category);
 
@@ -181,20 +176,11 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
 
   return (
     <EmpiricaLayout>
-      {gestorModalOpen && <EmpiricaGestorModal onClose={closeGestorModal} />}
-
       <EmpiricaBanner
         title={meta.label}
         subtitle={meta.description}
         badge={meta.code}
       />
-
-      {/* GestorBar mobile — fluxo normal, 32px abaixo do banner */}
-      {isFif && isMobile && (
-        <div style={{ background: t.surfaceBackground, padding: '32px 24px 32px', width: '100%', boxSizing: 'border-box' as const }}>
-          <EmpiricaGestorBar onOpen={() => setGestorModalOpen(true)} />
-        </div>
-      )}
 
       {/* 2. Conteúdo principal */}
       <section style={{
@@ -204,29 +190,12 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
         boxSizing: 'border-box' as const,
       }}>
 
-        {/* GestorBar desktop — overlap sobre o banner */}
-        {isFif && !isMobile && (
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            padding: '0 56px',
-            marginTop: -38,
-            marginBottom: 48,
-            position: 'relative',
-            zIndex: 10,
-          }}>
-            <div style={{ width: '100%', maxWidth: 554 }}>
-              <EmpiricaGestorBar onOpen={() => setGestorModalOpen(true)} />
-            </div>
-          </div>
-        )}
-
         {/* Busca */}
         <div style={{
           padding: isMobile ? '20px 20px 0' : '28px 56px 0',
           display: 'flex',
           justifyContent: 'center',
-          marginTop: isFif ? 0 : (isMobile ? 20 : 28),
+          marginTop: isMobile ? 20 : 28,
         }}>
           <div style={{ width: '100%', maxWidth: isMobile ? '100%' : 648 }}>
             <DSInput

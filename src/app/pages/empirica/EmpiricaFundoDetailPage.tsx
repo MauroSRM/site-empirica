@@ -179,16 +179,18 @@ function InfoTable({ fund }: { fund: FundInfo }) {
   return (
     <>
       <div style={{
+        background: t.surfaceDefault,
         border: `1px solid ${t.borderDefault}`,
         borderRadius: t.cardRadius,
         overflow: 'hidden',
       }}>
-        {rows.map((row) => {
+        {rows.map((row, i) => {
           const isTributacao = row.label === 'Tributação Aplicável';
           return (
             <div key={row.label} style={{
               padding: '14px 20px',
-              borderBottom: `1px solid ${t.borderDefault}`,
+              // a última linha não leva divisória: encostaria na borda do card
+              borderBottom: i === rows.length - 1 ? 'none' : `1px solid ${t.borderDefault}`,
             }}>
               <div style={{
                 fontFamily: t.fontFamily, fontSize: t.text2Xs, fontWeight: 700,

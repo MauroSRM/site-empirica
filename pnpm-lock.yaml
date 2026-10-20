@@ -105,8 +105,8 @@ importers:
         specifier: 1.1.8
         version: 1.1.8(@types/react@19.3.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@srm/diamond':
-        specifier: ^0.3.17
-        version: 0.3.17(@standard-schema/spec@1.1.0)(@types/react@19.3.0)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)(redux@5.0.1)
+        specifier: file:vendor/srm-diamond-0.3.17.tgz
+        version: file:vendor/srm-diamond-0.3.17.tgz(@standard-schema/spec@1.1.0)(@types/react@19.3.0)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)(redux@5.0.1)
       '@supabase/supabase-js':
         specifier: ^2.106.2
         version: 2.117.1
@@ -1552,8 +1552,9 @@ packages:
     cpu: [x64]
     os: [win32]
 
-  '@srm/diamond@0.3.17':
-    resolution: {integrity: sha512-pVPQS5KL19JURGwQDBm60WsOMrA3NRYiMc+aTtK7oNeN0TrWmyiaP73LptJnVQVE+ETmwJLbjo3EnC+ULx3Yrg==}
+  '@srm/diamond@file:vendor/srm-diamond-0.3.17.tgz':
+    resolution: {integrity: sha512-pVPQS5KL19JURGwQDBm60WsOMrA3NRYiMc+aTtK7oNeN0TrWmyiaP73LptJnVQVE+ETmwJLbjo3EnC+ULx3Yrg==, tarball: file:vendor/srm-diamond-0.3.17.tgz}
+    version: 0.3.17
     engines: {node: '>=20'}
     peerDependencies:
       react: '>=18'
@@ -3863,7 +3864,7 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.63.4':
     optional: true
 
-  '@srm/diamond@0.3.17(@standard-schema/spec@1.1.0)(@types/react@19.3.0)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)(redux@5.0.1)':
+  '@srm/diamond@file:vendor/srm-diamond-0.3.17.tgz(@standard-schema/spec@1.1.0)(@types/react@19.3.0)(react-dom@18.3.1(react@18.3.1))(react-is@19.3.0)(react@18.3.1)(redux@5.0.1)':
     dependencies:
       '@floating-ui/react': 0.27.20(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@hookform/resolvers': 5.9.2(@standard-schema/spec@1.1.0)(react-hook-form@7.90.0(@types/react@19.3.0)(react@18.3.1))(zod@4.6.7)

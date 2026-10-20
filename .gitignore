@@ -8,3 +8,4 @@ public/named-assets/
 
 # gerado pelo postinstall do @srm/diamond
 diamond-instructions/
+.npmrc

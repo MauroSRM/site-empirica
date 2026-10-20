@@ -5,6 +5,3 @@ dist-poc2/
 .DS_Store
 *.local
 public/named-assets/
-
-# gerado pelo postinstall do @srm/diamond
-diamond-instructions/

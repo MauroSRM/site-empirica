@@ -18,8 +18,8 @@ import {
 import { LogoColor } from "../../../components/SiteLogos";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 import { DSDestructModal } from "../../../components/ds/DSDestructModal";
-import { DSInput } from "../../../components/ds/DSInput";
-import { DSDrawer, DSButton, useToast, DSEmptyState, useTheme } from "../../../../design-system";
+import { DSDrawer, useToast, DSEmptyState, useTheme } from "../../../../design-system";
+import { Button, TextInput, PasswordInput } from "@srm/diamond";
 
 const ENQUADRAMENTO_LABEL = "Texto Modal Tributação";
 
@@ -449,8 +449,8 @@ function InviteUserModal({ token, onClose }: { token: string; onClose: () => voi
 
         {!result ? (
           <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            <DSInput type="text" label="E-mail" placeholder="usuario@empresa.com" value={email} onChange={setEmail} autoComplete="off" state={err ? "error" : "default"} />
-            <DSInput type="text" label="Nome (opcional)" placeholder="Nome do colaborador" value={name} onChange={setName} autoComplete="off" />
+            <TextInput label="E-mail" placeholder="usuario@empresa.com" value={email} onChange={setEmail} autoComplete="off" state={err ? "error" : "default"} />
+            <TextInput label="Nome (opcional)" placeholder="Nome do colaborador" value={name} onChange={setName} autoComplete="off" />
 
             {/* Admin toggle */}
             <button
@@ -489,8 +489,8 @@ function InviteUserModal({ token, onClose }: { token: string; onClose: () => voi
 
             {err && <p style={{ fontFamily: T.font, fontSize: 12, color: T.danger, margin: 0 }}>{err}</p>}
             <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-              <DSButton type="button" variant="ghost" size="sm" fullWidth onClick={onClose}>Cancelar</DSButton>
-              <DSButton type="submit" variant="primary" size="sm" fullWidth loading={loading} disabled={!email}>Convidar</DSButton>
+              <Button type="button" variant="ghost" size="sm" fullWidth onPress={onClose}>Cancelar</Button>
+              <Button type="submit" variant="primary" size="sm" fullWidth loading={loading} isDisabled={!email}>Convidar</Button>
             </div>
           </form>
         ) : (
@@ -525,7 +525,7 @@ function InviteUserModal({ token, onClose }: { token: string; onClose: () => voi
               No primeiro acesso, o usuário será solicitado a redefinir a senha.
             </p>
 
-            <DSButton variant="primary" size="sm" fullWidth onClick={onClose}>Fechar</DSButton>
+            <Button variant="primary" size="sm" fullWidth onPress={onClose}>Fechar</Button>
           </div>
         )}
       </div>
@@ -582,8 +582,7 @@ function ForcePasswordChange({ token, onDone }: { token: string; onDone: () => v
       </div>
 
       <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <DSInput
-          type="password"
+        <PasswordInput
           label="Nova senha"
           placeholder="Mínimo 8 caracteres"
           value={newPwd}
@@ -591,8 +590,7 @@ function ForcePasswordChange({ token, onDone }: { token: string; onDone: () => v
           autoComplete="new-password"
           state={err ? "error" : "default"}
         />
-        <DSInput
-          type="password"
+        <PasswordInput
           label="Confirmar senha"
           placeholder="Repita a nova senha"
           value={confirm}
@@ -602,9 +600,9 @@ function ForcePasswordChange({ token, onDone }: { token: string; onDone: () => v
           state={err ? "error" : "default"}
         />
         <div style={{ marginTop: 8 }}>
-          <DSButton type="submit" variant="primary" size="lg" fullWidth loading={loading} disabled={!newPwd || !confirm}>
+          <Button type="submit" variant="primary" size="lg" fullWidth loading={loading} isDisabled={!newPwd || !confirm}>
             Salvar e acessar
-          </DSButton>
+          </Button>
         </div>
       </form>
     </div>
@@ -699,8 +697,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string, mustChangePassword:
       </div>
 
       <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-        <DSInput
-          type="text"
+        <TextInput
           label="E-mail"
           placeholder="Digite seu e-mail"
           value={email}
@@ -708,8 +705,7 @@ function LoginScreen({ onLogin }: { onLogin: (token: string, mustChangePassword:
           autoComplete="email"
           state={err ? "error" : "default"}
         />
-        <DSInput
-          type="password"
+        <PasswordInput
           label="Senha"
           placeholder="Digite sua senha"
           value={password}
@@ -720,16 +716,16 @@ function LoginScreen({ onLogin }: { onLogin: (token: string, mustChangePassword:
         />
 
         <div style={{ marginTop: 8 }}>
-          <DSButton
+          <Button
             type="submit"
             variant="primary"
             size="lg"
             fullWidth
             loading={loading}
-            disabled={!email || !password}
+            isDisabled={!email || !password}
           >
             Acessar
-          </DSButton>
+          </Button>
         </div>
 
         <div style={{
@@ -893,19 +889,19 @@ function FundFormDrawer({
 
   const footer = (
     <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      <DSButton
+      <Button
         type="button"
         variant="primary"
         size="lg"
         fullWidth
         loading={loading}
-        onClick={handleSave}
+        onPress={handleSave}
       >
         {isEdit ? "Salvar alterações" : "Criar fundo"}
-      </DSButton>
-      <DSButton type="button" variant="secondary" size="lg" fullWidth onClick={onClose} disabled={loading}>
+      </Button>
+      <Button type="button" variant="secondary" size="lg" fullWidth onPress={onClose} isDisabled={loading}>
         Cancelar
-      </DSButton>
+      </Button>
     </div>
   );
 
@@ -935,7 +931,7 @@ function FundFormDrawer({
                 {FUND_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
               </select>
             </div>
-            <DSInput
+            <TextInput
               label="Nome do fundo" value={name} onChange={setName}
               placeholder="Ex: BEFLY FIDC" required
               state={err && !name.trim() ? "error" : "default"}
@@ -955,12 +951,12 @@ function FundFormDrawer({
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 32px", gap: 8, alignItems: "center" }}>
                 <input value={f.label} placeholder="Label (ex: CNPJ)" onChange={e => updateField(i, "label", e.target.value)} style={inputStyle} />
                 <input value={f.value} placeholder="Valor" onChange={e => updateField(i, "value", e.target.value)} style={inputStyle} />
-                <DSButton type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onClick={() => removeField(i)} style={{ flexShrink: 0 }} />
+                <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onPress={() => removeField(i)} style={{ flexShrink: 0 }} />
               </div>
             ))}
-            <DSButton type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onClick={addField} style={{ marginTop: 4, width: "fit-content" }}>
+            <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={addField} style={{ marginTop: 4, width: "fit-content" }}>
               Adicionar campo
-            </DSButton>
+            </Button>
           </div>
         </section>
 
@@ -1012,12 +1008,12 @@ function FundFormDrawer({
             {categories.map((cat, i) => (
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 32px", gap: 8, alignItems: "center" }}>
                 <input value={cat} placeholder={`Categoria ${i + 1} (ex: Assembleias)`} onChange={e => updateCategory(i, e.target.value)} style={inputStyle} />
-                <DSButton type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onClick={() => removeCategory(i)} style={{ flexShrink: 0 }} />
+                <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onPress={() => removeCategory(i)} style={{ flexShrink: 0 }} />
               </div>
             ))}
-            <DSButton type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onClick={addCategory} style={{ marginTop: 4, width: "fit-content" }}>
+            <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={addCategory} style={{ marginTop: 4, width: "fit-content" }}>
               Adicionar categoria
-            </DSButton>
+            </Button>
           </div>
         </section>
 
@@ -1109,13 +1105,13 @@ function DocUploadModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             Adicionar documento
           </h2>
-          <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onClick={onClose} />
+          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
         </div>
 
         <form onSubmit={save} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           {/* Categoria */}
           {presetCategoryId ? (
-            <DSInput
+            <TextInput
               label="Categoria / Accordion"
               state="read-only"
               value={fund.categories.find(c => c.id === presetCategoryId)?.name ?? "—"}
@@ -1136,7 +1132,7 @@ function DocUploadModal({
           )}
 
           {/* Nome do botão */}
-          <DSInput
+          <TextInput
             label="Nome do botão" value={label} onChange={setLabel}
             placeholder="Ex: Ata de Assembleia 2024" required
           />
@@ -1182,8 +1178,8 @@ function DocUploadModal({
           )}
 
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", marginTop: 8 }}>
-            <DSButton type="button" variant="secondary" size="sm" onClick={onClose}>Cancelar</DSButton>
-            <DSButton type="submit" variant="primary" size="sm" loading={loading}>Salvar documento</DSButton>
+            <Button type="button" variant="secondary" size="sm" onPress={onClose}>Cancelar</Button>
+            <Button type="submit" variant="primary" size="sm" loading={loading}>Salvar documento</Button>
           </div>
         </form>
       </div>
@@ -1310,9 +1306,9 @@ function FundDetail({
     <div style={{ minHeight: "100vh", background: T.bg, fontFamily: T.font }}>
       {/* sticky sub-header */}
       <div style={{ background: T.white, borderBottom: `1px solid ${T.border}`, padding: "0 40px", display: "flex", alignItems: "center", gap: 16, height: 56 }}>
-        <DSButton type="button" variant="ghost" size="sm" icon="left" iconEl={<svg width={16} height={16} viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>} onClick={onBack}>
+        <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<svg width={16} height={16} viewBox="0 0 16 16" fill="none"><path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" /></svg>} onPress={onBack}>
           Voltar
-        </DSButton>
+        </Button>
         <div style={{ width: 1, height: 20, background: T.border }} />
         <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <span style={{ fontFamily: T.font, fontSize: 13, fontWeight: 700, color: T.text }}>{fund.name}</span>
@@ -1326,12 +1322,12 @@ function FundDetail({
           )}
         </div>
         <div style={{ flex: 1 }} />
-        <DSButton type="button" variant="secondary" size="sm" icon="left" iconEl={<Pencil size={13} />} onClick={() => setEditModal(true)}>
+        <Button type="button" variant="secondary" size="sm" icon="left" iconEl={<Pencil size={13} />} onPress={() => setEditModal(true)}>
           Editar fundo
-        </DSButton>
-        <DSButton type="button" variant="primary" size="sm" icon="left" iconEl={<Plus size={13} />} onClick={() => setDocModal("")}>
+        </Button>
+        <Button type="button" variant="primary" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={() => setDocModal("")}>
           Documento
-        </DSButton>
+        </Button>
       </div>
 
       <main style={{ maxWidth: 1160, margin: "0 auto", padding: "32px 24px" }}>
@@ -1496,11 +1492,11 @@ function FundDetail({
                                 </div>
                                 {editingDocId === doc.id ? (
                                   <>
-                                    <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Check size={12} />}
-                                      onClick={() => handleSaveLabel(doc)} loading={savingLabel}
+                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Check size={12} />}
+                                      onPress={() => handleSaveLabel(doc)} loading={savingLabel}
                                       style={{ color: T.accent, flexShrink: 0 }} />
-                                    <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={12} />}
-                                      onClick={() => setEditingDocId(null)}
+                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={12} />}
+                                      onPress={() => setEditingDocId(null)}
                                       style={{ flexShrink: 0 }} />
                                   </>
                                 ) : (
@@ -1511,10 +1507,10 @@ function FundDetail({
                                         <Download size={12} /> Ver PDF
                                       </a>
                                     )}
-                                    <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={12} />}
-                                      onClick={() => { setEditingDocId(doc.id); setEditingLabel(doc.label); }}
+                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={12} />}
+                                      onPress={() => { setEditingDocId(doc.id); setEditingLabel(doc.label); }}
                                       style={{ flexShrink: 0 }} />
-                                    <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={12} />} onClick={() => setDeleteDocTarget(doc)} disabled={deletingId === doc.id} style={{ border: `1px solid #fecaca`, background: "#fff5f5", color: T.error, flexShrink: 0 }} />
+                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={12} />} onPress={() => setDeleteDocTarget(doc)} isDisabled={deletingId === doc.id} style={{ border: `1px solid #fecaca`, background: "#fff5f5", color: T.error, flexShrink: 0 }} />
                                   </>
                                 )}
                               </div>
@@ -1523,9 +1519,9 @@ function FundDetail({
                         )}
                         {/* add doc inline */}
                         <div style={{ padding: "10px 20px" }}>
-                          <DSButton type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onClick={() => setDocModal(cat.id)}>
+                          <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={() => setDocModal(cat.id)}>
                             Adicionar documento aqui
-                          </DSButton>
+                          </Button>
                         </div>
                       </div>
                     )}
@@ -1621,9 +1617,9 @@ function FundRow({
         </span>
       </div>
       <div style={{ padding: "8px", display: "flex", gap: 6 }}>
-        <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<FolderOpen size={13} />} onClick={onDetail} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
-        <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onClick={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
-        <DSButton type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onClick={onDelete} disabled={isDeleting} style={{ flexShrink: 0 }} />
+        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<FolderOpen size={13} />} onPress={onDetail} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
+        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
+        <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={onDelete} isDisabled={isDeleting} style={{ flexShrink: 0 }} />
       </div>
     </div>
   );
@@ -1837,12 +1833,12 @@ function AdminPanel({ token, onLogout, onFundDetail }: { token: string; onLogout
             </h2>
           </div>
           <div style={{ display: "flex", gap: 10 }}>
-            <DSButton type="button" variant="secondary" size="md" icon="left" iconEl={<Download size={13} />} loading={importing} disabled={importing} onClick={handleImport}>
+            <Button type="button" variant="secondary" size="md" icon="left" iconEl={<Download size={13} />} loading={importing} isDisabled={importing} onPress={handleImport}>
               Sincronizar fundos do site
-            </DSButton>
-            <DSButton type="button" variant="primary" size="md" icon="left" iconEl={<Plus size={15} />} onClick={() => setModal({})}>
+            </Button>
+            <Button type="button" variant="primary" size="md" icon="left" iconEl={<Plus size={15} />} onPress={() => setModal({})}>
               Novo fundo
-            </DSButton>
+            </Button>
           </div>
         </div>
 
@@ -1972,14 +1968,14 @@ function AdminHeader({ token, onLogout }: { token: string; onLogout: () => void 
   const isFundos     = !isGestor && !isCompliance && !isUsuarios;
 
   const navBtn = (label: string, icon: React.ReactNode, active: boolean, to: string) => (
-    <DSButton
+    <Button
       type="button"
       variant="ghost"
       size="sm"
       theme="dark"
       icon="left"
       iconEl={icon as React.ReactNode}
-      onClick={() => startTransition(() => navigate(to))}
+      onPress={() => startTransition(() => navigate(to))}
       style={{
         backgroundColor: active ? "rgba(255,255,255,0.15)" : "transparent",
         color: active ? "#ffffff" : "rgba(255,255,255,0.65)",
@@ -1987,7 +1983,7 @@ function AdminHeader({ token, onLogout }: { token: string; onLogout: () => void 
       }}
     >
       {label}
-    </DSButton>
+    </Button>
   );
 
   return (
@@ -2146,9 +2142,9 @@ export function CmsFundDetailPage() {
       <AdminHeader token={token} onLogout={logout} />
       <div style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", padding: "80px 24px", gap: 16 }}>
         <p style={{ fontFamily: T.font, fontSize: 14, color: T.error, margin: 0 }}>{err}</p>
-        <DSButton type="button" variant="secondary" size="sm" onClick={() => startTransition(() => navigate("/srm-ops/emp-gstf/fundos"))}>
+        <Button type="button" variant="secondary" size="sm" onPress={() => startTransition(() => navigate("/srm-ops/emp-gstf/fundos"))}>
           Voltar para Fundos
-        </DSButton>
+        </Button>
       </div>
     </div>
   );
@@ -2229,11 +2225,11 @@ function GestorFormModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {isEdit ? "Editar comunicado" : "Novo comunicado"}
           </h2>
-          <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onClick={onClose} />
+          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
         </div>
         <form onSubmit={save} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
-          <DSInput label="Nome do fundo" value={fundName} onChange={setFundName} placeholder="Ex: Empírica Lótus" required state={err && !fundName.trim() ? "error" : "default"} errorText={err && !fundName.trim() ? err : undefined} />
-          <DSInput label="Data de atualização" value={atualizado} onChange={setAtualizado} placeholder="Ex: 15/05/26" />
+          <TextInput label="Nome do fundo" value={fundName} onChange={setFundName} placeholder="Ex: Empírica Lótus" required state={err && !fundName.trim() ? "error" : "default"} errorText={err && !fundName.trim() ? err : undefined} />
+          <TextInput label="Data de atualização" value={atualizado} onChange={setAtualizado} placeholder="Ex: 15/05/26" />
           {err && fundName.trim() && (
             <div style={{ display: "flex", alignItems: "center", gap: 4 }}>
               <AlertCircle size={12} color={T.error} />
@@ -2241,8 +2237,8 @@ function GestorFormModal({
             </div>
           )}
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 8, borderTop: `1px solid ${T.border}` }}>
-            <DSButton type="button" variant="secondary" size="sm" onClick={onClose}>Cancelar</DSButton>
-            <DSButton type="submit" variant="primary" size="sm" loading={loading}>{isEdit ? "Salvar" : "Criar"}</DSButton>
+            <Button type="button" variant="secondary" size="sm" onPress={onClose}>Cancelar</Button>
+            <Button type="submit" variant="primary" size="sm" loading={loading}>{isEdit ? "Salvar" : "Criar"}</Button>
           </div>
         </form>
       </div>
@@ -2289,7 +2285,7 @@ function GestorPdfUploadModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {existing ? "Substituir" : "Enviar"}: {label}
           </h2>
-          <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onClick={onClose} />
+          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
         </div>
 
         {existing && (
@@ -2333,8 +2329,8 @@ function GestorPdfUploadModal({
             </div>
           )}
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 8, borderTop: `1px solid ${T.border}` }}>
-            <DSButton type="button" variant="secondary" size="sm" onClick={onClose}>Cancelar</DSButton>
-            <DSButton type="submit" variant="primary" size="sm" loading={loading} disabled={loading || !file}>Enviar PDF</DSButton>
+            <Button type="button" variant="secondary" size="sm" onPress={onClose}>Cancelar</Button>
+            <Button type="submit" variant="primary" size="sm" loading={loading} isDisabled={loading || !file}>Enviar PDF</Button>
           </div>
         </form>
       </div>
@@ -2368,7 +2364,7 @@ function GestorCard({
             <Download size={12} />
           </a>
         )}
-        <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={12} />} onClick={() => setUploadSlot(slot)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={12} />} onPress={() => setUploadSlot(slot)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
       </div>
     </div>
   );
@@ -2393,8 +2389,8 @@ function GestorCard({
             )}
           </div>
           <div style={{ display: "flex", gap: 6 }}>
-            <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onClick={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white }} />
-            <DSButton type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onClick={onDelete} />
+            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={onDelete} />
           </div>
         </div>
         {/* PDFs */}
@@ -2491,9 +2487,9 @@ export function CmsGestorPage() {
               Comunicados do Gestor
             </h2>
           </div>
-          <DSButton type="button" variant="primary" size="md" icon="left" iconEl={<Plus size={15} />} onClick={() => setModal({})}>
+          <Button type="button" variant="primary" size="md" icon="left" iconEl={<Plus size={15} />} onPress={() => setModal({})}>
             Novo comunicado
-          </DSButton>
+          </Button>
         </div>
 
         {/* Content */}
@@ -2620,7 +2616,7 @@ function CompliancePdfModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {doc.pdfName ? "Substituir PDF" : "Enviar PDF"}
           </h2>
-          <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onClick={onClose} />
+          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
         </div>
 
         <p style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginBottom: 16, marginTop: 0 }}>
@@ -2658,8 +2654,8 @@ function CompliancePdfModal({
           )}
 
           <div style={{ display: "flex", gap: 10, justifyContent: "flex-end", paddingTop: 8, borderTop: `1px solid ${T.border}` }}>
-            <DSButton type="button" variant="secondary" size="sm" onClick={onClose}>Cancelar</DSButton>
-            <DSButton type="submit" variant="primary" size="sm" loading={loading} disabled={loading || !file}>Enviar PDF</DSButton>
+            <Button type="button" variant="secondary" size="sm" onPress={onClose}>Cancelar</Button>
+            <Button type="submit" variant="primary" size="sm" loading={loading} isDisabled={loading || !file}>Enviar PDF</Button>
           </div>
         </form>
       </div>
@@ -2736,8 +2732,8 @@ function ComplianceDocRow({
                 onKeyDown={e => { if (e.key === "Enter") saveName(); if (e.key === "Escape") { setEditName(doc.nome); setEditing(false); } }}
                 style={{ flex: 1, height: 32, padding: "0 10px", border: `1px solid ${T.primary}`, borderRadius: T.rMd, fontFamily: T.font, fontSize: 13, color: T.text, outline: "none", background: T.white, minWidth: 0 }}
               />
-              <DSButton type="button" variant="primary" size="sm" loading={savingName} onClick={saveName} icon="only" iconEl={<Check size={13} />} />
-              <DSButton type="button" variant="ghost" size="sm" onClick={() => { setEditName(doc.nome); setEditing(false); }} icon="only" iconEl={<X size={13} />} style={{ border: `1px solid ${T.border}` }} />
+              <Button type="button" variant="primary" size="sm" loading={savingName} onPress={saveName} icon="only" iconEl={<Check size={13} />} />
+              <Button type="button" variant="ghost" size="sm" onPress={() => { setEditName(doc.nome); setEditing(false); }} icon="only" iconEl={<X size={13} />} style={{ border: `1px solid ${T.border}` }} />
             </div>
           ) : (
             <div style={{ minWidth: 0, flex: 1 }}>
@@ -2763,18 +2759,18 @@ function ComplianceDocRow({
 
         {!editing && (
           <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-            <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onClick={() => { setEditName(doc.nome); setEditing(true); }} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={() => { setEditName(doc.nome); setEditing(true); }} style={{ border: `1px solid ${T.border}`, background: T.white }} />
             {doc.pdfUrl && (
               <a href={doc.pdfUrl} target="_blank" rel="noopener noreferrer" style={{ ...iconBtn, color: T.primary, textDecoration: "none" }}>
                 <Download size={13} />
               </a>
             )}
-            <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={13} />} onClick={() => setUploading(true)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={13} />} onPress={() => setUploading(true)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
             {doc.pdfName && (
-              <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={13} />} onClick={removePdf} disabled={deletingPdf} style={{ border: `1px solid ${T.border}`, background: T.white, color: T.textSec }} />
+              <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={removePdf} isDisabled={deletingPdf} style={{ border: `1px solid ${T.border}`, background: T.white, color: T.textSec }} />
             )}
             <div style={{ width: 1, height: 28, background: T.border, margin: "0 2px" }} />
-            <DSButton type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onClick={() => setConfirmDel(true)} />
+            <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={() => setConfirmDel(true)} />
           </div>
         )}
       </div>
@@ -2832,14 +2828,14 @@ function AddComplianceModal({ token, onAdded, onClose }: {
       <div style={{ background: T.white, borderRadius: T.rXl, border: `1px solid ${T.border}`, padding: 28, width: "100%", maxWidth: 420, boxShadow: T.shadowModal, fontFamily: T.font }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>Novo documento</h2>
-          <DSButton type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onClick={onClose} />
+          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
         </div>
         <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-          <DSInput type="text" label="Nome do documento" placeholder="ex: Política de Continuidade de Negócios" value={nome} onChange={setNome} autoComplete="off" state={err ? "error" : "default"} />
+          <TextInput label="Nome do documento" placeholder="ex: Política de Continuidade de Negócios" value={nome} onChange={setNome} autoComplete="off" state={err ? "error" : "default"} />
           {err && <p style={{ fontFamily: T.font, fontSize: 12, color: T.danger, margin: 0 }}>{err}</p>}
           <div style={{ display: "flex", gap: 8, marginTop: 4 }}>
-            <DSButton type="button" variant="ghost" size="sm" fullWidth onClick={onClose}>Cancelar</DSButton>
-            <DSButton type="submit" variant="primary" size="sm" fullWidth loading={loading} disabled={!nome.trim()}>Adicionar</DSButton>
+            <Button type="button" variant="ghost" size="sm" fullWidth onPress={onClose}>Cancelar</Button>
+            <Button type="submit" variant="primary" size="sm" fullWidth loading={loading} isDisabled={!nome.trim()}>Adicionar</Button>
           </div>
         </form>
       </div>
@@ -2916,12 +2912,12 @@ export function CmsCompliancePage() {
             <p style={{ fontFamily: T.font, fontSize: 12, color: T.textSec, margin: 0 }}>
               {items.filter(d => d.pdfName).length}/{items.length} com PDF
             </p>
-            <DSButton
+            <Button
               variant="primary" size="sm" icon="left" iconEl={<Plus size={13} />}
-              onClick={() => setAddOpen(true)}
+              onPress={() => setAddOpen(true)}
             >
               Novo documento
-            </DSButton>
+            </Button>
           </div>
         </div>
 
@@ -2954,9 +2950,9 @@ export function CmsCompliancePage() {
             {items.length === 0 && (
               <div style={{ textAlign: "center", padding: "48px 0", color: T.gray }}>
                 <p style={{ fontFamily: T.font, fontSize: 14, margin: "0 0 12px" }}>Nenhum documento cadastrado.</p>
-                <DSButton variant="primary" size="sm" icon="left" iconEl={<Plus size={13} />} onClick={() => setAddOpen(true)}>
+                <Button variant="primary" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={() => setAddOpen(true)}>
                   Adicionar primeiro documento
-                </DSButton>
+                </Button>
               </div>
             )}
           </div>
@@ -3112,12 +3108,12 @@ export function CmsUsuariosPage() {
             </p>
           </div>
           <div style={{ display: "flex", gap: 8 }}>
-            <DSButton variant="ghost" size="sm" icon="left" iconEl={<RefreshCw size={13} />} onClick={loadUsers} disabled={loading}>
+            <Button variant="ghost" size="sm" icon="left" iconEl={<RefreshCw size={13} />} onPress={loadUsers} isDisabled={loading}>
               Atualizar
-            </DSButton>
-            <DSButton variant="primary" size="sm" icon="left" iconEl={<UserPlus size={13} />} onClick={() => setInviteOpen(true)}>
+            </Button>
+            <Button variant="primary" size="sm" icon="left" iconEl={<UserPlus size={13} />} onPress={() => setInviteOpen(true)}>
               Convidar
-            </DSButton>
+            </Button>
           </div>
         </div>
 

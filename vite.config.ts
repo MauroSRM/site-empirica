@@ -315,8 +315,16 @@ export default defineConfig({
   ],
   resolve: {
     alias: { '@': path.resolve(__dirname, './src') },
+    // O @srm/diamond traz react como peer, mas o pré-bundle de dependências do
+    // Vite acabava servindo uma segunda cópia do React só para ele — e duas
+    // cópias quebram os hooks ("Invalid hook call"). dedupe força a mesma.
+    dedupe: ['react', 'react-dom'],
   },
   assetsInclude: ['**/*.svg', '**/*.csv'],
+
+  optimizeDeps: {
+    include: ['react', 'react-dom', '@srm/diamond'],
+  },
 
   // ─── Dev server: serve src/imports/ em /named-assets/ ──────────────────────
   // Permite que o download-named-assets.mjs baixe as imagens REAIS do preview.

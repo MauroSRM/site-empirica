@@ -11,14 +11,13 @@ import EmpiricaFIPPage            from "./pages/empirica/EmpiricaFIPPage";
 import EmpiricaFundoDetailPage    from "./pages/empirica/EmpiricaFundoDetailPage";
 import EmpiricaPdfViewerPage      from "./pages/empirica/EmpiricaPdfViewerPage";
 import EmpiricaPrivacidadePage    from "./pages/empirica/EmpiricaPrivacidadePage";
-import {
-  default as EmpiricaCmsPage,
-  CmsFundosPage,
-  CmsFundDetailPage,
-  CmsGestorPageWrapper,
-  CmsCompliancePageWrapper,
-  CmsUsuariosPageWrapper,
-} from "./pages/empirica/cms/EmpiricaCmsPage";
+// O CMS entra por rota preguiçosa: ver o comentário em cms-entry.tsx — é o que
+// mantém o CSS do Diamond fora do bundle do site público.
+const cms = () => import("./pages/empirica/cms/cms-entry");
+const rotaCms = (nome: string) => async () => {
+  const m = await cms();
+  return { Component: (m as Record<string, React.ComponentType>)[nome] };
+};
 
 const fadeVariants = {
   initial: { opacity: 0 },
@@ -98,12 +97,12 @@ export const router = createBrowserRouter([
       { path: "documento/compliance/:docId",      Component: EmpiricaPdfViewerPage },
       { path: "documento/:docId",                 Component: EmpiricaPdfViewerPage },
 
-      { path: "srm-ops/emp-gstf",                      Component: EmpiricaCmsPage },
-      { path: "srm-ops/emp-gstf/fundos",               Component: CmsFundosPage },
-      { path: "srm-ops/emp-gstf/fundos/:fundId",       Component: CmsFundDetailPage },
-      { path: "srm-ops/emp-gstf/gestor",               Component: CmsGestorPageWrapper },
-      { path: "srm-ops/emp-gstf/compliance",           Component: CmsCompliancePageWrapper },
-      { path: "srm-ops/emp-gstf/usuarios",             Component: CmsUsuariosPageWrapper },
+      { path: "srm-ops/emp-gstf", lazy: rotaCms("EmpiricaCmsPage") },
+      { path: "srm-ops/emp-gstf/fundos", lazy: rotaCms("CmsFundosPage") },
+      { path: "srm-ops/emp-gstf/fundos/:fundId", lazy: rotaCms("CmsFundDetailPage") },
+      { path: "srm-ops/emp-gstf/gestor", lazy: rotaCms("CmsGestorPageWrapper") },
+      { path: "srm-ops/emp-gstf/compliance", lazy: rotaCms("CmsCompliancePageWrapper") },
+      { path: "srm-ops/emp-gstf/usuarios", lazy: rotaCms("CmsUsuariosPageWrapper") },
 
       { path: "*",                                     Component: EmpiricaHomePage },
     ],

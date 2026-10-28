@@ -19,7 +19,7 @@ import { LogoColor } from "../../../components/SiteLogos";
 import { projectId, publicAnonKey } from "/utils/supabase/info";
 import { DSDestructModal } from "../../../components/ds/DSDestructModal";
 import { DSDrawer, useToast, DSEmptyState, useTheme } from "../../../../design-system";
-import { Button, TextInput, PasswordInput } from "@srm/diamond";
+import { Button, IconButton, TextInput, PasswordInput } from "@srm/diamond";
 
 const ENQUADRAMENTO_LABEL = "Texto Modal Tributação";
 
@@ -951,7 +951,7 @@ function FundFormDrawer({
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 1fr 32px", gap: 8, alignItems: "center" }}>
                 <input value={f.label} placeholder="Label (ex: CNPJ)" onChange={e => updateField(i, "label", e.target.value)} style={inputStyle} />
                 <input value={f.value} placeholder="Valor" onChange={e => updateField(i, "value", e.target.value)} style={inputStyle} />
-                <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onPress={() => removeField(i)} style={{ flexShrink: 0 }} />
+                <IconButton aria-label="Remover campo" variant="destructive" size="sm" icon={<X size={13} />} onPress={() => removeField(i)} style={{ flexShrink: 0 }} />
               </div>
             ))}
             <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={addField} style={{ marginTop: 4, width: "fit-content" }}>
@@ -1008,7 +1008,7 @@ function FundFormDrawer({
             {categories.map((cat, i) => (
               <div key={i} style={{ display: "grid", gridTemplateColumns: "1fr 32px", gap: 8, alignItems: "center" }}>
                 <input value={cat} placeholder={`Categoria ${i + 1} (ex: Assembleias)`} onChange={e => updateCategory(i, e.target.value)} style={inputStyle} />
-                <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<X size={13} />} onPress={() => removeCategory(i)} style={{ flexShrink: 0 }} />
+                <IconButton aria-label="Remover categoria" variant="destructive" size="sm" icon={<X size={13} />} onPress={() => removeCategory(i)} style={{ flexShrink: 0 }} />
               </div>
             ))}
             <Button type="button" variant="ghost" size="sm" icon="left" iconEl={<Plus size={13} />} onPress={addCategory} style={{ marginTop: 4, width: "fit-content" }}>
@@ -1105,7 +1105,7 @@ function DocUploadModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             Adicionar documento
           </h2>
-          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
+          <IconButton aria-label="Fechar" variant="ghost" size="sm" icon={<X size={16} />} onPress={onClose} />
         </div>
 
         <form onSubmit={save} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
@@ -1492,10 +1492,10 @@ function FundDetail({
                                 </div>
                                 {editingDocId === doc.id ? (
                                   <>
-                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Check size={12} />}
+                                    <IconButton aria-label="Salvar nome do documento" variant="ghost" size="sm" icon={<Check size={12} />}
                                       onPress={() => handleSaveLabel(doc)} loading={savingLabel}
                                       style={{ color: T.accent, flexShrink: 0 }} />
-                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={12} />}
+                                    <IconButton aria-label="Cancelar edição" variant="ghost" size="sm" icon={<X size={12} />}
                                       onPress={() => setEditingDocId(null)}
                                       style={{ flexShrink: 0 }} />
                                   </>
@@ -1507,10 +1507,10 @@ function FundDetail({
                                         <Download size={12} /> Ver PDF
                                       </a>
                                     )}
-                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={12} />}
+                                    <IconButton aria-label="Renomear documento" variant="ghost" size="sm" icon={<Pencil size={12} />}
                                       onPress={() => { setEditingDocId(doc.id); setEditingLabel(doc.label); }}
                                       style={{ flexShrink: 0 }} />
-                                    <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={12} />} onPress={() => setDeleteDocTarget(doc)} isDisabled={deletingId === doc.id} style={{ border: `1px solid #fecaca`, background: "#fff5f5", color: T.error, flexShrink: 0 }} />
+                                    <IconButton aria-label="Excluir documento" variant="ghost" size="sm" icon={<Trash2 size={12} />} onPress={() => setDeleteDocTarget(doc)} isDisabled={deletingId === doc.id} style={{ border: `1px solid #fecaca`, background: "#fff5f5", color: T.error, flexShrink: 0 }} />
                                   </>
                                 )}
                               </div>
@@ -1617,9 +1617,9 @@ function FundRow({
         </span>
       </div>
       <div style={{ padding: "8px", display: "flex", gap: 6 }}>
-        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<FolderOpen size={13} />} onPress={onDetail} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
-        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
-        <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={onDelete} isDisabled={isDeleting} style={{ flexShrink: 0 }} />
+        <IconButton aria-label="Ver documentos do fundo" variant="ghost" size="sm" icon={<FolderOpen size={13} />} onPress={onDetail} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
+        <IconButton aria-label="Editar fundo" variant="ghost" size="sm" icon={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white, flexShrink: 0 }} />
+        <IconButton aria-label="Excluir fundo" variant="destructive" size="sm" icon={<Trash2 size={13} />} onPress={onDelete} isDisabled={isDeleting} style={{ flexShrink: 0 }} />
       </div>
     </div>
   );
@@ -2225,7 +2225,7 @@ function GestorFormModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {isEdit ? "Editar comunicado" : "Novo comunicado"}
           </h2>
-          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
+          <IconButton aria-label="Fechar" variant="ghost" size="sm" icon={<X size={16} />} onPress={onClose} />
         </div>
         <form onSubmit={save} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <TextInput label="Nome do fundo" value={fundName} onChange={setFundName} placeholder="Ex: Empírica Lótus" required state={err && !fundName.trim() ? "error" : "default"} errorText={err && !fundName.trim() ? err : undefined} />
@@ -2285,7 +2285,7 @@ function GestorPdfUploadModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {existing ? "Substituir" : "Enviar"}: {label}
           </h2>
-          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
+          <IconButton aria-label="Fechar" variant="ghost" size="sm" icon={<X size={16} />} onPress={onClose} />
         </div>
 
         {existing && (
@@ -2364,7 +2364,7 @@ function GestorCard({
             <Download size={12} />
           </a>
         )}
-        <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={12} />} onPress={() => setUploadSlot(slot)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+        <IconButton aria-label="Enviar PDF" variant="ghost" size="sm" icon={<Upload size={12} />} onPress={() => setUploadSlot(slot)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
       </div>
     </div>
   );
@@ -2389,8 +2389,8 @@ function GestorCard({
             )}
           </div>
           <div style={{ display: "flex", gap: 6 }}>
-            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white }} />
-            <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={onDelete} />
+            <IconButton aria-label="Editar comunicado" variant="ghost" size="sm" icon={<Pencil size={13} />} onPress={onEdit} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <IconButton aria-label="Excluir comunicado" variant="destructive" size="sm" icon={<Trash2 size={13} />} onPress={onDelete} />
           </div>
         </div>
         {/* PDFs */}
@@ -2616,7 +2616,7 @@ function CompliancePdfModal({
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>
             {doc.pdfName ? "Substituir PDF" : "Enviar PDF"}
           </h2>
-          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
+          <IconButton aria-label="Fechar" variant="ghost" size="sm" icon={<X size={16} />} onPress={onClose} />
         </div>
 
         <p style={{ fontFamily: T.font, fontSize: 13, color: T.textSec, marginBottom: 16, marginTop: 0 }}>
@@ -2732,8 +2732,8 @@ function ComplianceDocRow({
                 onKeyDown={e => { if (e.key === "Enter") saveName(); if (e.key === "Escape") { setEditName(doc.nome); setEditing(false); } }}
                 style={{ flex: 1, height: 32, padding: "0 10px", border: `1px solid ${T.primary}`, borderRadius: T.rMd, fontFamily: T.font, fontSize: 13, color: T.text, outline: "none", background: T.white, minWidth: 0 }}
               />
-              <Button type="button" variant="primary" size="sm" loading={savingName} onPress={saveName} icon="only" iconEl={<Check size={13} />} />
-              <Button type="button" variant="ghost" size="sm" onPress={() => { setEditName(doc.nome); setEditing(false); }} icon="only" iconEl={<X size={13} />} style={{ border: `1px solid ${T.border}` }} />
+              <IconButton aria-label="Salvar nome" variant="primary" size="sm" loading={savingName} onPress={saveName} icon={<Check size={13} />} />
+              <IconButton aria-label="Cancelar edição" variant="ghost" size="sm" onPress={() => { setEditName(doc.nome); setEditing(false); }} icon={<X size={13} />} style={{ border: `1px solid ${T.border}` }} />
             </div>
           ) : (
             <div style={{ minWidth: 0, flex: 1 }}>
@@ -2759,18 +2759,18 @@ function ComplianceDocRow({
 
         {!editing && (
           <div style={{ display: "flex", gap: 4, flexShrink: 0 }}>
-            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Pencil size={13} />} onPress={() => { setEditName(doc.nome); setEditing(true); }} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <IconButton aria-label="Renomear documento" variant="ghost" size="sm" icon={<Pencil size={13} />} onPress={() => { setEditName(doc.nome); setEditing(true); }} style={{ border: `1px solid ${T.border}`, background: T.white }} />
             {doc.pdfUrl && (
               <a href={doc.pdfUrl} target="_blank" rel="noopener noreferrer" style={{ ...iconBtn, color: T.primary, textDecoration: "none" }}>
                 <Download size={13} />
               </a>
             )}
-            <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Upload size={13} />} onPress={() => setUploading(true)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
+            <IconButton aria-label="Enviar PDF" variant="ghost" size="sm" icon={<Upload size={13} />} onPress={() => setUploading(true)} style={{ border: `1px solid ${T.border}`, background: T.white }} />
             {doc.pdfName && (
-              <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={removePdf} isDisabled={deletingPdf} style={{ border: `1px solid ${T.border}`, background: T.white, color: T.textSec }} />
+              <IconButton aria-label="Remover PDF" variant="ghost" size="sm" icon={<Trash2 size={13} />} onPress={removePdf} isDisabled={deletingPdf} style={{ border: `1px solid ${T.border}`, background: T.white, color: T.textSec }} />
             )}
             <div style={{ width: 1, height: 28, background: T.border, margin: "0 2px" }} />
-            <Button type="button" variant="destructive" size="sm" icon="only" iconEl={<Trash2 size={13} />} onPress={() => setConfirmDel(true)} />
+            <IconButton aria-label="Excluir documento" variant="destructive" size="sm" icon={<Trash2 size={13} />} onPress={() => setConfirmDel(true)} />
           </div>
         )}
       </div>
@@ -2828,7 +2828,7 @@ function AddComplianceModal({ token, onAdded, onClose }: {
       <div style={{ background: T.white, borderRadius: T.rXl, border: `1px solid ${T.border}`, padding: 28, width: "100%", maxWidth: 420, boxShadow: T.shadowModal, fontFamily: T.font }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 20 }}>
           <h2 style={{ fontFamily: T.font, fontSize: 16, fontWeight: 700, color: T.text, margin: 0 }}>Novo documento</h2>
-          <Button type="button" variant="ghost" size="sm" icon="only" iconEl={<X size={16} />} onPress={onClose} />
+          <IconButton aria-label="Fechar" variant="ghost" size="sm" icon={<X size={16} />} onPress={onClose} />
         </div>
         <form onSubmit={submit} style={{ display: "flex", flexDirection: "column", gap: 12 }}>
           <TextInput label="Nome do documento" placeholder="ex: Política de Continuidade de Negócios" value={nome} onChange={setNome} autoComplete="off" state={err ? "error" : "default"} />

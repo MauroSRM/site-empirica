@@ -12,7 +12,7 @@ import { EmpiricaBanner } from './EmpiricaBanner';
 import { useSrmViewport } from '../site/poc2/useSrmViewport';
 import { EmpiricaFundCategoryCard } from './EmpiricaFundCategoryCard';
 import type { FundCategoryCardData } from './EmpiricaFundCategoryCard';
-import { useFundosDaCategoria, FundCard } from './EmpiricaFundoCategoryPage';
+import { useFundosDaCategoria, FundCard, AvisoIndisponivel } from './EmpiricaFundoCategoryPage';
 import { FundCategory } from './data/empirica-funds';
 import { useTheme, DSInput, DSTag, DSEmptyState, DSButton } from '../../../design-system';
 
@@ -69,7 +69,7 @@ export default function EmpiricaHomePage() {
   const { isMobile } = useSrmViewport();
   const navigate = useNavigate();
 
-  const todos = useFundosDaCategoria();           // sem categoria = todos os fundos
+  const { funds: todos, estado } = useFundosDaCategoria();  // sem categoria = todos
   const [query, setQuery]   = useState('');
   const [filtro, setFiltro] = useState<FundCategory | 'todos'>('todos');
   const [visiveis, setVisiveis] = useState(PAGE_SIZE);
@@ -155,7 +155,9 @@ export default function EmpiricaHomePage() {
             {query.trim() ? ` para "${query.trim()}"` : ''}
           </p>
 
-          {filtrados.length === 0 ? (
+          {estado === 'carregando' ? null : estado === 'erro' ? (
+            <AvisoIndisponivel />
+          ) : filtrados.length === 0 ? (
             <DSEmptyState
               variant="search"
               headline="Nenhum fundo encontrado"

@@ -209,6 +209,10 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   app.post("/make-server-57709921/admin/change-password", async (c) => {
     try {
+      // Única rota que aceita qualquer conta autenticada, e de propósito: o
+      // usuário troca a própria senha (o id vem do token, não do corpo). Exigir
+      // papel de admin aqui trancaria para fora quem foi convidado sem esse
+      // papel e precisa trocar a senha no primeiro acesso.
       const userId = await requireAdmin(c);
       if (!userId) return c.json({ error: "Não autorizado" }, 401);
 
@@ -350,7 +354,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   // ── FUNDOS — escrita (admin) ────────────────────────────────────────────────
 
   app.post("/make-server-57709921/empirica/fundos", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const body = await c.req.json();
@@ -382,7 +386,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   });
 
   app.put("/make-server-57709921/empirica/fundos/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");
@@ -416,7 +420,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   });
 
   app.delete("/make-server-57709921/empirica/fundos/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id     = c.req.param("id");
@@ -448,7 +452,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   // ── DOCUMENTOS ──────────────────────────────────────────────────────────────
 
   app.post("/make-server-57709921/empirica/fundos/:fundId/docs", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       await ensureBucket();
@@ -502,7 +506,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   });
 
   app.delete("/make-server-57709921/empirica/fundos/:fundId/docs/:docId", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const { fundId, docId } = c.req.param();
@@ -522,7 +526,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   // ── DOCS — editar label ──────────────────────────────────────────────────────
 
   app.put("/make-server-57709921/empirica/fundos/:fundId/docs/:docId", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const { fundId, docId } = c.req.param();
@@ -552,7 +556,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
   // ── DOCS — reordenar ─────────────────────────────────────────────────────────
 
   app.put("/make-server-57709921/empirica/fundos/:fundId/docs/reorder", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const fundId = c.req.param("fundId");
@@ -633,7 +637,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // POST — criar item (admin)
   app.post("/make-server-57709921/empirica/gestor", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const { fundName, atualizado } = await c.req.json();
@@ -654,7 +658,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // PUT — editar nome/data (admin)
   app.put("/make-server-57709921/empirica/gestor/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");
@@ -677,7 +681,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // POST /:id/carta — upload/substituir Carta do Gestor (admin)
   app.post("/make-server-57709921/empirica/gestor/:id/carta", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       await ensureBucket();
@@ -714,7 +718,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // POST /:id/update-mensal — upload/substituir Update Mensal (admin)
   app.post("/make-server-57709921/empirica/gestor/:id/update-mensal", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       await ensureBucket();
@@ -750,7 +754,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // DELETE — remover item + PDFs (admin)
   app.delete("/make-server-57709921/empirica/gestor/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");
@@ -801,7 +805,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // POST — create new compliance item (admin)
   app.post("/make-server-57709921/empirica/compliance", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const body = await c.req.json();
@@ -827,7 +831,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // PUT /:id — update nome / atualizado (admin)
   app.put("/make-server-57709921/empirica/compliance/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");
@@ -850,7 +854,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // DELETE /:id — delete item + PDF (admin)
   app.delete("/make-server-57709921/empirica/compliance/:id", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");
@@ -872,7 +876,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // POST /:id/pdf — upload/replace PDF (admin)
   app.post("/make-server-57709921/empirica/compliance/:id/pdf", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       await ensureBucket();
@@ -975,7 +979,7 @@ export function registerEmpricaCmsRoutes(app: Hono) {
 
   // DELETE /:id/pdf — remove PDF (admin)
   app.delete("/make-server-57709921/empirica/compliance/:id/pdf", async (c) => {
-    const userId = await requireAdmin(c);
+    const userId = await requireSuperAdmin(c);
     if (!userId) return c.json({ error: "Não autorizado" }, 401);
     try {
       const id  = c.req.param("id");

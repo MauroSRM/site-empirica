@@ -32,38 +32,78 @@ const API = `https://${projectId}.supabase.co/functions/v1/make-server-57709921`
  * enquanto a requisição não volta (ou se ela falhar). Sem isso, um fundo
  * cadastrado no CMS não apareceria na listagem.
  */
-export function useFundosDaCategoria(category?: FundCategory): FundInfo[] {
-  const todas: FundCategory[] = ['fidc', 'fif', 'fii', 'fip'];
-  const locais = () => category
-    ? getFundsByCategory(category)
-    : todas.flatMap(c => getFundsByCategory(c));
+export type EstadoDaBusca = 'carregando' | 'ok' | 'erro';
 
-  const [funds, setFunds] = useState<FundInfo[]>(locais);
+/**
+ * Lista de fundos vinda do CMS.
+ *
+ * Não existe mais fallback para a lista estática do código: num site cuja
+ * finalidade é publicar documento regulatório, mostrar um acervo antigo com
+ * cara de atual é pior do que não mostrar nada. Quando o CMS não responde, o
+ * estado vira 'erro' e a página avisa — em vez de exibir fundos que podem já
+ * ter sido excluídos e cujos documentos não abrem.
+ */
+export function useFundosDaCategoria(category?: FundCategory): {
+  funds: FundInfo[];
+  estado: EstadoDaBusca;
+} {
+  const [funds,  setFunds]  = useState<FundInfo[]>([]);
+  const [estado, setEstado] = useState<EstadoDaBusca>('carregando');
 
   useEffect(() => {
     let cancelado = false;
-    setFunds(locais());
+    setFunds([]);
+    setEstado('carregando');
 
     const filtro = category ? `?type=${category.toUpperCase()}` : '';
     fetch(`${API}/empirica/fundos${filtro}`, {
       headers: { Authorization: `Bearer ${publicAnonKey}` },
     })
-      .then(r => r.json())
+      .then(r => {
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        return r.json();
+      })
       .then((d: { funds?: any[] }) => {
-        if (cancelado || !d.funds?.length) return;
+        if (cancelado) return;
+        if (!d.funds) throw new Error('resposta sem fundos');
         setFunds(d.funds.map(f => ({
           slug:      f.slug,
           shortName: f.name,
           fullName:  f.fields?.find((x: any) => x.label === 'Nome')?.value || f.name,
           category:  (f.type ?? category ?? '').toLowerCase() as FundCategory,
         } as FundInfo)));
+        setEstado('ok');
       })
-      .catch(() => { /* mantém o fallback local */ });
+      .catch(() => { if (!cancelado) setEstado('erro'); });
 
     return () => { cancelado = true; };
   }, [category]);
 
-  return funds;
+  return { funds, estado };
+}
+
+/** Aviso exibido quando o acervo não pôde ser carregado. */
+export function AvisoIndisponivel() {
+  const { tokens: t } = useTheme();
+  return (
+    <div style={{
+      border: `1px solid ${t.borderDefault}`,
+      borderRadius: t.cardRadius,
+      background: t.surfaceDefault,
+      padding: 32,
+      textAlign: 'center' as const,
+      fontFamily: t.fontFamily,
+    }}>
+      <p style={{ fontSize: t.textXl, fontWeight: 600, color: t.primary800, margin: '0 0 8px' }}>
+        Documentos temporariamente indisponíveis
+      </p>
+      <p style={{ fontSize: t.textMd, color: t.textSecondary, margin: 0, lineHeight: 1.6 }}>
+        Não foi possível carregar o acervo agora. Atualize a página em alguns instantes.
+        Se persistir, avise a Empírica — preferimos não exibir uma lista que pode estar
+        desatualizada.
+      </p>
+    </div>
+  );
 }
 
 // ─── Contador — separador ─────────────────────────────────────────────────────
@@ -160,7 +200,7 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
   const [showAll, setShowAll] = useState(false);
 
   const meta  = CATEGORY_META[category];
-  const funds = useFundosDaCategoria(category);
+  const { funds, estado } = useFundosDaCategoria(category);
 
   const filtered = useMemo(() => {
     if (!query.trim()) return funds;
@@ -214,7 +254,9 @@ export function EmpiricaFundoCategoryPage({ category }: Props) {
           padding: isMobile ? '20px 20px 0' : '20px 56px 0',
         }}>
           <div style={{ maxWidth: isMobile ? '100%' : 648, margin: '0 auto' }}>
-            {funds.length === 0 ? (
+            {estado === 'carregando' ? null : estado === 'erro' ? (
+              <AvisoIndisponivel />
+            ) : funds.length === 0 ? (
               <DSEmptyState
                 variant="empty"
                 headline={`Categoria ${category.toUpperCase()} em atualização`}
